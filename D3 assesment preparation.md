@@ -51,8 +51,47 @@ The container will create the objects, wire them together, configure them, and m
 Spring provides two types of container
 
 - Spring BeanFactory Container
-- Spring ApplicationContext Container
+- Spring ApplicationContext Container (Its a sub-interface of the BeanFactory)
 
-The ApplicationContext container includes all functionality of the Bean Factorycontainer, so it's generally recommended over BeanFactory.
+The ApplicationContext container includes all functionality of the Bean Factorycontainer, so it's generally recommended over BeanFactory. The basis of the IoC container is the org.springframework.beans and org.springframework.context packages.
 
 ## Spring Beans
+
+In Spring, the object that forms the backbone of the application and that are managed by the Spring IoC container are called beans. A bean is an object that is instantiated, assembled, and otherwise managed by a Spring IoC container. Beans, and the dependencies among them, are reflected in the configuration metadata (XML, java annotations, or java code) used by a container.
+
+> **The interface org.springframework.context.ApplicationContext represents the Spring IoC container and is responsible for instantiating, configuring, and assembling the spring beans.**
+
+The following diagram is a high-level view of how Spring works. The application classes are combined with configuration metadata so that after the ApplicationContext is created and initialized, we have a fully configured application.
+
+&nbsp;
+<p align="center">
+  <img src="images/container-magic.jpg">
+</p>
+&nbsp;
+
+The bean definitions correspond to the actual object that makes up the application. Typically we define service layer objects, data access objects, presentation objects, JSM  and so forth. It's now recommended to configure fine-grained domain objects in the container because it's not its responsibility.
+
+### Instantiating a spring container
+
+Instantiating a Spring IoC container is straightforward. The location path or paths supplied to an ApplicationContext constructor are resource strings that allow the container to load configuration metadata from a variety of external resources such as the local file system, the Java CLASSPATH, and so on.
+
+```java
+ApplicationContext context =
+    new ClassPathXmlApplicationContext(new String[] {"services.xml", "daos.xml"});
+```
+
+### Bean overview
+
+Within the container, these bean definitions are represented as ```BeanDefinition``` objects, which contain the following metadata:
+
+- class
+- name
+- scope
+- constructor arguments
+- properties
+- auto wiring mode
+- lazy-initialization mode
+- initialization method
+- destruction method
+
+In addition to bean definitions that contain information on how to create a specific bean, the ```ApplicationContext``` implementations also permit the registration of existing objects that are created outside the container, by users. This is done by accessing the ApplicationContext's BeanFactory via the method getBeanFactory() which returns the BeanFactory implementation DefaultListableBeanFactory. ```DefaultListableBeanFactory``` supports this registration through the methods ```registerSingleton(..)``` and ```registerBeanDefinition(..)```. However, typical applications work solely with beans defined through metadata bean definitions.
