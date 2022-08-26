@@ -123,6 +123,8 @@ Examples:
   <alias name="subsystemA-dataSource" alias="myApp-dataSource" />
 ```
 
+## Instantiating beans
+
 ## Enterprise Bean overview
 
 Enterprise beans are Java EE components that implement Enterprise JavaBeans (EJB) technology. Enterprise beans run in the EJB container, a runtime environment within the GlassFish server. (The GlassFish server is a Java EE 6 platform implementation. It includes a number of Java EE tools that are not part of the Java EE 6 platform, but are provided as a convenience to the developer.)
@@ -252,7 +254,7 @@ public HelloMessageGenerator sessionScopedBean() {
 }
 ```
 
-Next, we define a controller with a reference to the session scoped bean. Again, we need to run two requests in order to show that the value of the message field is the same for the session. 
+Next, we define a controller with a reference to the session scoped bean. Again, we need to run two requests to show that the value of the message field is the same for the session.
 
 In that case, when the request is made for the first time, the value message is null. However, once it is changed, that value is retained for subsequent requests as the same instance of the bean is returned for the entire session.
 
