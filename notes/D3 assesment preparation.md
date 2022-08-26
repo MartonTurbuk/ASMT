@@ -271,3 +271,44 @@ public class ScopesController {
     }
 }
 ```
+
+### Application
+
+The application scope creates the bean instance for the lifecycle of a ServletContext. This is similar to the singleton scope, but there is a very important difference with regard to the scope of the bean. When beans are application scoped, the same instance of the bean is shared across multiple servlet-based applications running in the same ServletContext, while singleton scoped beans are scoped to a single application context only.
+
+```java
+@Bean
+@Scope(
+  value = WebApplicationContext.SCOPE_APPLICATION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public HelloMessageGenerator applicationScopedBean() {
+    return new HelloMessageGenerator();
+}
+
+// Analogous to the request and session scopes, we can use a shorter version:
+
+@Bean
+@ApplicationScope
+public HelloMessageGenerator applicationScopedBean() {
+    return new HelloMessageGenerator();
+}
+
+// Now let's create a controller that references this bean:
+
+@Controller
+public class ScopesController {
+    @Resource(name = "applicationScopedBean")
+    HelloMessageGenerator applicationScopedBean;
+
+    @RequestMapping("/scopes/application")
+    public String getApplicationScopeMessage(final Model model) {
+        model.addAttribute("previousMessage", applicationScopedBean.getMessage());
+        applicationScopedBean.setMessage("Good afternoon!");
+        model.addAttribute("currentMessage", applicationScopedBean.getMessage());
+        return "scopesExample";
+    }
+}
+```
+
+### WebSocket
+
+When first accessed, WebSocket scoped beans are stored in the WebSocket session attributes. The same instance of the bean is then returned whenever that bean is accessed during the entire WebSocket session. We can also say that it exhibits singleton behavior, but is limited to a WebSocket session only.
