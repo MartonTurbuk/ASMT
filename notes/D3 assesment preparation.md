@@ -44,6 +44,16 @@ For dependency injection in Spring we can use:
 - **D: Dependency Inversion principle**
   - It is one of the many ways to achieve Inversion of Control, but one of the most commonly used ones. The main idea is to introduce abstraction, between the high-level modules, where the business logic resides, and the low-level classes, where are entities, and utility classes lie. So high-level modules should not depend on low-level modules. Both should depend on abstractions. And the abstractions should not depend on details. Details should depend on abstractions.
 
+## Brooks law
+
+Brooks's law is an observation about software project management according to which "adding manpower to a late software project makes it later".
+
+The main factors that explain why it works this way:
+
+1. It takes some time for the people added to a project to become productive. Brooks calls this the "ramp-up" time. Software projects are complex engineering endeavors, and new workers on the project must first become educated about the work that has preceded them; this education requires diverting resources already working on the project, temporarily diminishing their productivity while the new workers are not yet contributing meaningfully. Each new worker also needs to integrate with a team composed of several engineers who must educate the new worker in their area of expertise in the code base, day by day. In addition to reducing the contribution of experienced workers (because of the need to train), new workers may even make negative contributions, for example, if they introduce bugs that move the project further from completion.
+2. Communication overhead increases as the number of people increases. Due to the combinatorial explosion, the number of different communication channels increases rapidly with the number of people. Everyone working on the same task needs to keep in sync, so as more people are added they spend more time trying to find out what everyone else is doing.
+3. Adding more people to a highly divisible task, such as cleaning rooms in a hotel, decreases the overall task duration (up to the point where additional workers get in each other's way). However, other tasks including many specialties in software projects are less divisible; Brooks points out this limited divisibility with another example: while it takes one woman nine months to make one baby, "nine women can't make a baby in one month".
+
 ## Spring containers
 
 The container will create the objects, wire them together, configure them, and manage their complete life cycle from creation to destruction. The Spring container uses Dependency Injection, to manage the components that make up the application. These objects are called Spring Beans. The container gets its instructions by reading the configuration metadata. The metadata can be XML, java annotations or java code.
@@ -64,9 +74,7 @@ In Spring, the object that forms the backbone of the application and that are ma
 The following diagram is a high-level view of how Spring works. The application classes are combined with configuration metadata so that after the ApplicationContext is created and initialized, we have a fully configured application.
 
 &nbsp;
-<p align="center">
-  <img src="images/container-magic.jpg">
-</p>
+![Containers](/images/container-magic.jpg)
 &nbsp;
 
 The bean definitions correspond to the actual object that makes up the application. Typically we define service layer objects, data access objects, presentation objects, JSM  and so forth. It's now recommended to configure fine-grained domain objects in the container because it's not its responsibility.
@@ -161,7 +169,7 @@ A **stateless session bean** does not maintain a conversational state with the c
 
 ### Singleton session beans
 
-A **singleton session bean** is instantiated once per application and exists for the lifecycle of the application. Singleton session beans are designed for circumstances in which a single enterprise bean instance is shared across concurrently accessed by clients.
+A **singleton session bean** is instantiated once per application and exists for the lifecycle of the application. Singleton session beans are designed for circumstances in which a single enterprise bean instance is shared concurrently accessed by clients.
 > Like stateless session beans, singleton session beans can implement web service endpoints.
 
 Singleton session beans maintain their state between client invocations but are not required to maintain their state across server crashes or shutdowns.
@@ -184,5 +192,82 @@ To improve performance, you might choose a stateless session bean if it has any 
 Singleton session beans are appropriate in the following circumstances. The state needs to be shared across the application.
 
 1. A single enterprise bean needs to be accessed by multiple threads concurrently.
-2. The application needs an enterprise bean to perform tasks up application startup and shutdown.
+2. The application needs an enterprise bean to perform tasks up to application startup and shutdown.
 3. The bean implements a web service.
+
+## Spring bean scopes
+
+The scope of a bean defines the life cycle and visibility of that bean in the contexts we use it.
+
+The latest version of the Spring framework defines 6 types of scopes:
+
+1. [Singleton](###Singleton)
+2. [Prototype](###Prototype)
+3. [Request](###Request)
+4. [Session](###Session)
+5. [Application](###Application)
+6. [Websocket](###Websocket)
+
+### Singleton
+
+When we define a bean with the singleton scope, the container creates a single instance of that bean, and all requests for that bean name will return the same object, which is cached. Any modifications to the object will be reflected in all references to the bean. This scope is the default value if no other scope is specified.
+
+### Prototype
+
+A bean with the prototype scope will return a different instance every time it is requested from the container. It is defined by setting the value prototype to the @Scope annotation in the bean definition.
+
+### Request
+
+The request scope creates a bean instance for a single HTTP request, while the session scope creates a bean instance for an HTTP session. The application scope creates the bean instance for the lifecycle of a ServletContext, and the WebSocket scope creates it for a particular WebSocket session.
+
+How to define a request scope:
+
+```java
+@Bean
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public HelloMessageGenerator requestScopedBean() {
+    return new HelloMessageGenerator();
+}
+```
+
+The proxy mode attribute is necessary because, at the moment of the instantiation of the web application context, there is no active request. Spring creates a proxy to be injected as a dependency and instantiates the target bean when it is needed in a request.
+
+### Session
+
+How to define a bean with session scope:
+
+```java
+@Bean
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public HelloMessageGenerator sessionScopedBean() {
+    return new HelloMessageGenerator();
+}
+
+// There's also a dedicated composed annotation we can use to simplify the bean definition:
+
+@Bean
+@SessionScope
+public HelloMessageGenerator sessionScopedBean() {
+    return new HelloMessageGenerator();
+}
+```
+
+Next, we define a controller with a reference to the session scoped bean. Again, we need to run two requests in order to show that the value of the message field is the same for the session. 
+
+In that case, when the request is made for the first time, the value message is null. However, once it is changed, that value is retained for subsequent requests as the same instance of the bean is returned for the entire session.
+
+```java
+@Controller
+public class ScopesController {
+    @Resource(name = "sessionScopedBean")
+    HelloMessageGenerator sessionScopedBean;
+
+    @RequestMapping("/scopes/session")
+    public String getSessionScopeMessage(final Model model) {
+        model.addAttribute("previousMessage", sessionScopedBean.getMessage());
+        sessionScopedBean.setMessage("Good afternoon!");
+        model.addAttribute("currentMessage", sessionScopedBean.getMessage());
+        return "scopesExample";
+    }
+}
+```
