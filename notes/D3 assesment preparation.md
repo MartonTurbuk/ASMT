@@ -276,7 +276,7 @@ public class ScopesController {
 
 ### Application
 
-The application scope creates the bean instance for the lifecycle of a ServletContext. This is similar to the singleton scope, but there is a very important difference with regard to the scope of the bean. When beans are application scoped, the same instance of the bean is shared across multiple servlet-based applications running in the same ServletContext, while singleton scoped beans are scoped to a single application context only.
+The application scope creates the bean instance for the lifecycle of a ServletContext. This is similar to the singleton scope, but there is a very important difference in the scope of the bean. When beans are application scoped, the same instance of the bean is shared across multiple servlet-based applications running in the same ServletContext, while singleton scoped beans are scoped to a single application context only.
 
 ```java
 @Bean
@@ -313,4 +313,118 @@ public class ScopesController {
 
 ### WebSocket
 
-When first accessed, WebSocket scoped beans are stored in the WebSocket session attributes. The same instance of the bean is then returned whenever that bean is accessed during the entire WebSocket session. We can also say that it exhibits singleton behavior, but is limited to a WebSocket session only.
+When first accessed, WebSocket scoped beans are stored in the WebSocket session attributes. The same instance of the bean is then returned whenever that bean is accessed during the entire WebSocket session. We can also say that it exhibits singleton behavior but is limited to a WebSocket session only.
+
+## Difference between Spring and SpringBoot
+
+### Spring
+
+Spring provides comprehensive infrastructure support for developing Java applications. It's packed with some nice features like Dependency Injection, and out-of-the-box modules like:
+
+1. Spring JDBC
+2. Spring MVC
+3. Spring Security
+4. Spring AOP
+5. Spring ORM
+6. Spring Test
+
+### Spring boot
+
+Spring boot is an extension of the Spring framework, which eliminates the boilerplate configurations required for setting up a Spring application. It takes an opinionated view of the Spring platform, which paves the way for a faster and more efficient development ecosystem.
+
+| Spring                                                                                  | Spring Boot                                                                                                                                                     |   |   |   |
+|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|---|---|---|
+| Spring Framework is a widely used Java EE framework for building applications.          | Spring Boot Framework is widely used to develop REST APIs.                                                                                                      |   |   |   |
+| It aims to simplify Java EE development that makes developers more productive.          | It aims to shorten the code length and provide the easiest way to develop Web Applications.                                                                     |   |   |   |
+| The primary feature of the Spring Framework is dependency injection.                    | The primary feature of Spring Boot is Autoconfiguration. It automatically configures the classes based on the requirement.                                      |   |   |   |
+| It helps to make things simpler by allowing us to develop loosely coupled applications. | It helps to create a stand-alone application with less configuration.                                                                                           |   |   |   |
+| The developer writes a lot of code (boilerplate code) to do the minimal task.           | It reduces boilerplate code.                                                                                                                                    |   |   |   |
+| To test the Spring project, we need to set up the sever explicitly.                     | Spring Boot offers embedded server such as Jetty and Tomcat, etc.                                                                                               |   |   |   |
+| It does not provide support for an in-memory database.                                  | It offers several plugins for working with an embedded and in-memory database such as H2.                                                                       |   |   |   |
+| Developers manually define dependencies for the Spring project in pom.xml.              | Spring Boot comes with the concept of starter in pom.xml file that internally takes care of downloading the dependencies JARs based on Spring Boot Requirement. |   |   |   |
+
+<br/><br/>
+
+| Spring Boot                                                                                          | Spring MVC                                                                            |
+|------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| Spring Boot is a module of Spring for packaging the Spring-based application with sensible defaults. | Spring MVC is a model view controller-based web framework under the Spring framework. |
+| It provides default configurations to build Spring-powered framework.                                | It provides ready to use features for building a web application.                     |
+| There is no need to build configuration manually.                                                    | It requires build configuration manually.                                             |
+| There is no requirement for a deployment descriptor.                                                 | A Deployment descriptor is required.                                                  |
+| It avoids boilerplate code and wraps dependencies together in a single unit.                         | It specifies each dependency separately.                                              |
+| It reduces development time and increases productivity.                                              | It takes more time to achieve the same.                                               |
+
+## SOAP VS. REST
+
+### SOAP
+
+Simple Object Access Protocol (SOAP) is a standard network protocol that was first designed so that applications built with different languages and on different platforms could communicate. Because it is a protocol, it imposes built-in rules that increase its complexity and overhead, which can lead to long page load times. These built-in compliances can make it preferable for enterprise scenarios.
+
+It includes standards such as security, atomicity, consistency, isolation, and durability (ACID), which is a set of properties for ensuring reliable database transactions.
+
+It uses XML format to transfer messages. It works on top of application layer protocols like HTML, SMTP and TCP for notations and transmission.
+
+> Both SOAP requests and responses are transported using HTTPS or a similar protocol like HTTP.
+
+**Message format:**
+
+SOAP message transmits some basic information as given below:
+
+- Information about message structure and instructions on processing it.
+- Encoding instructions for application-defined data types.
+- Information about Remote Procedure Calls and their responses.
+
+**The message in XML format contains three parts:**
+
+1. Envelope: It specifies that the XML message is a SOAP message. A SOAP message can be defined as an XML document containing a header and body encapsulated in the envelope. The fault is within the body of the message.
+2. Header: This part is not mandatory. But when it is present it can provide crucial information about the applications.
+3. Body: It contains the actual message that is being transmitted. The fault is contained within the body tags.
+4. Fault: This section contains the status of the application and also contains errors in the application. This section is also optional. it should not appear more than once in a SOAP message.
+
+**Sample Message:**
+
+```xml
+Content-Type: application/soap+xml
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+    <env:Header>
+        <m:GetLastTradePrice xmlns:m="Some-URI" />
+    </env:Header>
+    <env:Body>
+        <symbol xmlns:p="Some-URI" >DIS</symbol>
+    </env:Body>
+</env:Envelope>
+```
+
+### SOAP advantages
+
+SOAP is an integral part of the service-oriented architecture (SOA) and the web services specifications.
+
+1. **Platform- and operating system-independent.** SOAP can be carried over a variety of protocols, enabling communication between applications with different programming languages on both Windows and Linux.
+2. **Works on the HTTP protocol.** Even though SOAP works with many different protocols, HTTP is the default protocol used by web applications.
+3. **Can be transmitted through different networks and security devices.** SOAP can be easily passed through firewalls, where other protocols might require special accommodation.
+
+### SOAP disadvantages
+
+1. **No provision for passing data by reference.** This can cause synchronization issues if multiple copies of the same object are passed simultaneously.
+2. **Speed.** The data structure of SOAp is based on CML. CML is largely human-readable, which makes it fairly easy to understand a SOAP message. However, that also makes the messages relatively large compared to the Common Object Request Broker Architecture (CORBA) and its remote procedure call (RPC) protocol that will accommodate binary data. Meaning CORBA and RPC are faster.
+3. **Not as flexible as other methods.** Although SOAP is flexible, newer methods, such as RESTful architecture, use XML, JSON, YAML or any parser needed, which makes them more flexible than SOAP.
+
+## REST
+
+REST is an acronym for **RE**presentational **S**tate **T**ransfer and an architectural style for distributed hypermedia systems. Like other architectural styles, REST has its guiding principles and constraints. These principles must be satisfied if a service interface needs to be referred to as RESTful.
+
+> A Web API (or Web Service) conforming to the REST architectural style is a REST API.
+
+### The 6 guiding principles of REST
+
+1. **Uniform interface:** By applying the principle of generality to the components interface, we can simplify the overall system architecture and improve the visibility of interactions. The following four constraints can achieve a uniform REST interface.
+   1. **Identification of resources** - The interface must uniquely identify each resource involved in the interaction between the client and the server.
+   2. **Manipulation of resources through representations** - The resources should have uniform representations in the server response. API consumers should use these representations to modify the resource state in the server.
+   3. **Self-descriptive messages** - Each resource representation should carry enough information to describe how to process the message. It should also provide information on the additional actions that the client can perform on the resource.
+   4. **Hypermedia as the engine of application state** - The client should have only the initial URI of the application. the client application should dynamically drive all other resources and interactions with the use of hyperlinks.
+
+2. **Client-Server:** The client-server design pattern enforces the separation of concerns, which helps the client and the server components evolve independently. While the client and the server evolve, we have to make sure that the interface/contract between the client and the server does not break.
+3. **Stateless:** Statelessness mandates that each request from the client to the server must contain all of the information necessary to understand and complete the request. The server cannot take advantage of any previously stored context information on the server.
+4. **Cacheable:** The cacheable constraint requires that a response should implicitly or explicitly label itself as cacheable or non cacheable. If the response is cacheable, the client application gets the right to reuse the response data later for equivalent requests and a specified period.
+5. **Layered system:** The layered system style allows an architecture to be composed of hierarchical layers by constraining component behavior. For example, in a layered system, each component cannot see beyond the immediate layer they are interacting with.
+6. **Code on Demand (Optional):** REST also allows client functionality to extend by downloading and executing code in the form of applets or scripts. The downloaded code simplifies clients by reducing the number of features required to be pre-implemented. Servers can provide part of features delivered to the client in the form of code, and the client only needs to execute the code.
