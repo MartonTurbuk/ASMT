@@ -28,10 +28,10 @@
 - [x] Spring containerization
 - [x] Spring beans, what is a bean? And what is a java enterprise bean?
 - [x] Spring bean scopes
-- [ ] **Difference between Spring vs SpringBoot** -> most important
+- [x] **Difference between Spring vs SpringBoot** -> most important
 - [ ] Spring Security, briefly go through it
 - [ ] Protocols -> IP, TCP, UDP, TLS, SSL, HTTP, HTTPS, SOAP
-- [ ] **SOAP vs REST** -> important
+- [x] **SOAP vs REST** -> important
 - [ ] **JMM, java memory model** -> ongoing process
 - [ ] **The garbage collector, CMS** -> ongoing process
 

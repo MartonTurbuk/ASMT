@@ -74,7 +74,7 @@ In Spring, the object that forms the backbone of the application and that are ma
 The following diagram is a high-level view of how Spring works. The application classes are combined with configuration metadata so that after the ApplicationContext is created and initialized, we have a fully configured application.
 
 &nbsp;
-![Containers](/images/container-magic.jpg)
+![Containers](../images/container-magic.jpg)
 &nbsp;
 
 The bean definitions correspond to the actual object that makes up the application. Typically we define service layer objects, data access objects, presentation objects, JSM  and so forth. It's now recommended to configure fine-grained domain objects in the container because it's not its responsibility.
@@ -332,16 +332,16 @@ Spring provides comprehensive infrastructure support for developing Java applica
 
 Spring boot is an extension of the Spring framework, which eliminates the boilerplate configurations required for setting up a Spring application. It takes an opinionated view of the Spring platform, which paves the way for a faster and more efficient development ecosystem.
 
-| Spring                                                                                  | Spring Boot                                                                                                                                                     |   |   |   |
-|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|---|---|---|
-| Spring Framework is a widely used Java EE framework for building applications.          | Spring Boot Framework is widely used to develop REST APIs.                                                                                                      |   |   |   |
-| It aims to simplify Java EE development that makes developers more productive.          | It aims to shorten the code length and provide the easiest way to develop Web Applications.                                                                     |   |   |   |
-| The primary feature of the Spring Framework is dependency injection.                    | The primary feature of Spring Boot is Autoconfiguration. It automatically configures the classes based on the requirement.                                      |   |   |   |
-| It helps to make things simpler by allowing us to develop loosely coupled applications. | It helps to create a stand-alone application with less configuration.                                                                                           |   |   |   |
-| The developer writes a lot of code (boilerplate code) to do the minimal task.           | It reduces boilerplate code.                                                                                                                                    |   |   |   |
-| To test the Spring project, we need to set up the sever explicitly.                     | Spring Boot offers embedded server such as Jetty and Tomcat, etc.                                                                                               |   |   |   |
-| It does not provide support for an in-memory database.                                  | It offers several plugins for working with an embedded and in-memory database such as H2.                                                                       |   |   |   |
-| Developers manually define dependencies for the Spring project in pom.xml.              | Spring Boot comes with the concept of starter in pom.xml file that internally takes care of downloading the dependencies JARs based on Spring Boot Requirement. |   |   |   |
+| Spring                                                                                  | Spring Boot                                                                                                                                                     |
+|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spring Framework is a widely used Java EE framework for building applications.          | Spring Boot Framework is widely used to develop REST APIs.                                                                                                      |
+| It aims to simplify Java EE development that makes developers more productive.          | It aims to shorten the code length and provide the easiest way to develop Web Applications.                                                                     |
+| The primary feature of the Spring Framework is dependency injection.                    | The primary feature of Spring Boot is Autoconfiguration. It automatically configures the classes based on the requirement.                                      |
+| It helps to make things simpler by allowing us to develop loosely coupled applications. | It helps to create a stand-alone application with less configuration.                                                                                           |
+| The developer writes a lot of code (boilerplate code) to do the minimal task.           | It reduces boilerplate code.                                                                                                                                    |
+| To test the Spring project, we need to set up the sever explicitly.                     | Spring Boot offers embedded server such as Jetty and Tomcat, etc.                                                                                               |
+| It does not provide support for an in-memory database.                                  | It offers several plugins for working with an embedded and in-memory database such as H2.                                                                       |
+| Developers manually define dependencies for the Spring project in pom.xml.              | Spring Boot comes with the concept of starter in pom.xml file that internally takes care of downloading the dependencies JARs based on Spring Boot Requirement. |
 
 <br/><br/>
 
@@ -428,3 +428,138 @@ REST is an acronym for **RE**presentational **S**tate **T**ransfer and an archit
 4. **Cacheable:** The cacheable constraint requires that a response should implicitly or explicitly label itself as cacheable or non cacheable. If the response is cacheable, the client application gets the right to reuse the response data later for equivalent requests and a specified period.
 5. **Layered system:** The layered system style allows an architecture to be composed of hierarchical layers by constraining component behavior. For example, in a layered system, each component cannot see beyond the immediate layer they are interacting with.
 6. **Code on Demand (Optional):** REST also allows client functionality to extend by downloading and executing code in the form of applets or scripts. The downloaded code simplifies clients by reducing the number of features required to be pre-implemented. Servers can provide part of features delivered to the client in the form of code, and the client only needs to execute the code.
+
+## Java memory model (JMM)
+
+Short introduction of what is Java stack and heap memory.
+
+Code snipped to understand memory usage:
+
+```java
+public class Memory {
+
+ public static void main(String[] args) { // Line 1
+  int i=1; // Line 2
+  Object obj = new Object(); // Line 3
+  Memory mem = new Memory(); // Line 4
+  mem.foo(obj); // Line 5
+ } // Line 9
+
+ private void foo(Object param) { // Line 6
+  String str = param.toString(); //// Line 7
+  System.out.println(str);
+ } // Line 8
+
+}
+```
+
+Picture to help understand the code snipped better
+
+</br>
+![Java-Heap-Stak](../images/Java-Heap-Stack-Memory.png)
+</br>
+
+**What happens when we execute the program:**
+
+1. As soon as we run the program, it loads all the Runtime classes into the Heap space. When the main()methos is found at line1, Java Runtime created stack memory to be used by main() method thread.
+2. We are creating primitve loval variable at line 2, so it's created and stored in the stack memory of main() method.
+3. We are creating an Object in the 3rd line, it's created in heap memory and stack memory contains the reference for it. A similar process occurs when we create Memory object in the 4th line.
+4. Now when we call the foo() method in the 5th line, a block in the top of the stack is created to be used by the foo() method. since Jave is pass-by-value, a new reference to Object is created in the foo() stack block in the 6th line.
+5. A string is created in the 7th line, it goes in the String pool in the heap space and a reference is created in the foo() stack space for it.
+6. foo() method is terminated in the 8th line, at this time memory block allocated for foo() in stack becomes free.
+7. In line 9, main() method terminated and the stack memory created for main() method is destroyed. Also, the program ends at this line, hance Java Runtime frees all the memory and ends the execution of the program.
+
+### **Difference between Java Heap Space and Stack memory**
+
+1. Heap memory is used by all the parts of the application whereas stack memory is used only by one thread of execution.
+2. Whenever an object is created, it's always stored in the Heap space and stack memory contains the reference to it. Stack memory only contains local primive variables and regerence variables to objects in heap space.
+3. Objects stored in the heap are globally accessible whereas stack memory can't be accessed by other threads.
+4. Memory management in stack is done in LIFO manner whereas it's  more complex in Heap memory because it's used globally.
+5. Stack memory is short-lived whereas heap memory lives from the start till the end of application execution.
+6. We can use -Xms and Xmx JVM option to define the startup size and maximum size of heap memory. We can use -Xss to define the stack memory size.
+7. When stack memory is full, Java runtime throws `java.lang.StackOverFlowError`, whereas if heap memory is full, it throws `java.lang.OutOfMemoryError: Java Heap Space error`.
+
+### Java stack memory
+
+> Stack Memory ins Java is used for static memory allocation and the excution of a thread.
+
+It contains primitive values that are specific to a method and references to objects referred from the methods that are in a heap. Access to this memory is in Last-In-First-Out (LIFO) order. Whenever we call a new method a new block is created on top of the stack which contains values specific to that method, like primitive variables and references to objects. When the method finished execution, its corresponding stack frame is flushed, the flow goes back to the calling method, and space becomes available for the next method. Stack memory size is much smalled compared to Heap memory.
+
+**Key features of stack memory:**
+
+- It grows and shrinks as new methods are called and returned, respectively.
+- Variables inside the stack exist only as long as the method that created them is running.
+- It's automatically allocated and deallocated when the method finished execution.
+- If this memory is full, Java throws java.lang.StackOverFlowError.
+- Access to this memory is fast when compared to heap memory.
+- This memory is threadsafe, as each thread operates in its own stack.
+
+### Java heap memory
+
+> Heap space is used for the dynamix memory allocation of Java objects and JRE classes at runtime.
+
+New objects are always created in heap space, and the references to these objects are stored in stack memory. These objects have global access and we can access them from anywhere in the application. Garbage Collection runs on the heap memory to free the memory used by objects that don't have any reference.
+
+**Key features of Java Heap Memory:**
+
+- It's accessed via complex memory management techniques that include Young Generation, Old or Tenured Generation, and Permanent Generation.
+- If heap space is full, Java throws java.lang.OutOfmemoryError.
+- Access to this memory is comparatively slower than stack memory.
+- This memory, in contrast to stack, isn't automatically deallocated. It needs Garbage Collector to free up unused objects to keep the efficiency of the memory usage.
+- Unlike stack, a heap isn't threadsafe and needs to be guarded by properly synchronizing the code.
+
+</br>
+
+![JMM-Mode](../images/JMM-model.png)
+
+</br>
+
+JVM memory is divided into separate parts. At a broad level, JVM Heap memory is physically divided into two parts - **Young Generation** and **Old Generation**.
+
+### **Memory Management in Java - Young Generation**
+
+The young generation is the place where all the new objects are created. When the young generation is filled, garbage collection is performed. This garbage collection is called **Minor GC**. Young Generation is divided into three parts - **Eden Memory** and two **Survivor Memory** spaces. Important point about Young Generation Spaces:
+
+- Most of the newly created objects are located in the Eden memory space.
+- When Eden space is filled with objects, Minor GC is performed and all the survivor objects are moved to one of the survivor spaces.
+- Minor GC also checks the survivor objects and moves them to the other survivor space. So at a time, one of the survivor space is always empty.
+- Objects that survived after many cycles of GC are moved to the Old generation memory space. usually, it's done by setting a threshold for the age of the young generation objects before they become eligible to promote to Old Generation.
+
+### **Memory management in Java - Old Generation**
+
+Old Generation memory contains the objects that are long-lived and survived after many rounds of Minor GC. Usually, garbage collection is performed in Old Generation memory when it's full. Old Generation Garbage Collection is called **Major GC** and usually takes a longer timer.
+
+### **Stop the World Event**
+
+All the Garbage collections are "Stop the World" events because all the application threads are stopped until the operation completes. Young generation keeps short-lived objects, so Minor GC is very fasat and the application doesn't get affected by this. However Major GC takes a long time because it checks all the live objects. Major GC should be minimized becase it will make your applciation unresponsive for the garbage collection duration. The duration taken by garbage collector depends on the strategy used for garbage collection.
+
+### **Permanent Generation**
+
+Permanent Generation of "Perm Gen" contains the application metadata required by the JVM to describe the classes and methods used in the application. Perm Gen is not part of Java Heap memory. Perm Gen is populated by JVM at runtime based on the classes used by the application. Perm Gen also contains Java SE library classes and methods. Perm Gen object are garbage collected in a full garbage colleciton.
+
+### **Method Area**
+
+Method Are is part of space in the Perm Gen and used to store class structure (runtime constants and static variables) and code for methods and constructors.
+
+### **Memory Pool**
+
+Memory Pools are created by NVM memory managers to create a pool of immutable objects if the implementation supports it. Sdtring Pool is a good example of this king of memory pool. Memory Pool can belon gto Heap or Perm Gen, depending on the JVM memory manager implementation.
+
+### **Runtime Constant Pool**
+
+Runtime constant pool is a per-calss runtime representation of constant pool in a class. It contains class runtime constants and static methods. Runtime constatnt pool is part of the method area.
+
+### **Java Heap Memory Switches**
+
+|     **VM Switch**      | **VM Switch Description**                                                                                                                                                                                                                          |
+|:----------------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|          -Xms          | For setting the initial heap size when JVM starts                                                                                                                                                                                                  |
+|          -Xmx          | For setting the maximum heap size.                                                                                                                                                                                                                 |
+|          -Xmn          | For setting the size of the Young Generation, rest of the space goes for Old Generation.                                                                                                                                                           |
+|       -XX:PermGen      | For setting the initial size of the Permanent Generation memory                                                                                                                                                                                    |
+|     -XX:MaxPermGen     | For setting the maximum size of Perm Gen                                                                                                                                                                                                           |
+|    -XX:SurvivorRatio   | For providing ratio of Eden space and Survivor Space, for example if Young Generation size is 10m and VM switch is -XX:SurvivorRatio=2 then 5m will be reserved for Eden Space and 2.5m each for both the Survivor spaces. The default value is 8. |
+|      -XX:NewRatio      | For providing ratio of old/new generation sizes. The default value is 2.                                                                                                                                                                           |
+
+## **Memory Management in Java - Java Garbage Collection
+
