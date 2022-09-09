@@ -343,7 +343,6 @@ Spring boot is an extension of the Spring framework, which eliminates the boiler
 | It does not provide support for an in-memory database.                                  | It offers several plugins for working with an embedded and in-memory database such as H2.                                                                       |
 | Developers manually define dependencies for the Spring project in pom.xml.              | Spring Boot comes with the concept of starter in pom.xml file that internally takes care of downloading the dependencies JARs based on Spring Boot Requirement. |
 
-<br/><br/>
 
 | Spring Boot                                                                                          | Spring MVC                                                                            |
 |------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
@@ -384,7 +383,6 @@ SOAP message transmits some basic information as given below:
 **Sample Message:**
 
 ```xml
-Content-Type: application/soap+xml
 <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
     <env:Header>
         <m:GetLastTradePrice xmlns:m="Some-URI" />
@@ -453,11 +451,9 @@ public class Memory {
 }
 ```
 
-Picture to help understand the code snipped better
+jPicture to help understand the code snipped better
 
-</br>
 ![Java-Heap-Stak](../images/Java-Heap-Stack-Memory.png)
-</br>
 
 **What happens when we execute the program:**
 
@@ -508,11 +504,9 @@ New objects are always created in heap space, and the references to these object
 - This memory, in contrast to stack, isn't automatically deallocated. It needs Garbage Collector to free up unused objects to keep the efficiency of the memory usage.
 - Unlike stack, a heap isn't threadsafe and needs to be guarded by properly synchronizing the code.
 
-</br>
 
 ![JMM-Mode](../images/JMM-model.png)
 
-</br>
 
 JVM memory is divided into separate parts. At a broad level, JVM Heap memory is physically divided into two parts - **Young Generation** and **Old Generation**.
 
