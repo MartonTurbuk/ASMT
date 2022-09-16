@@ -84,8 +84,10 @@ The bean definitions correspond to the actual object that makes up the applicati
 Instantiating a Spring IoC container is straightforward. The location path or paths supplied to an ApplicationContext constructor are resource strings that allow the container to load configuration metadata from a variety of external resources such as the local file system, the Java CLASSPATH, and so on.
 
 ```java
+public class Test {
 ApplicationContext context =
     new ClassPathXmlApplicationContext(new String[] {"services.xml", "daos.xml"});
+}
 ```
 
 ### Bean overview
@@ -119,8 +121,10 @@ In a bean definition itself, you can supply more than one name for the bean, by 
 Examples:
 
 ```xml
-  <alias name="subsystemA-dataSource" alias="subsystemB-dataSource"/>
-  <alias name="subsystemA-dataSource" alias="myApp-dataSource" />
+<aliases>
+    <alias name="subsystemA-dataSource" alias="subsystemB-dataSource"/>
+    <alias name="subsystemA-dataSource" alias="myApp-dataSource"/>
+</aliases>
 ```
 
 ## Instantiating beans
@@ -203,12 +207,12 @@ The scope of a bean defines the life cycle and visibility of that bean in the co
 
 The latest version of the Spring framework defines 6 types of scopes:
 
-1. [Singleton](###Singleton)
-2. [Prototype](###Prototype)
-3. [Request](###Request)
-4. [Session](###Session)
-5. [Application](###Application)
-6. [Websocket](###Websocket)
+1. [Singleton](#Singleton)
+2. [Prototype](#Prototype)
+3. [Request](#Request)
+4. [Session](#Session)
+5. [Application](#Application)
+6. [Websocket](#WebSocket)
 
 ### Singleton
 
@@ -225,10 +229,12 @@ The request scope creates a bean instance for a single HTTP request, while the s
 How to define a request scope:
 
 ```java
+public class Test {
 @Bean
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public HelloMessageGenerator requestScopedBean() {
     return new HelloMessageGenerator();
+    }
 }
 ```
 
@@ -239,11 +245,12 @@ The proxy mode attribute is necessary because, at the moment of the instantiatio
 How to define a bean with session scope:
 
 ```java
+public class Test {
 @Bean
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public HelloMessageGenerator sessionScopedBean() {
     return new HelloMessageGenerator();
-}
+    }
 
 // There's also a dedicated composed annotation we can use to simplify the bean definition:
 
@@ -251,6 +258,7 @@ public HelloMessageGenerator sessionScopedBean() {
 @SessionScope
 public HelloMessageGenerator sessionScopedBean() {
     return new HelloMessageGenerator();
+    }
 }
 ```
 
@@ -279,6 +287,7 @@ public class ScopesController {
 The application scope creates the bean instance for the lifecycle of a ServletContext. This is similar to the singleton scope, but there is a very important difference in the scope of the bean. When beans are application scoped, the same instance of the bean is shared across multiple servlet-based applications running in the same ServletContext, while singleton scoped beans are scoped to a single application context only.
 
 ```java
+public class Test {
 @Bean
 @Scope(
   value = WebApplicationContext.SCOPE_APPLICATION, proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -307,6 +316,7 @@ public class ScopesController {
         applicationScopedBean.setMessage("Good afternoon!");
         model.addAttribute("currentMessage", applicationScopedBean.getMessage());
         return "scopesExample";
+        }
     }
 }
 ```
@@ -488,21 +498,21 @@ It contains primitive values that are specific to a method and references to obj
 - It's automatically allocated and deallocated when the method finished execution.
 - If this memory is full, Java throws java.lang.StackOverFlowError.
 - Access to this memory is fast when compared to heap memory.
-- This memory is threadsafe, as each thread operates in its own stack.
+- This memory is thread-safe, as each thread operates in its own stack.
 
 ### Java heap memory
 
-> Heap space is used for the dynamix memory allocation of Java objects and JRE classes at runtime.
+> Heap space is used for the dynamic memory allocation of Java objects and JRE classes at runtime.
 
 New objects are always created in heap space, and the references to these objects are stored in stack memory. These objects have global access and we can access them from anywhere in the application. Garbage Collection runs on the heap memory to free the memory used by objects that don't have any reference.
 
 **Key features of Java Heap Memory:**
 
 - It's accessed via complex memory management techniques that include Young Generation, Old or Tenured Generation, and Permanent Generation.
-- If heap space is full, Java throws java.lang.OutOfmemoryError.
+- If heap space is full, Java throws java.lang.OutOfMemoryError.
 - Access to this memory is comparatively slower than stack memory.
 - This memory, in contrast to stack, isn't automatically deallocated. It needs Garbage Collector to free up unused objects to keep the efficiency of the memory usage.
-- Unlike stack, a heap isn't threadsafe and needs to be guarded by properly synchronizing the code.
+- Unlike stack, a heap isn't thread safe and needs to be guarded by properly synchronizing the code.
 
 
 ![JMM-Mode](../images/JMM-model.png)
@@ -537,11 +547,11 @@ Method Are is part of space in the Perm Gen and used to store class structure (r
 
 ### **Memory Pool**
 
-Memory Pools are created by NVM memory managers to create a pool of immutable objects if the implementation supports it. Sdtring Pool is a good example of this king of memory pool. Memory Pool can belon gto Heap or Perm Gen, depending on the JVM memory manager implementation.
+Memory Pools are created by NVM memory managers to create a pool of immutable objects if the implementation supports it. Sdtring Pool is a good example of this king of memory pool. Memory Pool can belong gto Heap or Perm Gen, depending on the JVM memory manager implementation.
 
 ### **Runtime Constant Pool**
 
-Runtime constant pool is a per-calss runtime representation of constant pool in a class. It contains class runtime constants and static methods. Runtime constatnt pool is part of the method area.
+Runtime constant pool is a per-class runtime representation of constant pool in a class. It contains class runtime constants and static methods. Runtime constant pool is part of the method area.
 
 ### **Java Heap Memory Switches**
 
