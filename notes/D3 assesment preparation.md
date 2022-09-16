@@ -2,8 +2,9 @@
 
 ## Inversion of Control
 
-What is Inversion of Control?
-Inversion of Control is a principle that transfers the control of an object or portions of a program to a container or framework. IoC enables a framework to take control of the flow of a program and make calls to our custom code. To enable this, frameworks use abstractions with additional behavior built in. **If we want to add our behavior, we need to extend the classes of the framework or plugin our classes.**
+**What is Inversion of Control?**
+
+> Inversion of Control is a principle that transfers the control of an object or portions of a program to a container or framework. IoC enables a framework to take control of the flow of a program and make calls to our custom code. To enable this, frameworks use abstractions with additional behavior built in. **If we want to add our behavior, we need to extend the classes of the framework or plugin our classes.**
 
 The advantages of this architecture are:
 
@@ -461,7 +462,7 @@ public class Memory {
 }
 ```
 
-jPicture to help understand the code snipped better
+Picture to help understand the code snipped better
 
 ![Java-Heap-Stak](../images/Java-Heap-Stack-Memory.png)
 
