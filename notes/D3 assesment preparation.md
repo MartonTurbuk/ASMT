@@ -1,6 +1,6 @@
 # D3 assessment preparation
 
-## ** Table of contents**
+## **Table of contents**
 1. [Inversion of Control](#Inversion-of-Control)
 2. [SOLID Principles](#SOLID-Principles)
 3. [Brooks law](#Brooks-law)
@@ -10,6 +10,10 @@
 7. [Enterprise bean overview](#Enterprise-Bean-overview)
 8. [Spring bean scopes](#Spring-bean-scopes)
 9. [Difference between Spring and SpringBoot](#Difference-between-Spring-and-SpringBoot)
+10. [SOAP VS. REST](#SOAP-VS.-REST)
+11. [REST](#REST)
+12. [Java memory model](#Java-Memory-Model)
+13. [Java Garbage Collection](#Java-Garbage-Collection)
 
 ## Inversion of Control
 
@@ -449,7 +453,7 @@ REST is an acronym for **RE**presentational **S**tate **T**ransfer and an archit
 5. **Layered system:** The layered system style allows an architecture to be composed of hierarchical layers by constraining component behavior. For example, in a layered system, each component cannot see beyond the immediate layer they are interacting with.
 6. **Code on Demand (Optional):** REST also allows client functionality to extend by downloading and executing code in the form of applets or scripts. The downloaded code simplifies clients by reducing the number of features required to be pre-implemented. Servers can provide part of features delivered to the client in the form of code, and the client only needs to execute the code.
 
-## Java memory model (JMM)
+## Java Memory Model
 
 Short introduction of what is Java stack and heap memory.
 
@@ -577,5 +581,5 @@ Runtime constant pool is a per-class runtime representation of constant pool in 
 |    -XX:SurvivorRatio   | For providing ratio of Eden space and Survivor Space, for example if Young Generation size is 10m and VM switch is -XX:SurvivorRatio=2 then 5m will be reserved for Eden Space and 2.5m each for both the Survivor spaces. The default value is 8. |
 |      -XX:NewRatio      | For providing ratio of old/new generation sizes. The default value is 2.                                                                                                                                                                           |
 
-## **Memory Management in Java - Java Garbage Collection
+## Java Garbage Collection
 
