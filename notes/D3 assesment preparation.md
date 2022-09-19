@@ -1,5 +1,16 @@
 # D3 assessment preparation
 
+## ** Table of contents**
+1. [Inversion of Control](#Inversion-of-Control)
+2. [SOLID Principles](#SOLID-Principles)
+3. [Brooks law](#Brooks-law)
+4. [Spring containers](#Spring-containers)
+5. [Spring beans](#Spring-beans)
+6. [Instantiating beans](#Instantiating-beans)
+7. [Enterprise bean overview](#Enterprise-Bean-overview)
+8. [Spring bean scopes](#Spring-bean-scopes)
+9. [Difference between Spring and SpringBoot](#Difference-between-Spring-and-SpringBoot)
+
 ## Inversion of Control
 
 **What is Inversion of Control?**
