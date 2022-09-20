@@ -1,6 +1,7 @@
 # D3 assessment preparation
 
 ## **Table of contents**
+
 1. [Inversion of Control](#Inversion-of-Control)
 2. [SOLID Principles](#SOLID-Principles)
 3. [Brooks law](#Brooks-law)
@@ -13,7 +14,10 @@
 10. [SOAP VS. REST](#SOAP-VS.-REST)
 11. [REST](#REST)
 12. [Java memory model](#Java-Memory-Model)
-13. [Java Garbage Collection](#Java-Garbage-Collection)
+13. [Java Garbage Collection](#Java-Garbage-collection-type)
+14. [The CMS Collector](#The-CMS-collector)
+15. [G1 collector](#G1-collector)
+16. [Java 8 PermGen and Metaspace](#Java-8-PermGen-and-Metaspace)
 
 ## Inversion of Control
 
@@ -160,11 +164,13 @@ The enterprise bean is a server-side component that encapsulates the business lo
 Enterprise beans simplify the development of large distributes applications. EJB provides system-level services to enterprise beans, the bean developer can concentrate on solving business problems. EJB are portable components, the application assembler can build new applications from existing beans. Provided that they use the standard APIs, these applications can run on any compliant Java EE server.
 
 Table of enterprise bean types
-| Enterprise Bean Type | Purpose                                                                                  |   |   |   |
-|----------------------|------------------------------------------------------------------------------------------|---|---|---|
-| Session              | Performs a task for a client; optionally, may implement a web service                    |   |   |   |
-| Message-driven       | Acts as a listener for a particular messaging type, such as the Java Message Service API |   |   |   |
-|                      |                                                                                          |   |   |   |
+
+
+| Enterprise Bean Type | Purpose                                                                                  |  |  |  |
+| -------------------- | ---------------------------------------------------------------------------------------- | - | - | - |
+| Session              | Performs a task for a client; optionally, may implement a web service                    |  |  |  |
+| Message-driven       | Acts as a listener for a particular messaging type, such as the Java Message Service API |  |  |  |
+|                      |                                                                                          |  |  |  |
 
 ### What is a session bean
 
@@ -187,11 +193,13 @@ A session bean is similar to an interactive session. A session bean is not share
 ### Stateless session beans
 
 A **stateless session bean** does not maintain a conversational state with the client. When a client invokes the methods of a stateless bean, the bean's instance variables may contain a state specific to that client but only for the duration of the invocation. When the method is finished, the client-specific state should not be retained. Clients may change the state of instance variables in pooled stateless beans, and this state is held over to the next innovation of the pooled stateless beans.
+
 > A stateless session bean can implement a web service, but a stateful session bean cannot.
 
 ### Singleton session beans
 
 A **singleton session bean** is instantiated once per application and exists for the lifecycle of the application. Singleton session beans are designed for circumstances in which a single enterprise bean instance is shared concurrently accessed by clients.
+
 > Like stateless session beans, singleton session beans can implement web service endpoints.
 
 Singleton session beans maintain their state between client invocations but are not required to maintain their state across server crashes or shutdowns.
@@ -358,8 +366,9 @@ Spring provides comprehensive infrastructure support for developing Java applica
 
 Spring boot is an extension of the Spring framework, which eliminates the boilerplate configurations required for setting up a Spring application. It takes an opinionated view of the Spring platform, which paves the way for a faster and more efficient development ecosystem.
 
+
 | Spring                                                                                  | Spring Boot                                                                                                                                                     |
-|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Spring Framework is a widely used Java EE framework for building applications.          | Spring Boot Framework is widely used to develop REST APIs.                                                                                                      |
 | It aims to simplify Java EE development that makes developers more productive.          | It aims to shorten the code length and provide the easiest way to develop Web Applications.                                                                     |
 | The primary feature of the Spring Framework is dependency injection.                    | The primary feature of Spring Boot is Autoconfiguration. It automatically configures the classes based on the requirement.                                      |
@@ -371,7 +380,7 @@ Spring boot is an extension of the Spring framework, which eliminates the boiler
 
 
 | Spring Boot                                                                                          | Spring MVC                                                                            |
-|------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | Spring Boot is a module of Spring for packaging the Spring-based application with sensible defaults. | Spring MVC is a model view controller-based web framework under the Spring framework. |
 | It provides default configurations to build Spring-powered framework.                                | It provides ready to use features for building a web application.                     |
 | There is no need to build configuration manually.                                                    | It requires build configuration manually.                                             |
@@ -383,7 +392,7 @@ Spring boot is an extension of the Spring framework, which eliminates the boiler
 
 ### SOAP
 
-Simple Object Access Protocol (SOAP) is a standard network protocol that was first designed so that applications built with different languages and on different platforms could communicate. Because it is a protocol, it imposes built-in rules that increase its complexity and overhead, which can lead to long page load times. These built-in compliances can make it preferable for enterprise scenarios.
+Simple Object Access Protocol (SOAP) is a standard network protocol that was first designed so that applications built with different languages and on different platforms could communicate. Because it is a protocol, it imposes built-in rules that increase its complexity and overhead, which can lead to long page load times. These built-in compliances can make it preferable for enterprise scenarios. It also implements SSL as well. It's a contract based protocol.
 
 It includes standards such as security, atomicity, consistency, isolation, and durability (ACID), which is a set of properties for ensuring reliable database transactions.
 
@@ -430,7 +439,7 @@ SOAP is an integral part of the service-oriented architecture (SOA) and the web 
 ### SOAP disadvantages
 
 1. **No provision for passing data by reference.** This can cause synchronization issues if multiple copies of the same object are passed simultaneously.
-2. **Speed.** The data structure of SOAp is based on CML. CML is largely human-readable, which makes it fairly easy to understand a SOAP message. However, that also makes the messages relatively large compared to the Common Object Request Broker Architecture (CORBA) and its remote procedure call (RPC) protocol that will accommodate binary data. Meaning CORBA and RPC are faster.
+2. **Speed.** The data structure of SOAp is based on CML. CML is largely human-readable, which makes it fairly easy to understand a SOAP message. However, that also makes the messages relatively large compared to the Common Object Request Broker Architecture (CORBA) and its remote procedure call (RPC) protocol that will accommodate binary data. Meaning CORBA and RPC are faster. Low throughput
 3. **Not as flexible as other methods.** Although SOAP is flexible, newer methods, such as RESTful architecture, use XML, JSON, YAML or any parser needed, which makes them more flexible than SOAP.
 
 ## REST
@@ -442,16 +451,17 @@ REST is an acronym for **RE**presentational **S**tate **T**ransfer and an archit
 ### The 6 guiding principles of REST
 
 1. **Uniform interface:** By applying the principle of generality to the components interface, we can simplify the overall system architecture and improve the visibility of interactions. The following four constraints can achieve a uniform REST interface.
+
    1. **Identification of resources** - The interface must uniquely identify each resource involved in the interaction between the client and the server.
    2. **Manipulation of resources through representations** - The resources should have uniform representations in the server response. API consumers should use these representations to modify the resource state in the server.
    3. **Self-descriptive messages** - Each resource representation should carry enough information to describe how to process the message. It should also provide information on the additional actions that the client can perform on the resource.
    4. **Hypermedia as the engine of application state** - The client should have only the initial URI of the application. the client application should dynamically drive all other resources and interactions with the use of hyperlinks.
-
 2. **Client-Server:** The client-server design pattern enforces the separation of concerns, which helps the client and the server components evolve independently. While the client and the server evolve, we have to make sure that the interface/contract between the client and the server does not break.
 3. **Stateless:** Statelessness mandates that each request from the client to the server must contain all of the information necessary to understand and complete the request. The server cannot take advantage of any previously stored context information on the server.
 4. **Cacheable:** The cacheable constraint requires that a response should implicitly or explicitly label itself as cacheable or non cacheable. If the response is cacheable, the client application gets the right to reuse the response data later for equivalent requests and a specified period.
 5. **Layered system:** The layered system style allows an architecture to be composed of hierarchical layers by constraining component behavior. For example, in a layered system, each component cannot see beyond the immediate layer they are interacting with.
 6. **Code on Demand (Optional):** REST also allows client functionality to extend by downloading and executing code in the form of applets or scripts. The downloaded code simplifies clients by reducing the number of features required to be pre-implemented. Servers can provide part of features delivered to the client in the form of code, and the client only needs to execute the code.
+7. **By Peti:** Discoverable which is Layered and Uniformed together.
 
 ## Java Memory Model
 
@@ -483,18 +493,18 @@ Picture to help understand the code snipped better
 
 **What happens when we execute the program:**
 
-1. As soon as we run the program, it loads all the Runtime classes into the Heap space. When the main()methos is found at line1, Java Runtime created stack memory to be used by main() method thread.
+1. As soon as we run the program, it loads all the Runtime classes into the Heap space. When the main()methods is found at line1, Java Runtime created stack memory to be used by main() method thread.
 2. We are creating primitve loval variable at line 2, so it's created and stored in the stack memory of main() method.
 3. We are creating an Object in the 3rd line, it's created in heap memory and stack memory contains the reference for it. A similar process occurs when we create Memory object in the 4th line.
-4. Now when we call the foo() method in the 5th line, a block in the top of the stack is created to be used by the foo() method. since Jave is pass-by-value, a new reference to Object is created in the foo() stack block in the 6th line.
+4. Now when we call the foo() method in the 5th line, a block in the top of the stack is created to be used by the foo() method. since Java is pass-by-value, a new reference to Object is created in the foo() stack block in the 6th line.
 5. A string is created in the 7th line, it goes in the String pool in the heap space and a reference is created in the foo() stack space for it.
 6. foo() method is terminated in the 8th line, at this time memory block allocated for foo() in stack becomes free.
-7. In line 9, main() method terminated and the stack memory created for main() method is destroyed. Also, the program ends at this line, hance Java Runtime frees all the memory and ends the execution of the program.
+7. In line 9, main() method terminated and the stack memory created for main() method is destroyed. Also, the program ends at this line, hence Java Runtime frees all the memory and ends the execution of the program.
 
 ### **Difference between Java Heap Space and Stack memory**
 
 1. Heap memory is used by all the parts of the application whereas stack memory is used only by one thread of execution.
-2. Whenever an object is created, it's always stored in the Heap space and stack memory contains the reference to it. Stack memory only contains local primive variables and regerence variables to objects in heap space.
+2. Whenever an object is created, it's always stored in the Heap space and stack memory contains the reference to it. Stack memory only contains local primitive variables and reference variables to objects in heap space.
 3. Objects stored in the heap are globally accessible whereas stack memory can't be accessed by other threads.
 4. Memory management in stack is done in LIFO manner whereas it's  more complex in Heap memory because it's used globally.
 5. Stack memory is short-lived whereas heap memory lives from the start till the end of application execution.
@@ -503,7 +513,7 @@ Picture to help understand the code snipped better
 
 ### Java stack memory
 
-> Stack Memory ins Java is used for static memory allocation and the excution of a thread.
+> Stack Memory ins Java is used for static memory allocation and the execution of a thread.
 
 It contains primitive values that are specific to a method and references to objects referred from the methods that are in a heap. Access to this memory is in Last-In-First-Out (LIFO) order. Whenever we call a new method a new block is created on top of the stack which contains values specific to that method, like primitive variables and references to objects. When the method finished execution, its corresponding stack frame is flushed, the flow goes back to the calling method, and space becomes available for the next method. Stack memory size is much smalled compared to Heap memory.
 
@@ -518,9 +528,9 @@ It contains primitive values that are specific to a method and references to obj
 
 ### Java heap memory
 
-> Heap space is used for the dynamic memory allocation of Java objects and JRE classes at runtime.
+> Heap space is used for the dynamic memory allocation of Java objects and JRE classes at runtime. This is shared memory, multiple threads can reach it.
 
-New objects are always created in heap space, and the references to these objects are stored in stack memory. These objects have global access and we can access them from anywhere in the application. Garbage Collection runs on the heap memory to free the memory used by objects that don't have any reference.
+New objects are always created in heap space, and the references to these objects are stored in stack memory. These objects have global access, and we can access them from anywhere in the application. Garbage Collection runs on the heap memory to free the memory used by objects that don't have any reference.
 
 **Key features of Java Heap Memory:**
 
@@ -530,9 +540,7 @@ New objects are always created in heap space, and the references to these object
 - This memory, in contrast to stack, isn't automatically deallocated. It needs Garbage Collector to free up unused objects to keep the efficiency of the memory usage.
 - Unlike stack, a heap isn't thread safe and needs to be guarded by properly synchronizing the code.
 
-
 ![JMM-Mode](../images/JMM-model.png)
-
 
 JVM memory is divided into separate parts. At a broad level, JVM Heap memory is physically divided into two parts - **Young Generation** and **Old Generation**.
 
@@ -551,7 +559,7 @@ Old Generation memory contains the objects that are long-lived and survived afte
 
 ### **Stop the World Event**
 
-All the Garbage collections are "Stop the World" events because all the application threads are stopped until the operation completes. Young generation keeps short-lived objects, so Minor GC is very fasat and the application doesn't get affected by this. However Major GC takes a long time because it checks all the live objects. Major GC should be minimized becase it will make your applciation unresponsive for the garbage collection duration. The duration taken by garbage collector depends on the strategy used for garbage collection.
+All the Garbage collections are "Stop the World" events because all the application threads are stopped until the operation completes. Young generation keeps short-lived objects, so Minor GC is very fasat and the application doesn't get affected by this. However, Major GC takes a long time because it checks all the live objects. Major GC should be minimized becase it will make your applciation unresponsive for the garbage collection duration. The duration taken by garbage collector depends on the strategy used for garbage collection.
 
 ### **Permanent Generation**
 
@@ -571,15 +579,61 @@ Runtime constant pool is a per-class runtime representation of constant pool in 
 
 ### **Java Heap Memory Switches**
 
-|     **VM Switch**      | **VM Switch Description**                                                                                                                                                                                                                          |
-|:----------------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|          -Xms          | For setting the initial heap size when JVM starts                                                                                                                                                                                                  |
-|          -Xmx          | For setting the maximum heap size.                                                                                                                                                                                                                 |
-|          -Xmn          | For setting the size of the Young Generation, rest of the space goes for Old Generation.                                                                                                                                                           |
-|       -XX:PermGen      | For setting the initial size of the Permanent Generation memory                                                                                                                                                                                    |
-|     -XX:MaxPermGen     | For setting the maximum size of Perm Gen                                                                                                                                                                                                           |
-|    -XX:SurvivorRatio   | For providing ratio of Eden space and Survivor Space, for example if Young Generation size is 10m and VM switch is -XX:SurvivorRatio=2 then 5m will be reserved for Eden Space and 2.5m each for both the Survivor spaces. The default value is 8. |
-|      -XX:NewRatio      | For providing ratio of old/new generation sizes. The default value is 2.                                                                                                                                                                           |
 
-## Java Garbage Collection
+|   **VM Switch**   | **VM Switch Description**                                                                                                                                                                                                                          |
+|:-----------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|       -Xms        | For setting the initial heap size when JVM starts                                                                                                                                                                                                  |
+|       -Xmx        | For setting the maximum heap size.                                                                                                                                                                                                                 |
+|       -Xmn        | For setting the size of the Young Generation, rest of the space goes for Old Generation.                                                                                                                                                           |
+|    -XX:PermGen    | For setting the initial size of the Permanent Generation memory                                                                                                                                                                                    |
+|  -XX:MaxPermGen   | For setting the maximum size of Perm Gen                                                                                                                                                                                                           |
+| -XX:SurvivorRatio | For providing ratio of Eden space and Survivor Space, for example if Young Generation size is 10m and VM switch is -XX:SurvivorRatio=2 then 5m will be reserved for Eden Space and 2.5m each for both the Survivor spaces. The default value is 8. |
+|   -XX:NewRatio    | For providing ratio of old/new generation sizes. The default value is 2.                                                                                                                                                                           |
 
+## Java Garbage collection type
+
+### Garbage collection in Java
+
+<p>In Java, the programmers don't need to take care of destroying the objects that are out of use. The Garbage Collector takes care of it. </p>
+
+Garbage Collector is a Daemon thread that keeps running in the background. Basically it frees up the heap memory by destroying the unreachable objects.
+
+> Unreachable objects are the ones that are no longer referenced by any part of the program. We can choose the garbage collector for our java program through JVM options.
+
+### How automatic garbage collection works
+
+It is a process of looking at the heap memory, and marking the unreachable objects, and destroying them with compaction. 
+
+### Generational garbage collection
+
+In this method, the Heap space is divided into generations like Young generation heap space is the where all the new Objects are created. When it is filled up, minor garbage collection takes place. This process kills all the dead objects, and it is quick. The surviving objects eventually if they live long enough will be moved to the old generation.
+
+The Old Generation is used to store long surviving objects. Eventually, the old generation needs to be collected. This event is called a Major GC. Often it is much slower because it involves all live objects. Also, there is Full GC, which means cleaning the entire heap.
+
+## The CMS collector
+
+The CMS collector ("concurrent-mark-sweep") algorithm uses multiple threads ("concurrent") to scan through the heap for unused objects that can be recycled. This collector goes in Stop-The-World(STW) mode in two cases:
+1. While initializing the initial marking of roots, i.e. objects in the old generation that are reachable from thread entry points or static variables.
+2. When the application has changed the state of the heap while the algorithm was running concurrently and forcing it to go back and do some final touched to make sure it has the right objects marked.
+
+This collector may face promotion failures. If some objects from young generation are to be moved to the old generation, and the collector did not have enough time to make space in the old generation space, a promotion failure will occur. In order to prevent this, we may provide more of the heap size to the old generation or provide mode background threads to the collector.
+
+## G1 collector
+
+The Garbage-First collector designed for heap sizes greater than 4GB. It divides the heap size into regions spanning from 1MB to 32MB, based on the heap size. There is a concurrent global marking phase to determine the liveliness of objects throughout the heap. After the marking phase is complete, G1 knows which regions are mostly empty. It collects unreachable objects from these regions first, which usually yields a large amount of free space. So G1 collects these regions (containing garbage) first, and hence the name. G12 also uses a pause prediction model in order to meet a user-defined pause time target. It selects the number of regions to collect based on the specified pause time target. 
+
+**The G1 garbage collection cycle includes the phases shown in the figure:**
+<br></br>
+![G1 cycles](../images/G1-GC-cycle.png)
+<br></br>
+1. **Young only Phase:** This phase includes only the young generation objects and promotes them to the old generation. The transition between the young-only phase and the space-reclamation phase starts when the old generation is occupied up to a certain threshold, i.e. the Initiation Heap Occupancy threshold. At this time, G1 schedules an Initial Mark young-only collection instead of a regular young-only collection.
+2. **Initial Marking:** This type of collection starts the marking process in addition to a regular young-only collection. Concurrent marking determines all currently live objects in the old generation regions to be kapt for the following space-reclamation phase. While marking hasn't completely finished, regular young-only collections may occur. Marking finished with two special stop-the-world pauses: Remark and Cleanup.
+3. **Remark:** This pause finalizes the marking itself, and performs global reference processing and class unloading. Between Remark and Cleanup G1 calculates a summary of the liveliness information concurrently, which will be finalized and used in the Cleanup pause to update internal data structures.
+4. **Cleanup:** This pause also takes the completely empty regions, and determines whether a space-reclamation phase will actually follow. If a space-reclamation phase follows, the young-only phase completes with a single young-only collection.
+5. Space-reclamation phase:** This phase consists of multiple mixed collections in addition to young generation regions, also evacuates live objects of old generation regions. the space-reclamation phase ends when G1 determines that evacuating more old generation regions wouldn't yield enough free space worth the effort.
+
+G1 can be enabled using the ```-XX:+UseG1GC``` flag. This strategy reduced the chances of the heap being depleted before the background threads have finished scanning for unreachable objects. Also, it compacts the heap on-the-go, which the CMS collector can only do in STW mode. In Java 8 a cool optimization is provided with G1 collector, called string deduplication. A new optimization has been made that enables the G1 collector to identify strings which are duplicated more than once across our heap and modify them to point to the same internal char[] array, to avoid multiple copies of the same string resign in the heap unnecessarily. We can use the ```-XX+UseStringDeduplication``` to enables this optimization. **G1 is the default garbage collector in JDK 9**
+
+## Java 8 PermGen and Metaspace
+
+As mentioned earlier, the Permanent Generation space was removed since Java 8. So now, the JDK 8 HotSpot JVM uses the native memory for the representation of class metadata which is called Metaspace. Most of the allocations for the class metadata are made out of the native memory. Also, there is a new flag MaxMetaspaceSize, to limit the amount of memory used for class metadata. If we do not specify the value for this, the Metaspace re-sizes at runtime as per the demand of the running application. Metaspace garbage collection is triggered when the class metadata usage reaches MaxMetaspaceSize limit. Excessive Metaspace garbage collection may be a symptom of classes, classloaders memory leak or inadequate sizing for our application. That’s it for the Garbage Collection in java. I hope you got the understanding about different garbage collectors we have in java.

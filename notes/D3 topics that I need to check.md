@@ -51,14 +51,6 @@
   - Aspect -> what is it, how does it work
 
 ## Things that I missed in a topic
-- SOAP VS REST
-  - Discoverable -> Layered + Uniformed together
-- SOAP
-  - It implements SSL as well. It's a contract based protocol. My SOAP client won't receive any message if it doesn't implement the protocol.
-  - Low throughput.
-  - It's contract based.
 - JMM
   - You can approach it from garbage collector, and where you are storing the data.
-  - Heap -> shared memory static object, methods, variables are here.
-  - Stack -> thread memory
   - L3 cache, this is the memory in the CPU shared between the cores.
