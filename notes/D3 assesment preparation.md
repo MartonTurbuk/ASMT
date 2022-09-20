@@ -166,11 +166,10 @@ Enterprise beans simplify the development of large distributes applications. EJB
 Table of enterprise bean types
 
 
-| Enterprise Bean Type | Purpose                                                                                  |  |  |  |
-| -------------------- | ---------------------------------------------------------------------------------------- | - | - | - |
-| Session              | Performs a task for a client; optionally, may implement a web service                    |  |  |  |
-| Message-driven       | Acts as a listener for a particular messaging type, such as the Java Message Service API |  |  |  |
-|                      |                                                                                          |  |  |  |
+| Enterprise Bean Type | Purpose                                                                                  |
+|----------------------|------------------------------------------------------------------------------------------|
+| Session              | Performs a task for a client; optionally, may implement a web service                    |
+| Message-driven       | Acts as a listener for a particular messaging type, such as the Java Message Service API |
 
 ### What is a session bean
 
