@@ -18,6 +18,7 @@
 14. [The CMS Collector](#The-CMS-collector)
 15. [G1 collector](#G1-collector)
 16. [Java 8 PermGen and Metaspace](#Java-8-PermGen-and-Metaspace)
+17. [Interview questions](#Interview-questions)
 
 ## Inversion of Control
 
@@ -367,7 +368,7 @@ Spring boot is an extension of the Spring framework, which eliminates the boiler
 
 
 | Spring                                                                                  | Spring Boot                                                                                                                                                     |
-| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Spring Framework is a widely used Java EE framework for building applications.          | Spring Boot Framework is widely used to develop REST APIs.                                                                                                      |
 | It aims to simplify Java EE development that makes developers more productive.          | It aims to shorten the code length and provide the easiest way to develop Web Applications.                                                                     |
 | The primary feature of the Spring Framework is dependency injection.                    | The primary feature of Spring Boot is Autoconfiguration. It automatically configures the classes based on the requirement.                                      |
@@ -379,7 +380,7 @@ Spring boot is an extension of the Spring framework, which eliminates the boiler
 
 
 | Spring Boot                                                                                          | Spring MVC                                                                            |
-| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+|------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
 | Spring Boot is a module of Spring for packaging the Spring-based application with sensible defaults. | Spring MVC is a model view controller-based web framework under the Spring framework. |
 | It provides default configurations to build Spring-powered framework.                                | It provides ready to use features for building a web application.                     |
 | There is no need to build configuration manually.                                                    | It requires build configuration manually.                                             |
@@ -391,7 +392,7 @@ Spring boot is an extension of the Spring framework, which eliminates the boiler
 
 ### SOAP
 
-Simple Object Access Protocol (SOAP) is a standard network protocol that was first designed so that applications built with different languages and on different platforms could communicate. Because it is a protocol, it imposes built-in rules that increase its complexity and overhead, which can lead to long page load times. These built-in compliances can make it preferable for enterprise scenarios. It also implements SSL as well. It's a contract based protocol.
+Simple Object Access Protocol (SOAP) is a standard network protocol that was first designed so that applications built with different languages and on different platforms could communicate. Because it is a protocol, it imposes built-in rules that increase its complexity and overhead, which can lead to long page load times. These built-in compliance's can make it preferable for enterprise scenarios. It also implements SSL as well. It's a contract based protocol.
 
 It includes standards such as security, atomicity, consistency, isolation, and durability (ACID), which is a set of properties for ensuring reliable database transactions.
 
@@ -422,7 +423,7 @@ SOAP message transmits some basic information as given below:
         <m:GetLastTradePrice xmlns:m="Some-URI" />
     </env:Header>
     <env:Body>
-        <symbol xmlns:p="Some-URI" >DIS</symbol>
+        <!-- <symbol xmlns:p="Some-URI" >DIS</symbol> -->
     </env:Body>
 </env:Envelope>
 ```
@@ -432,7 +433,7 @@ SOAP message transmits some basic information as given below:
 SOAP is an integral part of the service-oriented architecture (SOA) and the web services specifications.
 
 1. **Platform- and operating system-independent.** SOAP can be carried over a variety of protocols, enabling communication between applications with different programming languages on both Windows and Linux.
-2. **Works on the HTTP protocol.** Even though SOAP works with many different protocols, HTTP is the default protocol used by web applications.
+2. **Works on the HTTP protocol.** Even though SOAP works with many protocols, HTTP is the default protocol used by web applications.
 3. **Can be transmitted through different networks and security devices.** SOAP can be easily passed through firewalls, where other protocols might require special accommodation.
 
 ### SOAP disadvantages
@@ -493,7 +494,7 @@ Picture to help understand the code snipped better
 **What happens when we execute the program:**
 
 1. As soon as we run the program, it loads all the Runtime classes into the Heap space. When the main()methods is found at line1, Java Runtime created stack memory to be used by main() method thread.
-2. We are creating primitve loval variable at line 2, so it's created and stored in the stack memory of main() method.
+2. We are creating primitive local variable at line 2, so it's created and stored in the stack memory of main() method.
 3. We are creating an Object in the 3rd line, it's created in heap memory and stack memory contains the reference for it. A similar process occurs when we create Memory object in the 4th line.
 4. Now when we call the foo() method in the 5th line, a block in the top of the stack is created to be used by the foo() method. since Java is pass-by-value, a new reference to Object is created in the foo() stack block in the 6th line.
 5. A string is created in the 7th line, it goes in the String pool in the heap space and a reference is created in the foo() stack space for it.
@@ -558,11 +559,11 @@ Old Generation memory contains the objects that are long-lived and survived afte
 
 ### **Stop the World Event**
 
-All the Garbage collections are "Stop the World" events because all the application threads are stopped until the operation completes. Young generation keeps short-lived objects, so Minor GC is very fasat and the application doesn't get affected by this. However, Major GC takes a long time because it checks all the live objects. Major GC should be minimized becase it will make your applciation unresponsive for the garbage collection duration. The duration taken by garbage collector depends on the strategy used for garbage collection.
+All the Garbage collections are "Stop the World" events because all the application threads are stopped until the operation completes. Young generation keeps short-lived objects, so Minor GC is very fast and the application doesn't get affected by this. However, Major GC takes a long time because it checks all the live objects. Major GC should be minimized because it will make your application unresponsive for the garbage collection duration. The duration taken by garbage collector depends on the strategy used for garbage collection.
 
 ### **Permanent Generation**
 
-Permanent Generation of "Perm Gen" contains the application metadata required by the JVM to describe the classes and methods used in the application. Perm Gen is not part of Java Heap memory. Perm Gen is populated by JVM at runtime based on the classes used by the application. Perm Gen also contains Java SE library classes and methods. Perm Gen object are garbage collected in a full garbage colleciton.
+Permanent Generation of "Perm Gen" contains the application metadata required by the JVM to describe the classes and methods used in the application. Perm Gen is not part of Java Heap memory. Perm Gen is populated by JVM at runtime based on the classes used by the application. Perm Gen also contains Java SE library classes and methods. Perm Gen object are garbage collected in a full garbage collection.
 
 ### **Method Area**
 
@@ -570,7 +571,7 @@ Method Are is part of space in the Perm Gen and used to store class structure (r
 
 ### **Memory Pool**
 
-Memory Pools are created by NVM memory managers to create a pool of immutable objects if the implementation supports it. Sdtring Pool is a good example of this king of memory pool. Memory Pool can belong gto Heap or Perm Gen, depending on the JVM memory manager implementation.
+Memory Pools are created by NVM memory managers to create a pool of immutable objects if the implementation supports it. String Pool is a good example of this king of memory pool. Memory Pool can belong gto Heap or Perm Gen, depending on the JVM memory manager implementation.
 
 ### **Runtime Constant Pool**
 
@@ -636,3 +637,13 @@ G1 can be enabled using the ```-XX:+UseG1GC``` flag. This strategy reduced the c
 ## Java 8 PermGen and Metaspace
 
 As mentioned earlier, the Permanent Generation space was removed since Java 8. So now, the JDK 8 HotSpot JVM uses the native memory for the representation of class metadata which is called Metaspace. Most of the allocations for the class metadata are made out of the native memory. Also, there is a new flag MaxMetaspaceSize, to limit the amount of memory used for class metadata. If we do not specify the value for this, the Metaspace re-sizes at runtime as per the demand of the running application. Metaspace garbage collection is triggered when the class metadata usage reaches MaxMetaspaceSize limit. Excessive Metaspace garbage collection may be a symptom of classes, classloaders memory leak or inadequate sizing for our application. That’s it for the Garbage Collection in java. I hope you got the understanding about different garbage collectors we have in java.
+
+
+## Interview questions
+- What are collections in java? Tell me examples for collections. (List, Set etc.)
+  - **Answer:** Collections are like containers that group multiple items in a single unit. Java 1.2 provided the **Collections Framework** that is the architecture to represent and manipulate Collections in java in a standard way. Examples for collections: ```HashSet, TreeSet, ArrayList, LinkedList, HashMap, TreeMap, Queue, Dequeue, SortedSet, SortedMap```. Also, there are synchronized wrappers (```Collection synchronizedCollection, Set synchronizedSet```), and unmodifiable wrappers (```Collection unmodifiableCollection, Set unmodifiableSet```).
+- What methods can you override when using hashmaps? And what are those methods used for, why are they important?
+  - **Answer:** The two methods are ```equals(), hashCode()```. The equals() is important, because that's where we specify what type of match are we looking between hashMaps. The hashCode() is important because that is the method that returns the hash code for our map, and we can provide specific type of hashing.
+- What is a hashmap, and when would you consider using them?
+  - **Answer:** It provides a basic implementation of the Map interface. It stores the data in key-value pairs, and we can access them by a key. If we insert a duplicate key, it will  replace the values of the corresponding key. Hashmap is unsynchronized. It permits null values and one null key. It provided constant-time performance for the basic operations (```get``` and ```put```).
+ 

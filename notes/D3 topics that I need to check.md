@@ -41,7 +41,7 @@
 - [ ] Spring Security, briefly go through it
 - [ ] Protocols -> IP, TCP, UDP, TLS, SSL, HTTP, HTTPS, SOAP
 - [x] **SOAP vs REST** -> important
-- [ ] **JMM, java memory model** -> ongoing process **in depth for 09/23**
+- [x] **JMM, java memory model** -> ongoing process **in depth for 09/23**
 - [ ] **The garbage collector, CMS** -> ongoing process
 
 ## Bigger topics
@@ -61,7 +61,7 @@
 
 ## Interview questions
 - What are collections in java? Tell me examples for collections. (List, Set etc.)
-- What methods can you override when using hashmaps?
+- What methods can you override when using hashmaps? And what are those methods used for, why are they important?
 - What is a hashmap, and when would you consider using them?
 - What are the most used collection types by you in your daily work, and why?
 - What is an arraylist? How can you access the elements of it?
