@@ -1,8 +1,17 @@
 # D3 topics that I need to check
 
+## **Table of contents**
+
+1. [TODO in general](#TODO-in-general)
+2. [TODO for the next session](#TODO-for-the-next-session)
+3. [Bigger topics](#Bigger-topics)
+4. [Interview questions on the latest team-fit](#Interview-questions)
+5. [Things that I missed in a topic](#Things-that-I-missed-in-a-topic)
+
+
 ## TODO in general
 
-- [] I need to create a draft on the assessment portal. Before application it's recommended to coordinate with my RM or PTL, to get their approval and support.
+- [] I need to create a draft on the assessment portal. Before application, it's recommended to coordinate with my RM or PTL, to get their approval and support.
 - [] Need to create a self-presentation PPT for the assessment. When I'll create the request there will be a template file for it.
 - [] Check:
   - [] Optional
@@ -50,7 +59,18 @@
   - Listener -> how does it work
   - Aspect -> what is it, how does it work
 
+## Interview questions
+- What are collections in java? Tell me examples for collections. (List, Set etc.)
+- What methods can you override when using hashmaps?
+- What is a hashmap, and when would you consider using them?
+- What are the most used collection types by you in your daily work, and why?
+- What is an arraylist? How can you access the elements of it?
+- What is a linkedList? Can you tell me an example when you should use it?
+- Why KISS is important?
+- What is a Set?
+- List the design patterns and elaborate on the builder pattern.
+- List the java design principles, choose one, and elaborate. Explain why do you think the chosen principle is important.
+- Can an integer go below zero?
+- Mental coding question: There is a method, that accepts an array on integers. You have to return a boolean at the end, and check the array if it consists numbers only from 0-9 inclusive, and no duplicates are allowed. How would you solve it? Also, what type of test cases would you write for it?
+
 ## Things that I missed in a topic
-- JMM
-  - You can approach it from garbage collector, and where you are storing the data.
-  - L3 cache, this is the memory in the CPU shared between the cores.
