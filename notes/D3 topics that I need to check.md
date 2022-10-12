@@ -74,3 +74,9 @@
 - Mental coding question: There is a method, that accepts an array on integers. You have to return a boolean at the end, and check the array if it consists numbers only from 0-9 inclusive, and no duplicates are allowed. How would you solve it? Also, what type of test cases would you write for it?
 
 ## Things that I missed in a topic
+
+- Creation/Behavioural/Structural design pattern types.
+  - I should know 2-3 of each, and know what are they.
+  - G2EE pattern -> MBC
+- What is space complexity: the amount that my data takes up in the memory. Every time I make a new variable, that will increase the space complexity.
+- What is time complexity: the amount of loop that I do in the method.
