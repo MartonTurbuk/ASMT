@@ -11,14 +11,14 @@
 7. [Enterprise bean overview](#Enterprise-Bean-overview)
 8. [Spring bean scopes](#Spring-bean-scopes)
 9. [Difference between Spring and SpringBoot](#Difference-between-Spring-and-SpringBoot)
-10. [SOAP VS. REST](#SOAP-VS.-REST)
+10. [SOAP VS. REST](#SOAP-VS-REST)
 11. [REST](#REST)
 12. [Java memory model](#Java-Memory-Model)
 13. [Java Garbage Collection](#Java-Garbage-collection-type)
 14. [The CMS Collector](#The-CMS-collector)
 15. [G1 collector](#G1-collector)
 16. [Java 8 PermGen and Metaspace](#Java-8-PermGen-and-Metaspace)
-17. [Interview questions](#Interview-questions)
+17. [Interview questions](#Senior-Interview-questions)
 
 ## Inversion of Control
 
@@ -422,7 +422,7 @@ Spring boot is an extension of the Spring framework, which eliminates the boiler
 | It avoids boilerplate code and wraps dependencies together in a single unit.                         | It specifies each dependency separately.                                              |
 | It reduces development time and increases productivity.                                              | It takes more time to achieve the same.                                               |
 
-## SOAP VS. REST
+## SOAP-VS-REST
 
 ### SOAP
 
@@ -498,6 +498,48 @@ REST is an acronym for **RE**presentational **S**tate **T**ransfer and an archit
 7. **By Peti:** Discoverable which is Layered and Uniformed together.
 
 ## Java Memory Model
+
+### Introduction:
+To run an application in an optimal way, JVM divides memory into stack and heap memory. Whenever we declare new variables and objects, call a new method, declare a String, or perform similar operations, JVM designates memory to these operations from either Stack Memory or Heap Space.
+
+### Stack memory in Java
+Stack Memory in Java is used for static memory allocation and the execution of a thread. It contains primitive values that are specific to a method and references to objects referred from the method that are in a heap.
+
+
+Access to this memory is in Last-In-First-Out (LIFO) order. Whenever we call a new method, a new block is created on top of the stack which contains values specific to that method, like primitive variables and references to objects.
+
+
+When the method finishes execution, its corresponding stack frame is flushed, the flow goes back to the calling method, and space becomes available for the next method.
+
+#### Key features of stack memory
+Some other features of stack memory include:
+- It grows and shrinks as new methods are called and returned, respectively.
+- Variables inside the stack exist only as long as the method that created them is running.
+- It’s automatically allocated and deallocated when the method finishes execution.
+- If this memory is full, Java throws java.lang.StackOverFlowError.
+- Access to this memory is fast when compared to heap memory.
+- This memory is thread-safe, as each thread operates in its own stack.
+
+### Heap space in java
+Heap space is used for the dynamic memory allocation of Java objects and JRE classes at runtime. New objects are always created in heap space, and the references to these objects are stored in stack memory.
+
+
+These objects have global access, and we can access them from anywhere in the application.
+
+
+We can break this memory model down into smaller parts, called generations, which are:
+- Young Generation – this is where all new objects are allocated and aged. A minor Garbage collection occurs when this fills up.
+- Old or Tenured Generation – this is where long surviving objects are stored. When objects are stored in the Young Generation, a threshold for the object’s age is set, and when that threshold is reached, the object is moved to the old generation.
+- Permanent Generation – this consists of JVM metadata for the runtime classes and application methods
+
+#### Key features of java heap memory
+Some other features of heap space include:
+
+- It’s accessed via complex memory management techniques that include the Young Generation, Old or Tenured Generation, and Permanent Generation.
+- If heap space is full, Java throws java.lang.OutOfMemoryError.
+- Access to this memory is comparatively slower than stack memory
+- This memory, in contrast to stack, isn’t automatically deallocated. It needs Garbage Collector to free up unused objects so as to keep the efficiency of the memory usage.
+- Unlike stack, a heap isn’t threadsafe and needs to be guarded by properly synchronizing the code.
 
 Short introduction of what is Java stack and heap memory.
 
@@ -672,12 +714,67 @@ G1 can be enabled using the ```-XX:+UseG1GC``` flag. This strategy reduced the c
 
 As mentioned earlier, the Permanent Generation space was removed since Java 8. So now, the JDK 8 HotSpot JVM uses the native memory for the representation of class metadata which is called Metaspace. Most of the allocations for the class metadata are made out of the native memory. Also, there is a new flag MaxMetaspaceSize, to limit the amount of memory used for class metadata. If we do not specify the value for this, the Metaspace re-sizes at runtime as per the demand of the running application. Metaspace garbage collection is triggered when the class metadata usage reaches MaxMetaspaceSize limit. Excessive Metaspace garbage collection may be a symptom of classes, classloaders memory leak or inadequate sizing for our application. That’s it for the Garbage Collection in java. I hope you got the understanding about different garbage collectors we have in java.
 
+## Polymorphism
 
-## Interview questions
+There are two types of polymorphism in java:
+- Compile time polymorphism
+- Runtime  polymorphism
+
+### Compile time polymorphism
+Compile-time polymorphism is achieved through method overloading. In method overloading, methods in the same calls have the same name but different parameters. The compiler knows which method to call bases on the methods signature, which included the method name, and the number and types of parameters. This is determined at compile-time.
+
+### Runtime polymorphism (Dynamic Polymorphism)
+Runtime polymorphism is achieved through method overriding. In Java, we mark a method in the subclass with the same, return type, and parameters as a method in the superclass with the '@Override' annotation. This tells the Java compiler that we intend to override a method from the superclass in the subclass. It's achieved via using either inheritance or interface.
+
+## V-table (Virtual method table)
+A v-table is a table of function pointers (or method pointers). Pointers = references. Each class with virtual methods (methods that can be overridden) has its own v-table. When an object is created a reference to the v-table of its class is stored as part of that object's data.
+
+### How does it work?
+When a method is called on an object, the method to execute is looked up in the v-table, and the appropriate version of the method is invoked. If a subclass overrides a method from its superclass, the entry for that methods in the subclass's v-table points to the overridden version. When you have a reference to a superclass, but it's pointing to an object of a subclass, the method from the subclass's v-table will be invoked.
+
+### Java and V-tables
+In Java, all nin-static and non-final methods are by default "virtual functions". That means they can be overridden by sybclasses unless they are marked with the 'final' keyword, which prevents method overriding.
+
+When an object is instantiated in Java, a v-table is created for its class if it doesn't already exist. The v-table contains one entry for each unique method signature, inherited from all its ancestors. The v-table will point to the most specific version of each method that the object's class has access to. When you call a method on an object, the JVM looks up the method in the object's v-table and invokes it.
+
+## What is java reflection?
+Java Reflection is a powerful feature that allows you to inspect, modify, and interact with class fields, methods, and constructors at runtime. This capability enabled dynamic behavior in your Java programs. With Reflection, you can:
+- Obtain information about classes, interfaces, fields, and methods at runtime, even if you don't know their names at compile-time.
+- Create new instances of classes.
+- Get and set field values for an object.
+- Invoke methods on an object.
+- Create new arrays, among other functionalities.
+
+### The four fundamental principles of Object-Oriented Programming
+1. Encapsulation:
+
+**What it is:** Encapsulation involves bundling data (fields) and methods together that manipulate the data into a single unit, or object. It also restricts direct access to some of the object's components to prevent unauthorized modification of misuse.
+
+2. Inheritance:
+
+**What it is:** Inheritance enables a new class (subclass) to inherit properties (fields and methods) from an existing class (superclass).
+
+3. Polymorphism:
+
+**What it is:** Polymorphism allows objects of different types to be treated as objects of a common super-type. The most common use is when a parent class reference is used to refer to a child class object.
+
+4. Abstraction:
+**What it is:** Abstraction means hiding the compile reality while exposing only the necessary parts. In Java, abstraction can be achieved through abstract classes and interfaces.
+
+## Senior-Interview-questions
 - What are collections in java? Tell me examples for collections. (List, Set etc.)
-  - **Answer:** Collections are like containers that group multiple items in a single unit. Java 1.2 provided the **Collections Framework** that is the architecture to represent and manipulate Collections in java in a standard way. Examples for collections: ```HashSet, TreeSet, ArrayList, LinkedList, HashMap, TreeMap, Queue, Dequeue, SortedSet, SortedMap```. Also, there are synchronized wrappers (```Collection synchronizedCollection, Set synchronizedSet```), and unmodifiable wrappers (```Collection unmodifiableCollection, Set unmodifiableSet```).
+> **Answer:** 
+> Collections are like containers that group multiple items in a single unit. Java 1.2 provided the **Collections Framework** that is the architecture to represent and manipulate Collections in java in a standard way. Examples for collections: ```HashSet, TreeSet, ArrayList, LinkedList, HashMap, TreeMap, Queue, Dequeue, SortedSet, SortedMap```. Also, there are synchronized wrappers (```Collection synchronizedCollection, Set synchronizedSet```), and unmodifiable wrappers (```Collection unmodifiableCollection, Set unmodifiableSet```).
 - What methods can you override when using hashmaps? And what are those methods used for, why are they important?
-  - **Answer:** The two methods are ```equals(), hashCode()```. The equals() is important, because that's where we specify what type of match are we looking between hashMaps. The hashCode() is important because that is the method that returns the hash code for our map, and we can provide specific type of hashing.
+> **Answer:** 
+> The two methods are ```equals(), hashCode()```. The equals() is important, because that's where we specify what type of match are we looking between hashMaps. The hashCode() is important because that is the method that returns the hash code for our map, and we can provide specific type of hashing.
 - What is a hashmap, and when would you consider using them?
-  - **Answer:** It provides a basic implementation of the Map interface. It stores the data in key-value pairs, and we can access them by a key. If we insert a duplicate key, it will  replace the values of the corresponding key. Hashmap is unsynchronized. It permits null values and one null key. It provided constant-time performance for the basic operations (```get``` and ```put```).
+> **Answer:** 
+> It provides a basic implementation of the Map interface. It stores the data in key-value pairs, and we can access them by a key. If we insert a duplicate key, it will  replace the values of the corresponding key. Hashmap is unsynchronized. It permits null values and one null key. It provided constant-time performance for the basic operations (```get``` and ```put```).
+- What is the difference between 'ArrayList' and 'LinkedList'?
+> **Answer:**
+> - Arraylist is backed an array, which provided constant-time access to elements by index but may involve resizing the array,making the insertion and deletion slower. ('O(n)' in the worst case).
+> - ArrayList consumes less memory as compared to 'LinkedList' because it doesn't store the additional next and previous pointers.
+> - 'LinkedList' is implemented using a doubly-linked list. It offers a constant-time insertions and deletions but takes 'O(n)' time to access elements by index.
+> - 'LinkedList' is preferable when you have multiple insertions and deletions while 'ArrayList' is better for random access and search operations.
  
