@@ -18,7 +18,9 @@
 14. [The CMS Collector](#The-CMS-collector)
 15. [G1 collector](#G1-collector)
 16. [Java 8 PermGen and Metaspace](#Java-8-PermGen-and-Metaspace)
-17. [Interview questions](#Senior-Interview-questions)
+17. [SDLC](#SDLC)
+18. [CI/CD](#CI/CD)
+19. [Interview questions](#Senior-Interview-questions)
 
 ## Inversion of Control
 
@@ -760,6 +762,60 @@ Java Reflection is a powerful feature that allows you to inspect, modify, and in
 
 4. Abstraction:
 **What it is:** Abstraction means hiding the compile reality while exposing only the necessary parts. In Java, abstraction can be achieved through abstract classes and interfaces.
+
+## SDLC
+The Software Development LIfe Cycle is a structured approach in software engineering. It guides the process of developing high-quality siftware systems. It consists of phases that software goes through, from concept to deployment and maintenance.
+
+
+### Different phases in SDLC
+| Phase                  | Description                                                                                                                                                                                                         |
+|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Requirements gathering | In this phase, stakeholders and users gather and document software requirements.                                                                                                                                    |
+| System design          | The system design phase involves creating a detailed plan for the software system, including architecture, user interface, and database structure.                                                                  |
+| Implementation         | This phase involves coding and programming the siftware based on the design specifications. It includes writing, testing, and integrating components.                                                               |
+| Testing                | In the testing phase, the software is thoroughly tested to identify and fix defects or errors. This includes unit testing, integration testing, system testing, and user acceptance testing.                        |
+| Deployment             | The deployment phase involves releasing the software for production after being tested and approved. It includes installation and configuration in the target environment                                           |
+| Maintenance            | The maintenance phase focuses on monitoring and maintaining the software to ensure optimal performance, security, and reliability. It involves addressing user feedback and releasing updates or patches as needed. |
+
+### Importance of following a structured SDLC approach:
+- it allows us to maintain a systematic and organized development process
+- helps us identify and mitigate potential risks early on
+- enables us to allocate resources efficiently and manage project effectively
+- it ensures proper planning and requirement gathering to establish clear project goals
+- better time and cost management results from effective resource allocation and project scheduling
+- it promotes rigorous testing and quality assurance, resulting in reliable and robust software systems
+
+### What is Software Testing Life Cycle?
+The software testing life cycle is a step-by-step process used to test software and ensure it works well.
+
+### Different phases in STLC
+| Phase                  | Description                                                                                                                                                                                             |
+|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Test planning          | In this phase, we plan what and how to test. We make schedules and plans for the testing.                                                                                                               |
+| Test case development  | In the test case development phase, we create instruction to check if the software work correctly. We also prepare the data needed for the tests.                                                       |
+| Test environment setup | The test environment setup phase is about getting everything ready for testing. We set up the computer, software, and tools needed for the tests.                                                       |
+| Test execution         | In the test execution phase, we run the tests. We check if there are any problems or mistakes in the software. We write down any issues we find.                                                        |
+| Test closure           | The test closure phase is when we finish the testing. We analyze the test results, write reports about the tests, and record what we learned. We also review and close any issues found during testing. |
+
+### Relationship between SDLC and STLC
+SDLC encompasses the entire software development process, while STLC focuses explicitly on the testing phase. Both cycles work together to ensure the software's quality, functionality, and reliability.
+
+## CI/CD
+Continuous integration, deployment, and delivery refer to the code, build, test, release and deploy phases of the DevOps cycle. These phases are reflected in a software production pipeline with several stages, as shown in this picture:
+![CI/CD process](../images/cicd-pipeline.png "CI/CD pipeline")
+
+
+### Continuous software delivery
+Software delivery and deployment are the last stages of the software production pipeline. Let's explain what delivery means. From the point of view of a single developer, it may mean that a particular change was tested and merged into the main branch. **The delivery is the process of delivering the complete final software product to the customer.**
+
+
+**In summary, continuous delivery is a process of delivering a software product or artifact to the final consumer at a place where it can be drawn from and used. The deployment of a new release must usually be approved by a product manager or the customer.**
+
+### Continuous software deployment
+With the rise of cloud applications that often work together with mobile applications, software complexity grew by several orders of magnitude. **For example, cloud services are running on thousands of virtual machines, and manually approving the deployment of each software release on these machines is not feasible anymore. So, the deployment of a software release is now also automated, and we refer to it as Continuous Software Deployment.
+
+
+Because the released changes are small, it is also easy to automate tests to determine whether the new release works correctly. This is done in the last stage, labeled "Post-prod tests", of the "Continuous Delivery/Deployment" section of the pipeline
 
 ## Senior-Interview-questions
 - What are collections in java? Tell me examples for collections. (List, Set etc.)
