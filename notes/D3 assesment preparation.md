@@ -21,6 +21,7 @@
 17. [SDLC](#SDLC)
 18. [CI/CD](#CI/CD)
 19. [Interview questions](#Senior-Interview-questions)
+20. [Senior springboot questions](#Senior-Springboot-Question)
 
 ## Inversion of Control
 
@@ -833,4 +834,33 @@ Because the released changes are small, it is also easy to automate tests to det
 > - ArrayList consumes less memory as compared to 'LinkedList' because it doesn't store the additional next and previous pointers.
 > - 'LinkedList' is implemented using a doubly-linked list. It offers a constant-time insertions and deletions but takes 'O(n)' time to access elements by index.
 > - 'LinkedList' is preferable when you have multiple insertions and deletions while 'ArrayList' is better for random access and search operations.
- 
+
+
+## Senior-Springboot-Question
+- Explain the Spring Boot Actuator. Why is it useful?
+> **Answer:**
+> In essence, Actuator brings production-ready features to our application. **Monitoring our app, gathering metrics, and understanding traffic of the state of our database becomes trivial with this dependency.**
+> 
+> The main benefit of this library is that we can get production-grade tools without actually having to implement these feature ourselves. The actuator mainly exposes **operational information about the running application** - health, metrics, info, dump, env, etc. It uses HTTP endpoints or JMW beans to enable us to interact with it.
+
+- What are the different ways to profile a Spring Boot application?
+> **Answer:**
+> We can use Spring's '@Profile' annotation or set the 'spring.profiles.active' property in 'application.properties'. Profiles are a core feature of the framework - **allowing us to map our beans to different profiles** - for example dev, test, and prod. We can then activate different profiles in different environments to bootstrap only the beans we need. **We use the @Profile annotation - we are mapping the bean to that particular profile;** the annotation simply takes the names of one (or multiple) profiles.
+> 
+> Profiles can also be configures in XML. The <beans> tag has a profile attribute, which takes comma-separated values of the applicable profiles.
+> 
+> How we can set the profiles:
+> - Programmatically via the WebApplicationInitializer interface
+> - Programmatically via ConfigurableEnvironment
+> - Context parameter in web.xml
+> - JVM system parameter
+> - Maven profile
+> - From application.properties
+> Any bean that does not specify a profile belongs to the default profile. Spring also provides a way to set the default profile when no other profile is active - by using the psring.profiles.default property.
+
+- How does Spring Boot simplify database migrations?
+> **Answer:**
+> Spring Boot integrates tools like Flyway and Liquibase for automating database migrations. Flyway is an open-source database-migration tool.
+
+- Explain how Spring Boot provides security measures and how you can customize them?
+> Spring Boot has autoconfigured Spring Security. You can further customize it by extending 'WebSecurityConfigurerAdapter'.
