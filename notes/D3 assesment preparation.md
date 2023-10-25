@@ -74,9 +74,9 @@ For dependency injection in Spring we can use:
 
 1. Creational design pattern:
    1. Factory pattern:
-      - The factory design pattern is used when we have a superclass with multiple subclasses and based on input, we need to return on of the subclass. This pattern takes otu the responsibility of the instantiation of a class from the client program to the factory class.
+      - The factory design pattern is used when we have a superclass with multiple subclasses and based on input, we need to return on of the subclass. This pattern takes out the responsibility of the instantiation of a class from the client program to the factory class.
    2. Abstract factory pattern:
-      - In the abstract factory pattern, we get rid of the if-elso block that is in the factory pattern, and have a factory class for each subclass. Then an Abstract Factory class that will return the subclass based on the input factory class.
+      - In the abstract factory pattern, we get rid of the if-else block that is in the factory pattern, and have a factory class for each subclass. Then an Abstract Factory class that will return the subclass based on the input factory class.
    3. Singleton pattern:
       - The singleton pattern restricts the instantiation of a class and ensure that only one instance of the class exists in the JVM. The singleton class must provide a global access point to get the instance of the class. It is used for logging, caching, and thread pool. This pattern is also used in other design patterns like Abstract Factory, Builder, Prototype, Facade. It has to have a private constructor, private static variable of the same class that is the only instance of the class, public static method that return the instance of the class.
    4. Prototype pattern
