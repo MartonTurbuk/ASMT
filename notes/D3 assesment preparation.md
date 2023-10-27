@@ -58,19 +58,19 @@ For dependency injection in Spring we can use:
 ## SOLID Principles
 
 - **S: Single responsibility principle.**
-  - A class should have one, and only one reason to change.
+   - A class should have one, and only one reason to change.
 - **O: Open-Closed principle**
-  - A software entity should be open for extension and closed for modification. This is achieved by the use of interfaces. The main benefit is that the interface introduces a new layer of abstraction, which enables loose coupling.
+   - A software entity should be open for extension and closed for modification. This is achieved by the use of interfaces. The main benefit is that the interface introduces a new layer of abstraction, which enables loose coupling.
 - **L: Liskov Substitution principle**
-  - The principle defines that objects of a superclass shall be replaceable with objects of its subclasses without breaking the application. That requires the objects of our subclasses to behave in the same way as the objects of your superclass. This means we can enforce less restrictive validation rules, but we are not allowed to enforce stricter ones in our subclass. Similar rules apply to the return values of the method. The return values of a method of the subclass need to comply with the same rules as the return values of the method of the superclass.
+   - The principle defines that objects of a superclass shall be replaceable with objects of its subclasses without breaking the application. That requires the objects of our subclasses to behave in the same way as the objects of your superclass. This means we can enforce less restrictive validation rules, but we are not allowed to enforce stricter ones in our subclass. Similar rules apply to the return values of the method. The return values of a method of the subclass need to comply with the same rules as the return values of the method of the superclass.
 - **I: Interface segregation principle**
-  - In my take, this principle aims to fix the problem where interfaces lose their single responsibility, and become bloated. This should be avoided by creating new interfaces when needed, and those interfaces should have only one responsibility.
+   - In my take, this principle aims to fix the problem where interfaces lose their single responsibility, and become bloated. This should be avoided by creating new interfaces when needed, and those interfaces should have only one responsibility.
 - **D: Dependency Inversion principle**
-  - It is one of the many ways to achieve Inversion of Control, but one of the most commonly used ones. The main idea is to introduce abstraction, between the high-level modules, where the business logic resides, and the low-level classes, where are entities, and utility classes lie. So high-level modules should not depend on low-level modules. Both should depend on abstractions. And the abstractions should not depend on details. Details should depend on abstractions.
+   - It is one of the many ways to achieve Inversion of Control, but one of the most commonly used ones. The main idea is to introduce abstraction, between the high-level modules, where the business logic resides, and the low-level classes, where are entities, and utility classes lie. So high-level modules should not depend on low-level modules. Both should depend on abstractions. And the abstractions should not depend on details. Details should depend on abstractions.
 
 ## Java design patterns
 
-> There are 3 types of java design patterns, creational, structural, and behavioral design pattern. 
+> There are 3 types of java design patterns, creational, structural, and behavioral design pattern.
 
 1. Creational design pattern:
    1. Factory pattern:
@@ -143,8 +143,8 @@ Instantiating a Spring IoC container is straightforward. The location path or pa
 
 ```java
 public class Test {
-ApplicationContext context =
-    new ClassPathXmlApplicationContext(new String[] {"services.xml", "daos.xml"});
+   ApplicationContext context =
+           new ClassPathXmlApplicationContext(new String[] {"services.xml", "daos.xml"});
 }
 ```
 
@@ -180,8 +180,8 @@ Examples:
 
 ```xml
 <aliases>
-    <alias name="subsystemA-dataSource" alias="subsystemB-dataSource"/>
-    <alias name="subsystemA-dataSource" alias="myApp-dataSource"/>
+   <alias name="subsystemA-dataSource" alias="subsystemB-dataSource"/>
+   <alias name="subsystemA-dataSource" alias="myApp-dataSource"/>
 </aliases>
 ```
 
@@ -291,11 +291,11 @@ How to define a request scope:
 
 ```java
 public class Test {
-@Bean
-@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public HelloMessageGenerator requestScopedBean() {
-    return new HelloMessageGenerator();
-    }
+   @Bean
+   @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+   public HelloMessageGenerator requestScopedBean() {
+      return new HelloMessageGenerator();
+   }
 }
 ```
 
@@ -307,19 +307,19 @@ How to define a bean with session scope:
 
 ```java
 public class Test {
-@Bean
-@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public HelloMessageGenerator sessionScopedBean() {
-    return new HelloMessageGenerator();
-    }
+   @Bean
+   @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+   public HelloMessageGenerator sessionScopedBean() {
+      return new HelloMessageGenerator();
+   }
 
 // There's also a dedicated composed annotation we can use to simplify the bean definition:
 
-@Bean
-@SessionScope
-public HelloMessageGenerator sessionScopedBean() {
-    return new HelloMessageGenerator();
-    }
+   @Bean
+   @SessionScope
+   public HelloMessageGenerator sessionScopedBean() {
+      return new HelloMessageGenerator();
+   }
 }
 ```
 
@@ -330,16 +330,16 @@ In that case, when the request is made for the first time, the value message is 
 ```java
 @Controller
 public class ScopesController {
-    @Resource(name = "sessionScopedBean")
-    HelloMessageGenerator sessionScopedBean;
+   @Resource(name = "sessionScopedBean")
+   HelloMessageGenerator sessionScopedBean;
 
-    @RequestMapping("/scopes/session")
-    public String getSessionScopeMessage(final Model model) {
-        model.addAttribute("previousMessage", sessionScopedBean.getMessage());
-        sessionScopedBean.setMessage("Good afternoon!");
-        model.addAttribute("currentMessage", sessionScopedBean.getMessage());
-        return "scopesExample";
-    }
+   @RequestMapping("/scopes/session")
+   public String getSessionScopeMessage(final Model model) {
+      model.addAttribute("previousMessage", sessionScopedBean.getMessage());
+      sessionScopedBean.setMessage("Good afternoon!");
+      model.addAttribute("currentMessage", sessionScopedBean.getMessage());
+      return "scopesExample";
+   }
 }
 ```
 
@@ -349,36 +349,36 @@ The application scope creates the bean instance for the lifecycle of a ServletCo
 
 ```java
 public class Test {
-@Bean
-@Scope(
-  value = WebApplicationContext.SCOPE_APPLICATION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public HelloMessageGenerator applicationScopedBean() {
-    return new HelloMessageGenerator();
-}
+   @Bean
+   @Scope(
+           value = WebApplicationContext.SCOPE_APPLICATION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+   public HelloMessageGenerator applicationScopedBean() {
+      return new HelloMessageGenerator();
+   }
 
 // Analogous to the request and session scopes, we can use a shorter version:
 
-@Bean
-@ApplicationScope
-public HelloMessageGenerator applicationScopedBean() {
-    return new HelloMessageGenerator();
-}
+   @Bean
+   @ApplicationScope
+   public HelloMessageGenerator applicationScopedBean() {
+      return new HelloMessageGenerator();
+   }
 
 // Now let's create a controller that references this bean:
 
-@Controller
-public class ScopesController {
-    @Resource(name = "applicationScopedBean")
-    HelloMessageGenerator applicationScopedBean;
+   @Controller
+   public class ScopesController {
+      @Resource(name = "applicationScopedBean")
+      HelloMessageGenerator applicationScopedBean;
 
-    @RequestMapping("/scopes/application")
-    public String getApplicationScopeMessage(final Model model) {
-        model.addAttribute("previousMessage", applicationScopedBean.getMessage());
-        applicationScopedBean.setMessage("Good afternoon!");
-        model.addAttribute("currentMessage", applicationScopedBean.getMessage());
-        return "scopesExample";
-        }
-    }
+      @RequestMapping("/scopes/application")
+      public String getApplicationScopeMessage(final Model model) {
+         model.addAttribute("previousMessage", applicationScopedBean.getMessage());
+         applicationScopedBean.setMessage("Good afternoon!");
+         model.addAttribute("currentMessage", applicationScopedBean.getMessage());
+         return "scopesExample";
+      }
+   }
 }
 ```
 
@@ -456,12 +456,12 @@ SOAP message transmits some basic information as given below:
 
 ```xml
 <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
-    <env:Header>
-        <m:GetLastTradePrice xmlns:m="Some-URI" />
-    </env:Header>
-    <env:Body>
-        <!-- <symbol xmlns:p="Some-URI" >DIS</symbol> -->
-    </env:Body>
+   <env:Header>
+      <m:GetLastTradePrice xmlns:m="Some-URI" />
+   </env:Header>
+   <env:Body>
+      <!-- <symbol xmlns:p="Some-URI" >DIS</symbol> -->
+   </env:Body>
 </env:Envelope>
 ```
 
@@ -551,17 +551,17 @@ Code snipped to understand memory usage:
 ```java
 public class Memory {
 
- public static void main(String[] args) { // Line 1
-  int i=1; // Line 2
-  Object obj = new Object(); // Line 3
-  Memory mem = new Memory(); // Line 4
-  mem.foo(obj); // Line 5
- } // Line 9
+   public static void main(String[] args) { // Line 1
+      int i=1; // Line 2
+      Object obj = new Object(); // Line 3
+      Memory mem = new Memory(); // Line 4
+      mem.foo(obj); // Line 5
+   } // Line 9
 
- private void foo(Object param) { // Line 6
-  String str = param.toString(); //// Line 7
-  System.out.println(str);
- } // Line 8
+   private void foo(Object param) { // Line 6
+      String str = param.toString(); //// Line 7
+      System.out.println(str);
+   } // Line 8
 
 }
 ```
@@ -590,34 +590,6 @@ Picture to help understand the code snipped better
 6. We can use -Xms and Xmx JVM option to define the startup size and maximum size of heap memory. We can use -Xss to define the stack memory size.
 7. When stack memory is full, Java runtime throws `java.lang.StackOverFlowError`, whereas if heap memory is full, it throws `java.lang.OutOfMemoryError: Java Heap Space error`.
 
-### Java stack memory
-
-> Stack Memory ins Java is used for static memory allocation and the execution of a thread.
-
-It contains primitive values that are specific to a method and references to objects referred from the methods that are in a heap. Access to this memory is in Last-In-First-Out (LIFO) order. Whenever we call a new method a new block is created on top of the stack which contains values specific to that method, like primitive variables and references to objects. When the method finished execution, its corresponding stack frame is flushed, the flow goes back to the calling method, and space becomes available for the next method. Stack memory size is much smalled compared to Heap memory.
-
-**Key features of stack memory:**
-
-- It grows and shrinks as new methods are called and returned, respectively.
-- Variables inside the stack exist only as long as the method that created them is running.
-- It's automatically allocated and deallocated when the method finished execution.
-- If this memory is full, Java throws java.lang.StackOverFlowError.
-- Access to this memory is fast when compared to heap memory.
-- This memory is thread-safe, as each thread operates in its own stack.
-
-### Java heap memory
-
-> Heap space is used for the dynamic memory allocation of Java objects and JRE classes at runtime. This is shared memory, multiple threads can reach it.
-
-New objects are always created in heap space, and the references to these objects are stored in stack memory. These objects have global access, and we can access them from anywhere in the application. Garbage Collection runs on the heap memory to free the memory used by objects that don't have any reference.
-
-**Key features of Java Heap Memory:**
-
-- It's accessed via complex memory management techniques that include Young Generation, Old or Tenured Generation, and Permanent Generation.
-- If heap space is full, Java throws java.lang.OutOfMemoryError.
-- Access to this memory is comparatively slower than stack memory.
-- This memory, in contrast to stack, isn't automatically deallocated. It needs Garbage Collector to free up unused objects to keep the efficiency of the memory usage.
-- Unlike stack, a heap isn't thread safe and needs to be guarded by properly synchronizing the code.
 
 ![JMM-Mode](../images/JMM-model.png)
 
@@ -681,7 +653,7 @@ Garbage Collector is a Daemon thread that keeps running in the background. Basic
 
 ### How automatic garbage collection works
 
-It is a process of looking at the heap memory, and marking the unreachable objects, and destroying them with compaction. 
+It is a process of looking at the heap memory, and marking the unreachable objects, and destroying them with compaction.
 
 ### Generational garbage collection
 
@@ -699,7 +671,7 @@ This collector may face promotion failures. If some objects from young generatio
 
 ## G1 collector
 
-The Garbage-First collector designed for heap sizes greater than 4GB. It divides the heap size into regions spanning from 1MB to 32MB, based on the heap size. There is a concurrent global marking phase to determine the liveliness of objects throughout the heap. After the marking phase is complete, G1 knows which regions are mostly empty. It collects unreachable objects from these regions first, which usually yields a large amount of free space. So G1 collects these regions (containing garbage) first, and hence the name. G12 also uses a pause prediction model in order to meet a user-defined pause time target. It selects the number of regions to collect based on the specified pause time target. 
+The Garbage-First collector designed for heap sizes greater than 4GB. It divides the heap size into regions spanning from 1MB to 32MB, based on the heap size. There is a concurrent global marking phase to determine the liveliness of objects throughout the heap. After the marking phase is complete, G1 knows which regions are mostly empty. It collects unreachable objects from these regions first, which usually yields a large amount of free space. So G1 collects these regions (containing garbage) first, and hence the name. G12 also uses a pause prediction model in order to meet a user-defined pause time target. It selects the number of regions to collect based on the specified pause time target.
 
 **The G1 garbage collection cycle includes the phases shown in the figure:**
 <br></br>
@@ -762,7 +734,7 @@ Java Reflection is a powerful feature that allows you to inspect, modify, and in
 **What it is:** Polymorphism allows objects of different types to be treated as objects of a common super-type. The most common use is when a parent class reference is used to refer to a child class object.
 
 4. Abstraction:
-**What it is:** Abstraction means hiding the compile reality while exposing only the necessary parts. In Java, abstraction can be achieved through abstract classes and interfaces.
+   **What it is:** Abstraction means hiding the compile reality while exposing only the necessary parts. In Java, abstraction can be achieved through abstract classes and interfaces.
 
 ## SDLC
 The Software Development LIfe Cycle is a structured approach in software engineering. It guides the process of developing high-quality siftware systems. It consists of phases that software goes through, from concept to deployment and maintenance.
@@ -820,16 +792,98 @@ Because the released changes are small, it is also easy to automate tests to det
 
 ## Senior-Interview-questions
 - What are collections in java? Tell me examples for collections. (List, Set etc.)
-> **Answer:** 
+> **Answer:**
+>
 > Collections are like containers that group multiple items in a single unit. Java 1.2 provided the **Collections Framework** that is the architecture to represent and manipulate Collections in java in a standard way. Examples for collections: ```HashSet, TreeSet, ArrayList, LinkedList, HashMap, TreeMap, Queue, Dequeue, SortedSet, SortedMap```. Also, there are synchronized wrappers (```Collection synchronizedCollection, Set synchronizedSet```), and unmodifiable wrappers (```Collection unmodifiableCollection, Set unmodifiableSet```).
+- What is the difference between collections and arrays?
+> **Answer:**
+>
+> **Arrays:**
+> - Fixed size: Once an array is created, its size cannot be changed.
+> - Homogeneous elements: All elements in an array are the same type.
+> - Performance: Because they are a contiguous block of memory, (meaning the elements of the array are stored next to each other in memory) arrays usually offer better performance in terms of memory and speed for simple data storage and retrieval tasks.
+> - Syntax: Arrays have a different syntax compared to collections. For example, declaring an array of integers: `int[] arr = new int[5];`
+> - Utilities: Java arrays do not come with built-in methods for manipulation *like adding or remobing elements). You'd usually have to implement these manually or use the `System.arraycopy()` method or `Arrays` utitlity class for some operations.
+> - Primitives support: Java arrays can store primitives (int, char, boolean etc), which makes them more memory-efficient for such types compared to collections that store objects.
+> - Null handling: Arrays can store null elements.
+>
+>
+> **Collections:**
+> - Dynamic sizing: Classes like ArrayList or LinkedLIst can dynamically resize themselves.
+> - Heterogeneous elements: Some collection can store different types of elements, although using generics for type safety is considered bast practice.
+> - Performance: Operations like insertion and deletion in the middle are generally faster in some collections like LinkedList, but they are usually slower for indexed retrieval compared to arrays.
+> - Syntax: Collections use a different, ofter more verbose, syntax and require object types for generics. For example `List<Integer> list = new ArrayList<>();`
+> - Rich API: The collections framework provides a right set of methods for data manipulation, including methods for adding, removing and querying elements.
+> - No primitives: Collections can only store objects, so primitive types must be boxed, leading to additional memory overhead. Such as storing int as Integer.
+> - Null handling: Some collections like `HashSet`, `HashMap`, or `ArrayList` allow one or more `null` elements, but others like `Hashtable` do not allow null at all.
+> - Advanced data structures: The collections framework provides various data structures like sets, lists, queues, and maps, each with its own set of features and performance characteristics.
+> - Thread safety: Some collections like `Vector` and `Hashtable` are thread-safe, meaning they are synchronized to be safely used in a multi-threaded environment while others like `ArrayList` and `HashMap` are not.
+
+
+- What methods are on the Object.class superclass in java?
+> **Answer:**
+>
+> 1. public final Class<?> getClass(): Return the runtime class of the object.
+> 2. public int hashCode(): Return an integer hash code for the object. If two objects are equal according to their equals() method, then their hash codes must be equal as well.
+> 3. public boolean equals(Object obj): Compares this object with another object. By default, it compares object references, not the content.
+> 4. protected Object clone() throws CloneNotSupportedException: Created and returns a copy of the object.
+> 5. public String toString()
+> 6. public final void notify(): Wakes up a single thread that is waiting on this object's monitor. Used for inter-thread communication.
+> 7. public final void notifyAll(): Wakes up all threads that are waiting on this object's monitor. Used for inter-thread communication.
+> 8. public final void wait() throws InterruptedException: Makes the current wait until it is notified via notify() or notifyAll() or interrupted. It's an overloaded method.
+> 9. protected void finalize() throws Throwable: Called by the garbage collector before the object is destroyed. It's not recommended to rely on this method for resource cleanup due to unpredictability.
+
+
+- Explain the testing pyramid:
+> **Answer:**
+>
+> 1. Unit tests (Bottom layer)
+     >    - Scope: Small, focused tests that target individual methods or functions within a class or module.
+>    - Quantity: Largest number of tests. Should cover as many cases as possible for each unit of work.
+>    - Speed: Very fast to execute.
+>    - Tools: JUnit, TestNG, Mockito
+>    - Advantages: Quick feedback, easier debugging.
+>    - Challenges: May not catch integration issues or issues that only appear in a full runtime environment.
+> 2. Integration Tests (Middle layer)
+     >    - Scope: Tests the interaction between two or more components. These could be method-to-method interactions within the same project, or they could test interactions between different services.
+>    - Quantity: Fewer than unit tests but more than end-to-end tests.
+>    - Speed: Slower than unit tests but faster than end-to-end tests.
+>    - Tools: JUnit with Spring Boot
+>    - Advantages: Can catch issues that unit tests iss, especially those related to the interaction of different components.
+>    - Challenges: More challenging to write and maintain; may require a more complex environment to run.
+> 3. End-to-End tests (Top layer)
+     >    - Scope: Mimics user behavior and interactions within the full application environment. Includes UI interactions.
+>    - Quantity: Fewest in number.
+>    - Speed: Slowest to execute.
+>    - Tools: Selenium, Appium, Cypress
+>    - Advantages: Most realistic test of how the system behaves; tests the whole flow of an application.
+>    - Challenges: Can be flaky; hard to debug; slow to run.
+
+
+- What are the 4 principles of object-oriented programming:
+> **Answer:**
+> 
+>1. Encapsulation: Encapsulation is the concept of bundling the data (attributes) and methods (functions) that manipulate the data into a single unit or class.
+>2. Abstraction: Abstraction allows you to hide complex realities while exposing only the essention parts. It help you focus on what the object does instead of how it dies it.
+>3. Inheritance: Inheritance is the mechanism by which one class can inherit the attributes and methods from another class. This fosters code reusability and establishes a relationship between parent and child classes.
+>4. Polymorphism: Polymorphism allows objects to be treated as instances of their parent class. This enables one interface to be used for a general class of actions.
+
+
 - What methods can you override when using hashmaps? And what are those methods used for, why are they important?
-> **Answer:** 
+> **Answer:**
+>
 > The two methods are ```equals(), hashCode()```. The equals() is important, because that's where we specify what type of match are we looking between hashMaps. The hashCode() is important because that is the method that returns the hash code for our map, and we can provide specific type of hashing.
+
+
 - What is a hashmap, and when would you consider using them?
-> **Answer:** 
+> **Answer:**
+>
 > It provides a basic implementation of the Map interface. It stores the data in key-value pairs, and we can access them by a key. If we insert a duplicate key, it will  replace the values of the corresponding key. Hashmap is unsynchronized. It permits null values and one null key. It provided constant-time performance for the basic operations (```get``` and ```put```).
+
+
 - What is the difference between 'ArrayList' and 'LinkedList'?
 > **Answer:**
+>
 > - Arraylist is backed an array, which provided constant-time access to elements by index but may involve resizing the array,making the insertion and deletion slower. ('O(n)' in the worst case).
 > - ArrayList consumes less memory as compared to 'LinkedList' because it doesn't store the additional next and previous pointers.
 > - 'LinkedList' is implemented using a doubly-linked list. It offers a constant-time insertions and deletions but takes 'O(n)' time to access elements by index.
@@ -840,15 +894,15 @@ Because the released changes are small, it is also easy to automate tests to det
 - Explain the Spring Boot Actuator. Why is it useful?
 > **Answer:**
 > In essence, Actuator brings production-ready features to our application. **Monitoring our app, gathering metrics, and understanding traffic of the state of our database becomes trivial with this dependency.**
-> 
+>
 > The main benefit of this library is that we can get production-grade tools without actually having to implement these feature ourselves. The actuator mainly exposes **operational information about the running application** - health, metrics, info, dump, env, etc. It uses HTTP endpoints or JMW beans to enable us to interact with it.
 
 - What are the different ways to profile a Spring Boot application?
 > **Answer:**
 > We can use Spring's '@Profile' annotation or set the 'spring.profiles.active' property in 'application.properties'. Profiles are a core feature of the framework - **allowing us to map our beans to different profiles** - for example dev, test, and prod. We can then activate different profiles in different environments to bootstrap only the beans we need. **We use the @Profile annotation - we are mapping the bean to that particular profile;** the annotation simply takes the names of one (or multiple) profiles.
-> 
+>
 > Profiles can also be configures in XML. The <beans> tag has a profile attribute, which takes comma-separated values of the applicable profiles.
-> 
+>
 > How we can set the profiles:
 > - Programmatically via the WebApplicationInitializer interface
 > - Programmatically via ConfigurableEnvironment
@@ -856,7 +910,7 @@ Because the released changes are small, it is also easy to automate tests to det
 > - JVM system parameter
 > - Maven profile
 > - From application.properties
-> Any bean that does not specify a profile belongs to the default profile. Spring also provides a way to set the default profile when no other profile is active - by using the psring.profiles.default property.
+    > Any bean that does not specify a profile belongs to the default profile. Spring also provides a way to set the default profile when no other profile is active - by using the psring.profiles.default property.
 
 - How does Spring Boot simplify database migrations?
 > **Answer:**
