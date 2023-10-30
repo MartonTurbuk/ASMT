@@ -22,6 +22,7 @@
 18. [CI/CD](#CI/CD)
 19. [Interview questions](#Senior-Interview-questions)
 20. [Senior springboot questions](#Senior-Springboot-Question)
+21. [Collections implementations](#Collections)
 
 ## Inversion of Control
 
@@ -789,6 +790,92 @@ With the rise of cloud applications that often work together with mobile applica
 
 
 Because the released changes are small, it is also easy to automate tests to determine whether the new release works correctly. This is done in the last stage, labeled "Post-prod tests", of the "Continuous Delivery/Deployment" section of the pipeline
+
+## Collections
+
+### Lists
+#### ArrayList
+   - **Inner workings:** Dynamic array
+   - **Thread Safety:** Not thread-safe
+   - **Advantages:** Constant-time access
+   - **Disadvantaged:** Slow insertion and deletion for arbitrary indexed; resizing can be costly
+   - **When to use:** Fast access, don't care about fast insertions/deletions
+
+#### LinkedList
+   - **Inner workings:** Doubly-linked list is a type of linked list in which each node contains a data part and two pointers. The two pointers help to traverse the list in both forward and backward directions. Each node had: A pointer to the previous node, the actual data, and a pointer to its next node.
+     - Advantages of a doubly-linked list:
+       - **Bidirectional traversal:** You can traverse both forwards and backwards easily.
+       - **Easier deletion:** Deleting nodes is more straightforward than in a singly-linked list, as you can access previous nodes.
+       - **Tail insertions:** Insertions at both the head and tail can be done in constant time if the tail node is maintained.
+       - **Example for maintained tails and heads in the node:**
+         - ```java
+            public class DoublyLinkedList {
+            private Node head;
+            private Node tail;
+
+                private static class Node {
+                    int data;
+                    Node prev;
+                    Node next;
+
+                    Node(int data) {
+                        this.data = data;
+                    }
+                }
+
+                // Insert at tail
+                public void insertAtTail(int data) {
+                    Node newNode = new Node(data);
+                    if (tail == null) {
+                        head = newNode;
+                        tail = newNode;
+                    } else {
+                        tail.next = newNode;
+                        newNode.prev = tail;
+                        tail = newNode;  // Update tail to the new last node
+                    }
+                }
+
+                // Insert at head
+                public void insertAtHead(int data) {
+                    Node newNode = new Node(data);
+                    if (head == null) {
+                        head = newNode;
+                        tail = newNode;
+                    } else {
+                        newNode.next = head;
+                        head.prev = newNode;
+                        head = newNode;  // Update head to the new first node
+                    }
+                }
+            }
+            ```
+   - **Thread Safety:** Not thread-safe
+   - **Advantages:** Fast insertion and deletion
+   - **Disadvantaged:** Linear time access. In the context of a LinkedList, "linear time access" means that in the worst-case scenario, you may need to traverse each node in the list one by one to find te node you're interested in. This is because linked lists don't provide direct access to their elements by index, unlike arrays or ArrayLists where access is constant time.
+   - **When to use:** Fast insertions/deletions, don't require fast random access.
+
+### Sets
+#### HashSet
+   - **Inner workings:** Backed by HashMap. This means that the HashSet internally uses an instance of HashMap to store its elements. Essentially, a HashSet is implemented as a wrapper around a HashMap. In a HashSet elements must bfe unique, which is the same uniqueness constraint imposed by the keys in a HashMap. When you add an element to a HashSet, what actually happens is that the element is used as a key in the underlying HashMap, and the value associated with that key is typically a dummy value. The HashSet delegates operations like add, remove, and contains to this underlying HashMap.
+   - **Thread Safety:** Not thread-safe
+   - **Advantages:** Constant-time performance for basic operations.
+   - **Disadvantaged:** No order.
+   - **When to use:** No duplicates, don't care about order.
+
+#### LinkedHashSet
+   - **Inner workings:** Hash table + LinkedList
+   - **Thread Safety:** Not thread-safe
+   - **Advantages:** Maintains insertion order.
+   - **Disadvantaged:** Slightly slower than a HashSet
+   - **When to use:** No duplicates, maintain insertion order.
+
+#### TreeSet
+- **Inner workings:** Red-BlackTree is a type of binary seach tree with additional properties that ensure the tree remains balances. this, in turn, guarantees that basic operations like add, remove, and find complete in logarithmic time O(log n)
+- **Thread Safety:** Not thread-safe
+- **Advantages:** Sorted set
+- **Disadvantaged:** O(log n) time complexity for add, remove, contains
+- **When to use:** No duplicates, sorted set.
 
 ## Senior-Interview-questions
 - What are collections in java? Tell me examples for collections. (List, Set etc.)
