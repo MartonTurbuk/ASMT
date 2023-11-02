@@ -795,19 +795,19 @@ Because the released changes are small, it is also easy to automate tests to det
 
 ### Lists
 #### ArrayList
-   - **Inner workings:** Dynamic array
-   - **Thread Safety:** Not thread-safe
-   - **Advantages:** Constant-time access
-   - **Disadvantaged:** Slow insertion and deletion for arbitrary indexed; resizing can be costly
-   - **When to use:** Fast access, don't care about fast insertions/deletions
+- **Inner workings:** Dynamic array
+- **Thread Safety:** Not thread-safe
+- **Advantages:** Constant-time access
+- **Disadvantaged:** Slow insertion and deletion for arbitrary indexed; resizing can be costly
+- **When to use:** Fast access, don't care about fast insertions/deletions
 
 #### LinkedList
-   - **Inner workings:** Doubly-linked list is a type of linked list in which each node contains a data part and two pointers. The two pointers help to traverse the list in both forward and backward directions. Each node had: A pointer to the previous node, the actual data, and a pointer to its next node.
-     - Advantages of a doubly-linked list:
-       - **Bidirectional traversal:** You can traverse both forwards and backwards easily.
-       - **Easier deletion:** Deleting nodes is more straightforward than in a singly-linked list, as you can access previous nodes.
-       - **Tail insertions:** Insertions at both the head and tail can be done in constant time if the tail node is maintained.
-       - **Example for maintained tails and heads in the node:**
+- **Inner workings:** Doubly-linked list is a type of linked list in which each node contains a data part and two pointers. The two pointers help to traverse the list in both forward and backward directions. Each node had: A pointer to the previous node, the actual data, and a pointer to its next node.
+   - Advantages of a doubly-linked list:
+      - **Bidirectional traversal:** You can traverse both forwards and backwards easily.
+      - **Easier deletion:** Deleting nodes is more straightforward than in a singly-linked list, as you can access previous nodes.
+      - **Tail insertions:** Insertions at both the head and tail can be done in constant time if the tail node is maintained.
+      - **Example for maintained tails and heads in the node:**
          - ```java
             public class DoublyLinkedList {
             private Node head;
@@ -850,32 +850,78 @@ Because the released changes are small, it is also easy to automate tests to det
                 }
             }
             ```
-   - **Thread Safety:** Not thread-safe
-   - **Advantages:** Fast insertion and deletion
-   - **Disadvantaged:** Linear time access. In the context of a LinkedList, "linear time access" means that in the worst-case scenario, you may need to traverse each node in the list one by one to find te node you're interested in. This is because linked lists don't provide direct access to their elements by index, unlike arrays or ArrayLists where access is constant time.
-   - **When to use:** Fast insertions/deletions, don't require fast random access.
+- **Thread Safety:** Not thread-safe
+- **Advantages:** Fast insertion and deletion
+- **Disadvantaged:** Linear time access. In the context of a LinkedList, "linear time access" means that in the worst-case scenario, you may need to traverse each node in the list one by one to find te node you're interested in. This is because linked lists don't provide direct access to their elements by index, unlike arrays or ArrayLists where access is constant time.
+- **When to use:** Fast insertions/deletions, don't require fast random access.
 
 ### Sets
 #### HashSet
-   - **Inner workings:** Backed by HashMap. This means that the HashSet internally uses an instance of HashMap to store its elements. Essentially, a HashSet is implemented as a wrapper around a HashMap. In a HashSet elements must bfe unique, which is the same uniqueness constraint imposed by the keys in a HashMap. When you add an element to a HashSet, what actually happens is that the element is used as a key in the underlying HashMap, and the value associated with that key is typically a dummy value. The HashSet delegates operations like add, remove, and contains to this underlying HashMap.
-   - **Thread Safety:** Not thread-safe
-   - **Advantages:** Constant-time performance for basic operations.
-   - **Disadvantaged:** No order.
-   - **When to use:** No duplicates, don't care about order.
+- **Inner workings:** Backed by HashMap. This means that the HashSet internally uses an instance of HashMap to store its elements. Essentially, a HashSet is implemented as a wrapper around a HashMap. In a HashSet elements must be unique, which is the same uniqueness constraint imposed by the keys in a HashMap. When you add an element to a HashSet, what actually happens is that the element is used as a key in the underlying HashMap, and the value associated with that key is typically a dummy value. The HashSet delegates operations like add, remove, and contains to this underlying HashMap.
+- **Thread Safety:** Not thread-safe
+- **Advantages:** Constant-time performance for basic operations.
+- **Disadvantaged:** No order.
+- **When to use:** No duplicates, don't care about order.
 
 #### LinkedHashSet
-   - **Inner workings:** Hash table + LinkedList
-   - **Thread Safety:** Not thread-safe
-   - **Advantages:** Maintains insertion order.
-   - **Disadvantaged:** Slightly slower than a HashSet
-   - **When to use:** No duplicates, maintain insertion order.
+- **Inner workings:** Hash table + LinkedList
+- **Thread Safety:** Not thread-safe
+- **Advantages:** Maintains insertion order.
+- **Disadvantaged:** Slightly slower than a HashSet
+- **When to use:** No duplicates, maintain insertion order.
 
 #### TreeSet
 - **Inner workings:** Red-BlackTree is a type of binary seach tree with additional properties that ensure the tree remains balances. this, in turn, guarantees that basic operations like add, remove, and find complete in logarithmic time O(log n)
 - **Thread Safety:** Not thread-safe
 - **Advantages:** Sorted set
 - **Disadvantaged:** O(log n) time complexity for add, remove, contains
-- **When to use:** No duplicates, sorted set.
+- **When to use:** When you need a sorted set.
+
+### Queues
+#### ArrayDequeue
+- **Inner workings:** Array
+- **Thread Safety:** Not thread-safe
+- **Advantages:** Fast add/remove at both ends
+- **Disadvantaged:** Resizing can be costly
+- **When to use:** Resizable array implementation of a deque
+
+#### PriorityQueue
+- **Inner workings:** Balanced binary heap
+- **Thread Safety:** Not thread-safe
+- **Advantages:** Priority queue
+- **Disadvantaged:** Not suitable for all data types
+- **When to use:** Elements need to be processed in priority order
+
+### Maps
+#### HashMap
+- **Inner workings:** Hash table
+- **Thread Safety:** Not thread-safe
+- **Advantages:** Constant time performance for basic operations
+- **Disadvantaged:** No order
+- **When to use:** Need a map, don't care about order
+
+#### LinkedHashMap
+- **Inner workings:** Hash table + linked list
+- **Thread Safety:** Not thread-safe
+- **Advantages:** Maintain order
+- **Disadvantaged:** Slightly slower than HashMap
+- **When to use:** Need a map, maintain order
+
+#### TreeMap
+- **Inner workings:** Red-Black tree
+- **Thread Safety:** Not thread-safe
+- **Advantages:** Sorted keys
+- **Disadvantaged:** O(log n) time complexity for most operations
+- **When to use:** Need a sorted map
+
+### Thread-Safe variants
+- **Vector:** A thread-safe variant of ArrayList
+- **Hashtable:** A thread-safe variant of HashMap
+- **CopyOnWriteArrayList:** Thread-safe variant of ArrayList useful for read-heavy, write-light scenarios
+- **ConcurrentHashMap:** A thread-safe variant of HashMap with better scalability
+- **Collections.synchronizedList, Collections.synchronizedSet**
+- **Collections.synchronizedMap:** Wrappers for making collections thread-safe
+
 
 ## Senior-Interview-questions
 - What are collections in java? Tell me examples for collections. (List, Set etc.)
@@ -926,21 +972,21 @@ Because the released changes are small, it is also easy to automate tests to det
 >
 > 1. Unit tests (Bottom layer)
      >    - Scope: Small, focused tests that target individual methods or functions within a class or module.
->    - Quantity: Largest number of tests. Should cover as many cases as possible for each unit of work.
+     >    - Quantity: Largest number of tests. Should cover as many cases as possible for each unit of work.
 >    - Speed: Very fast to execute.
 >    - Tools: JUnit, TestNG, Mockito
 >    - Advantages: Quick feedback, easier debugging.
 >    - Challenges: May not catch integration issues or issues that only appear in a full runtime environment.
 > 2. Integration Tests (Middle layer)
      >    - Scope: Tests the interaction between two or more components. These could be method-to-method interactions within the same project, or they could test interactions between different services.
->    - Quantity: Fewer than unit tests but more than end-to-end tests.
+     >    - Quantity: Fewer than unit tests but more than end-to-end tests.
 >    - Speed: Slower than unit tests but faster than end-to-end tests.
 >    - Tools: JUnit with Spring Boot
 >    - Advantages: Can catch issues that unit tests iss, especially those related to the interaction of different components.
 >    - Challenges: More challenging to write and maintain; may require a more complex environment to run.
 > 3. End-to-End tests (Top layer)
      >    - Scope: Mimics user behavior and interactions within the full application environment. Includes UI interactions.
->    - Quantity: Fewest in number.
+     >    - Quantity: Fewest in number.
 >    - Speed: Slowest to execute.
 >    - Tools: Selenium, Appium, Cypress
 >    - Advantages: Most realistic test of how the system behaves; tests the whole flow of an application.
@@ -949,7 +995,7 @@ Because the released changes are small, it is also easy to automate tests to det
 
 - What are the 4 principles of object-oriented programming:
 > **Answer:**
-> 
+>
 >1. Encapsulation: Encapsulation is the concept of bundling the data (attributes) and methods (functions) that manipulate the data into a single unit or class.
 >2. Abstraction: Abstraction allows you to hide complex realities while exposing only the essention parts. It help you focus on what the object does instead of how it dies it.
 >3. Inheritance: Inheritance is the mechanism by which one class can inherit the attributes and methods from another class. This fosters code reusability and establishes a relationship between parent and child classes.
