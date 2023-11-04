@@ -19,7 +19,7 @@
 15. [G1 collector](#G1-collector)
 16. [Java 8 PermGen and Metaspace](#Java-8-PermGen-and-Metaspace)
 17. [SDLC](#SDLC)
-18. [CI/CD](#CI/CD)
+18. [CI/CD](#CI-CD)
 19. [Interview questions](#Senior-Interview-questions)
 20. [Senior springboot questions](#Senior-Springboot-Question)
 21. [Collections implementations](#Collections)
@@ -80,7 +80,8 @@ For dependency injection in Spring we can use:
       - In the abstract factory pattern, we get rid of the if-else block that is in the factory pattern, and have a factory class for each subclass. Then an Abstract Factory class that will return the subclass based on the input factory class.
    3. Singleton pattern:
       - The singleton pattern restricts the instantiation of a class and ensure that only one instance of the class exists in the JVM. The singleton class must provide a global access point to get the instance of the class. It is used for logging, caching, and thread pool. This pattern is also used in other design patterns like Abstract Factory, Builder, Prototype, Facade. It has to have a private constructor, private static variable of the same class that is the only instance of the class, public static method that return the instance of the class.
-   4. Prototype pattern
+   4. Prototype pattern:
+      - The prototype pattern is generally used when we have an instance of the class (prototype) and we'd like to create new objects by just copying the prototype. It is particularly useful in scenarios where the cost of creating an object is heavier than copying na existing instance. The intent is to avoid the overhead of creating objects in the standard way (using the 'new' keyword) when it is more expensive for a given application.
    5. Builder pattern
 
 2. Structural design pattern
@@ -120,9 +121,9 @@ The container will create the objects, wire them together, configure them, and m
 Spring provides two types of container
 
 - Spring BeanFactory Container
-- Spring ApplicationContext Container (Its a sub-interface of the BeanFactory)
+- Spring ApplicationContext Container (It's a sub-interface of the BeanFactory)
 
-The ApplicationContext container includes all functionality of the Bean Factorycontainer, so it's generally recommended over BeanFactory. The basis of the IoC container is the org.springframework.beans and org.springframework.context packages.
+The ApplicationContext container includes all functionality of the Bean Factory-container, so it's generally recommended over BeanFactory. The basis of the IoC container is the org.springframework.beans and org.springframework.context packages.
 
 ## Spring Beans
 
@@ -136,7 +137,7 @@ The following diagram is a high-level view of how Spring works. The application 
 ![Containers](../images/container-magic.jpg)
 &nbsp;
 
-The bean definitions correspond to the actual object that makes up the application. Typically we define service layer objects, data access objects, presentation objects, JSM  and so forth. It's now recommended to configure fine-grained domain objects in the container because it's not its responsibility.
+The bean definitions correspond to the actual object that makes up the application. Typically, we define service layer objects, data access objects, presentation objects, JSM  and so forth. It's now recommended to configure fine-grained domain objects in the container because it's not its responsibility.
 
 ### Instantiating a spring container
 
@@ -495,7 +496,7 @@ REST is an acronym for **RE**presentational **S**tate **T**ransfer and an archit
    3. **Self-descriptive messages** - Each resource representation should carry enough information to describe how to process the message. It should also provide information on the additional actions that the client can perform on the resource.
    4. **Hypermedia as the engine of application state** - The client should have only the initial URI of the application. the client application should dynamically drive all other resources and interactions with the use of hyperlinks.
 2. **Client-Server:** The client-server design pattern enforces the separation of concerns, which helps the client and the server components evolve independently. While the client and the server evolve, we have to make sure that the interface/contract between the client and the server does not break.
-3. **Stateless:** Statelessness mandates that each request from the client to the server must contain all of the information necessary to understand and complete the request. The server cannot take advantage of any previously stored context information on the server.
+3. **Stateless:** Statelessness mandates that each request from the client to the server must contain all the information necessary to understand and complete the request. The server cannot take advantage of any previously stored context information on the server.
 4. **Cacheable:** The cacheable constraint requires that a response should implicitly or explicitly label itself as cacheable or non cacheable. If the response is cacheable, the client application gets the right to reuse the response data later for equivalent requests and a specified period.
 5. **Layered system:** The layered system style allows an architecture to be composed of hierarchical layers by constraining component behavior. For example, in a layered system, each component cannot see beyond the immediate layer they are interacting with.
 6. **Code on Demand (Optional):** REST also allows client functionality to extend by downloading and executing code in the form of applets or scripts. The downloaded code simplifies clients by reducing the number of features required to be pre-implemented. Servers can provide part of features delivered to the client in the form of code, and the client only needs to execute the code.
@@ -542,8 +543,8 @@ Some other features of heap space include:
 - It’s accessed via complex memory management techniques that include the Young Generation, Old or Tenured Generation, and Permanent Generation.
 - If heap space is full, Java throws java.lang.OutOfMemoryError.
 - Access to this memory is comparatively slower than stack memory
-- This memory, in contrast to stack, isn’t automatically deallocated. It needs Garbage Collector to free up unused objects so as to keep the efficiency of the memory usage.
-- Unlike stack, a heap isn’t threadsafe and needs to be guarded by properly synchronizing the code.
+- This memory, in contrast to stack, isn’t automatically deallocated. It needs Garbage Collector to free up unused objects to keep the efficiency of the memory usage.
+- Unlike stack, a heap isn’t thread safe and needs to be guarded by properly synchronizing the code.
 
 Short introduction of what is Java stack and heap memory.
 
@@ -569,7 +570,7 @@ public class Memory {
 
 Picture to help understand the code snipped better
 
-![Java-Heap-Stak](../images/Java-Heap-Stack-Memory.png)
+![Java-Heap-Stack](../images/Java-Heap-Stack-Memory.png)
 
 **What happens when we execute the program:**
 
@@ -709,7 +710,7 @@ A v-table is a table of function pointers (or method pointers). Pointers = refer
 When a method is called on an object, the method to execute is looked up in the v-table, and the appropriate version of the method is invoked. If a subclass overrides a method from its superclass, the entry for that methods in the subclass's v-table points to the overridden version. When you have a reference to a superclass, but it's pointing to an object of a subclass, the method from the subclass's v-table will be invoked.
 
 ### Java and V-tables
-In Java, all nin-static and non-final methods are by default "virtual functions". That means they can be overridden by sybclasses unless they are marked with the 'final' keyword, which prevents method overriding.
+In Java, all nin-static and non-final methods are by default "virtual functions". That means they can be overridden by subclasses unless they are marked with the 'final' keyword, which prevents method overriding.
 
 When an object is instantiated in Java, a v-table is created for its class if it doesn't already exist. The v-table contains one entry for each unique method signature, inherited from all its ancestors. The v-table will point to the most specific version of each method that the object's class has access to. When you call a method on an object, the JVM looks up the method in the object's v-table and invokes it.
 
@@ -738,7 +739,7 @@ Java Reflection is a powerful feature that allows you to inspect, modify, and in
    **What it is:** Abstraction means hiding the compile reality while exposing only the necessary parts. In Java, abstraction can be achieved through abstract classes and interfaces.
 
 ## SDLC
-The Software Development LIfe Cycle is a structured approach in software engineering. It guides the process of developing high-quality siftware systems. It consists of phases that software goes through, from concept to deployment and maintenance.
+The Software Development LIfe Cycle is a structured approach in software engineering. It guides the process of developing high-quality software systems. It consists of phases that software goes through, from concept to deployment and maintenance.
 
 
 ### Different phases in SDLC
@@ -746,7 +747,7 @@ The Software Development LIfe Cycle is a structured approach in software enginee
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Requirements gathering | In this phase, stakeholders and users gather and document software requirements.                                                                                                                                    |
 | System design          | The system design phase involves creating a detailed plan for the software system, including architecture, user interface, and database structure.                                                                  |
-| Implementation         | This phase involves coding and programming the siftware based on the design specifications. It includes writing, testing, and integrating components.                                                               |
+| Implementation         | This phase involves coding and programming the software based on the design specifications. It includes writing, testing, and integrating components.                                                               |
 | Testing                | In the testing phase, the software is thoroughly tested to identify and fix defects or errors. This includes unit testing, integration testing, system testing, and user acceptance testing.                        |
 | Deployment             | The deployment phase involves releasing the software for production after being tested and approved. It includes installation and configuration in the target environment                                           |
 | Maintenance            | The maintenance phase focuses on monitoring and maintaining the software to ensure optimal performance, security, and reliability. It involves addressing user feedback and releasing updates or patches as needed. |
@@ -774,7 +775,7 @@ The software testing life cycle is a step-by-step process used to test software 
 ### Relationship between SDLC and STLC
 SDLC encompasses the entire software development process, while STLC focuses explicitly on the testing phase. Both cycles work together to ensure the software's quality, functionality, and reliability.
 
-## CI/CD
+## CI-CD
 Continuous integration, deployment, and delivery refer to the code, build, test, release and deploy phases of the DevOps cycle. These phases are reflected in a software production pipeline with several stages, as shown in this picture:
 ![CI/CD process](../images/cicd-pipeline.png "CI/CD pipeline")
 
@@ -871,7 +872,7 @@ Because the released changes are small, it is also easy to automate tests to det
 - **When to use:** No duplicates, maintain insertion order.
 
 #### TreeSet
-- **Inner workings:** Red-BlackTree is a type of binary seach tree with additional properties that ensure the tree remains balances. this, in turn, guarantees that basic operations like add, remove, and find complete in logarithmic time O(log n)
+- **Inner workings:** Red-BlackTree is a type of binary search tree with additional properties that ensure the tree remains balances. this, in turn, guarantees that basic operations like add, remove, and find complete in logarithmic time O(log n)
 - **Thread Safety:** Not thread-safe
 - **Advantages:** Sorted set
 - **Disadvantaged:** O(log n) time complexity for add, remove, contains
@@ -936,8 +937,8 @@ Because the released changes are small, it is also easy to automate tests to det
 > - Homogeneous elements: All elements in an array are the same type.
 > - Performance: Because they are a contiguous block of memory, (meaning the elements of the array are stored next to each other in memory) arrays usually offer better performance in terms of memory and speed for simple data storage and retrieval tasks.
 > - Syntax: Arrays have a different syntax compared to collections. For example, declaring an array of integers: `int[] arr = new int[5];`
-> - Utilities: Java arrays do not come with built-in methods for manipulation *like adding or remobing elements). You'd usually have to implement these manually or use the `System.arraycopy()` method or `Arrays` utitlity class for some operations.
-> - Primitives support: Java arrays can store primitives (int, char, boolean etc), which makes them more memory-efficient for such types compared to collections that store objects.
+> - Utilities: Java arrays do not come with built-in methods for manipulation (like adding or removing elements). You'd usually have to implement these manually or use the `System.arraycopy()` method or `Arrays` utility class for some operations.
+> - Primitives support: Java arrays can store primitives (int, char, boolean etc.), which makes them more memory-efficient for such types compared to collections that store objects.
 > - Null handling: Arrays can store null elements.
 >
 >
@@ -997,7 +998,7 @@ Because the released changes are small, it is also easy to automate tests to det
 > **Answer:**
 >
 >1. Encapsulation: Encapsulation is the concept of bundling the data (attributes) and methods (functions) that manipulate the data into a single unit or class.
->2. Abstraction: Abstraction allows you to hide complex realities while exposing only the essention parts. It help you focus on what the object does instead of how it dies it.
+>2. Abstraction: Abstraction allows you to hide complex realities while exposing only the essential parts. It helps you focus on what the object does instead of how it dies it.
 >3. Inheritance: Inheritance is the mechanism by which one class can inherit the attributes and methods from another class. This fosters code reusability and establishes a relationship between parent and child classes.
 >4. Polymorphism: Polymorphism allows objects to be treated as instances of their parent class. This enables one interface to be used for a general class of actions.
 
@@ -1023,6 +1024,36 @@ Because the released changes are small, it is also easy to automate tests to det
 > - 'LinkedList' is preferable when you have multiple insertions and deletions while 'ArrayList' is better for random access and search operations.
 
 
+- What is a shallow copy and what is a deep copy on Java?
+> **Answer:**
+> 
+> **What is a shallow copy:**
+> 
+> In some cases, we may want to create a copy of a value so that two different pieces of code see different copies of the same value. This allows one to be manipulated differently form the others, for example. The simplest way to do this is to make a shallow copy of the object. This means we create a new object that contains all the same fields as the original with copies of the same values.
+> 
+> ![Shallow_Copy](../images/shallow_copy.jpg)
+> 
+> For relatively simple objects, this works fine. However, if our objects contain other objects, then only the reference to these will be copied. This, in turn means that the two copes references to the same value in memory, with the pros and cons that this entails.
+> 
+> ![Shallow_Copy](../images/shallow_copy2.jpg)
+> 
+> In this example, both our original and our copy have a field "def" that points to the same list of numbers. If one of them changes the list, the other will see the same changes. However, because we've made a copy of the original, it might be surprising that the underlying data is still shared between them, and this can lead to unexpected bugs in our code.
+> 
+> **What is a deep copy:**
+> 
+> The alternative to this is to perform a deep copy of the object. This is where we copy each field from the original to the copy, but as we do so, we perform a deep copy of those instead of just copying the references.
+> 
+> ![Deep_copy](../images/deep_copy.jpg)
+> 
+> This will then mean that the new copy is an exact copy of the original, but in no way connected so that no changes to one weill be reflected in the other.
+> 
+> What are futures in java?
+> 
+> **Answer:**
+> 
+> 
+
+
 ## Senior-Springboot-Question
 - Explain the Spring Boot Actuator. Why is it useful?
 > **Answer:**
@@ -1043,7 +1074,7 @@ Because the released changes are small, it is also easy to automate tests to det
 > - JVM system parameter
 > - Maven profile
 > - From application.properties
-    > Any bean that does not specify a profile belongs to the default profile. Spring also provides a way to set the default profile when no other profile is active - by using the psring.profiles.default property.
+    > Any bean that does not specify a profile belongs to the default profile. Spring also provides a way to set the default profile when no other profile is active - by using the spring.profiles.default property.
 
 - How does Spring Boot simplify database migrations?
 > **Answer:**
