@@ -974,21 +974,21 @@ Because the released changes are small, it is also easy to automate tests to det
 > 1. Unit tests (Bottom layer)
      >    - Scope: Small, focused tests that target individual methods or functions within a class or module.
      >    - Quantity: Largest number of tests. Should cover as many cases as possible for each unit of work.
->    - Speed: Very fast to execute.
+     >    - Speed: Very fast to execute.
 >    - Tools: JUnit, TestNG, Mockito
 >    - Advantages: Quick feedback, easier debugging.
 >    - Challenges: May not catch integration issues or issues that only appear in a full runtime environment.
 > 2. Integration Tests (Middle layer)
      >    - Scope: Tests the interaction between two or more components. These could be method-to-method interactions within the same project, or they could test interactions between different services.
      >    - Quantity: Fewer than unit tests but more than end-to-end tests.
->    - Speed: Slower than unit tests but faster than end-to-end tests.
+     >    - Speed: Slower than unit tests but faster than end-to-end tests.
 >    - Tools: JUnit with Spring Boot
 >    - Advantages: Can catch issues that unit tests iss, especially those related to the interaction of different components.
 >    - Challenges: More challenging to write and maintain; may require a more complex environment to run.
 > 3. End-to-End tests (Top layer)
      >    - Scope: Mimics user behavior and interactions within the full application environment. Includes UI interactions.
      >    - Quantity: Fewest in number.
->    - Speed: Slowest to execute.
+     >    - Speed: Slowest to execute.
 >    - Tools: Selenium, Appium, Cypress
 >    - Advantages: Most realistic test of how the system behaves; tests the whole flow of an application.
 >    - Challenges: Can be flaky; hard to debug; slow to run.
@@ -1026,33 +1026,68 @@ Because the released changes are small, it is also easy to automate tests to det
 
 - What is a shallow copy and what is a deep copy on Java?
 > **Answer:**
-> 
+>
 > **What is a shallow copy:**
-> 
+>
 > In some cases, we may want to create a copy of a value so that two different pieces of code see different copies of the same value. This allows one to be manipulated differently form the others, for example. The simplest way to do this is to make a shallow copy of the object. This means we create a new object that contains all the same fields as the original with copies of the same values.
-> 
+>
 > ![Shallow_Copy](../images/shallow_copy.jpg)
-> 
+>
 > For relatively simple objects, this works fine. However, if our objects contain other objects, then only the reference to these will be copied. This, in turn means that the two copes references to the same value in memory, with the pros and cons that this entails.
-> 
+>
 > ![Shallow_Copy](../images/shallow_copy2.jpg)
-> 
+>
 > In this example, both our original and our copy have a field "def" that points to the same list of numbers. If one of them changes the list, the other will see the same changes. However, because we've made a copy of the original, it might be surprising that the underlying data is still shared between them, and this can lead to unexpected bugs in our code.
-> 
+>
 > **What is a deep copy:**
-> 
+>
 > The alternative to this is to perform a deep copy of the object. This is where we copy each field from the original to the copy, but as we do so, we perform a deep copy of those instead of just copying the references.
-> 
+>
 > ![Deep_copy](../images/deep_copy.jpg)
-> 
+>
 > This will then mean that the new copy is an exact copy of the original, but in no way connected so that no changes to one weill be reflected in the other.
-> 
-> What are futures in java?
-> 
+>
+- What is a Future in java?
 > **Answer:**
+>
+> In Java, 'Future' and 'CompletableFuture' are constructs used for asynchronous programming. Simply put, the Future class represents a future result of an asynchronous computations. This result will eventually appear in the Future after the processing is complete.
 > 
+> Once a 'Future' is created, it can be used to check the status of the asynchronous operation, retrieve the result ince it's available, or cancel the operation.
 > 
+> #### Example code snippet:
+> ```java
+> public class SquareCalculator {
+> 
+>     private ExecutorService executor 
+>       = Executors.newSingleThreadExecutor();
+>     
+>     public Future<Integer> calculate(Integer input) {        
+>         return executor.submit(() -> {
+>             Thread.sleep(1000);
+>             return input * input;
+>         });
+>     }
+> }
+> ```
+>
+> The bit of code that actually performs the calculation is contained within the call() method, and supplied as a lambda expression. As we can see, there’s nothing special about it, except for the sleep() call mentioned earlier.
+> 
+> It gets more interesting when we direct our attention to the use of Callable and ExecutorService.
+> 
+> Callable is an interface representing a task that returns a result, and has a single call() method. Here we’ve created an instance of it using a lambda expression.
+> 
+> Creating an instance of Callable doesn’t take us anywhere; we still have to pass this instance to an executor that will take care of starting the task in a new thread, and give us back the valuable Future object. That’s where ExecutorService comes in.
+> 
+> There are a few ways we can access an ExecutorService instance, and most of them are provided by the utility class Executors‘ static factory methods. In this example, we used the basic newSingleThreadExecutor(), which gives us an ExecutorService capable of handling a single thread at a time.
+> 
+> Once we have an ExecutorService object, we just need to call submit(), passing our Callable as an argument. Then submit() will start the task and return a FutureTask object, which is an implementation of the Future interface.
 
+- What is a CompletableFuture in java?
+> **Answer:** 
+> 
+> CompletableFuture Offers an extensive API consisting of more than 50 methods. Many of these methods are available in two variants: non-async and async. Allows combining several asynchronous operations into a single, fluent sequence. Provides a variety of methods for error handling, combines futures, or applying callbacks upon completion. Can be explicitly completed with a value or exception.
+> 
+> `CompletableFuture` supports function-style operations that can be applied to the result of asynchronous computation, such as `thanApply()`, `thenAccept()`, and `thenCombine()`. It also allows you to handle errors with methods like `exceptionally()`. 
 
 ## Senior-Springboot-Question
 - Explain the Spring Boot Actuator. Why is it useful?
