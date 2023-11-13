@@ -20,9 +20,10 @@
 16. [Java 8 PermGen and Metaspace](#Java-8-PermGen-and-Metaspace)
 17. [SDLC](#SDLC)
 18. [CI/CD](#CI-CD)
-19. [Interview questions](#Senior-Interview-questions)
-20. [Senior springboot questions](#Senior-Springboot-Question)
-21. [Collections implementations](#Collections)
+19. [Java Streams](#Java-Streams)
+20. [Interview questions](#Senior-Interview-questions)
+21. [Senior springboot questions](#Senior-Springboot-Question)
+22. [Collections implementations](#Collections)
 
 ## Inversion of Control
 
@@ -146,7 +147,7 @@ Instantiating a Spring IoC container is straightforward. The location path or pa
 ```java
 public class Test {
    ApplicationContext context =
-           new ClassPathXmlApplicationContext(new String[] {"services.xml", "daos.xml"});
+       new ClassPathXmlApplicationContext(new String[] {"services.xml", "daos.xml"});
 }
 ```
 
@@ -353,7 +354,7 @@ The application scope creates the bean instance for the lifecycle of a ServletCo
 public class Test {
    @Bean
    @Scope(
-           value = WebApplicationContext.SCOPE_APPLICATION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+       value = WebApplicationContext.SCOPE_APPLICATION, proxyMode = ScopedProxyMode.TARGET_CLASS)
    public HelloMessageGenerator applicationScopedBean() {
       return new HelloMessageGenerator();
    }
@@ -923,6 +924,64 @@ Because the released changes are small, it is also easy to automate tests to det
 - **Collections.synchronizedList, Collections.synchronizedSet**
 - **Collections.synchronizedMap:** Wrappers for making collections thread-safe
 
+## Java-Streams
+
+### What are Java Streams
+Java Streams, introduced in Java8, are a powerful API for processing sequences of elements. They provide a high-level abstraction for Java collections, arrays, or any other source of data that can be represented as a sequence of elements.
+
+### Capabilities of Java Streams:
+- Functional-style operations: Streams support functional-style operations like 'map', 'filter', 'reduce', and more, which can be connected in a pipeline to express a sophisticated data processing queries.
+- Lazy computation: Stream operations are lazy, meaning that computation on the source data is only performed when necessary.
+- Paralell execution: Streams can be executed in parallel to leverage multicore architectures.
+
+### Key stream operations:
+- Intermediate operations: These operations transform a stream into another stream, such as 'filter', 'map', 'flatMap', 'distinct', 'sorted', etx. They are lazy and do not perform any processing until a terminal operation is invoked.
+- Terminal operations: These operaions produce a result or a side-effect, after which the stream is considered consumed and can no longer be used. Examples include 'forEach', 'collect', 'reduce', 'findFirst', 'anyMatch', 'allMatch', 'noneMatch', 'toArray', and 'count'.
+
+### When to use streams:
+- Collection processing: When you have a collection of items, and you want to perform operations like filtering, mapping, or summarization.
+- Data processing: Streams are useful for reading and processing data from files or databases in a declarative way.
+- Parallel operations: When you have a large amount of data that can be processed in parallel to improve performance.
+- Functional programming: If you are working in a functional programming style in Java, streams are a go-to API for expressing complex data processing queries in a readable and concise manner.
+
+### Common stream operations and usage:
+- Filtering: Use 'filter' when you want to select elements that match a certain condition.
+  - ```java 
+        public class Test {
+         list.stream().filter(e -> e.isActive()).collect(Collectors.toList());
+       }
+     ```
+- Mapping: Use 'map' to transform elements of a stream.
+   - ```java 
+        public class test {
+         list.stream().map(e -> e.getname()).collect(collectors.tolist());
+       }
+     ```
+- Reducing: User 'reduce' to combine all elements of a stream into a single result.
+   - ```java 
+        public class test {
+         list.stream().reduce(0, (a, b) -> a + b);
+       }
+     ```
+- Collecting: Use 'collect' to transform a stream into a different form, usually a collection like a List or a Map.
+   - ```java 
+        public class test {
+         list.stream().collect(Collectors.toList());
+       }
+     ```
+- Matching: Use 'anyMatch', 'allMatch', and 'noneMatch' to check if the elements of a stream match a given predicate.
+   - ```java 
+        public class test {
+         list.stream().anyMatch(e -> e.isValid());
+       }
+     ```
+- Finding: Use 'findFirst' or 'findAny' when you want to retrieve an element from the stream that matches a condition.
+   - ```java 
+        public class test {
+         list.stream().filter(e -> e.isAvailable()).findFirst();
+       }
+     ```
+
 
 ## Senior-Interview-questions
 - What are collections in java? Tell me examples for collections. (List, Set etc.)
@@ -975,21 +1034,21 @@ Because the released changes are small, it is also easy to automate tests to det
      >    - Scope: Small, focused tests that target individual methods or functions within a class or module.
      >    - Quantity: Largest number of tests. Should cover as many cases as possible for each unit of work.
      >    - Speed: Very fast to execute.
->    - Tools: JUnit, TestNG, Mockito
+     >    - Tools: JUnit, TestNG, Mockito
 >    - Advantages: Quick feedback, easier debugging.
 >    - Challenges: May not catch integration issues or issues that only appear in a full runtime environment.
 > 2. Integration Tests (Middle layer)
      >    - Scope: Tests the interaction between two or more components. These could be method-to-method interactions within the same project, or they could test interactions between different services.
      >    - Quantity: Fewer than unit tests but more than end-to-end tests.
      >    - Speed: Slower than unit tests but faster than end-to-end tests.
->    - Tools: JUnit with Spring Boot
+     >    - Tools: JUnit with Spring Boot
 >    - Advantages: Can catch issues that unit tests iss, especially those related to the interaction of different components.
 >    - Challenges: More challenging to write and maintain; may require a more complex environment to run.
 > 3. End-to-End tests (Top layer)
      >    - Scope: Mimics user behavior and interactions within the full application environment. Includes UI interactions.
      >    - Quantity: Fewest in number.
      >    - Speed: Slowest to execute.
->    - Tools: Selenium, Appium, Cypress
+     >    - Tools: Selenium, Appium, Cypress
 >    - Advantages: Most realistic test of how the system behaves; tests the whole flow of an application.
 >    - Challenges: Can be flaky; hard to debug; slow to run.
 
@@ -1051,9 +1110,9 @@ Because the released changes are small, it is also easy to automate tests to det
 > **Answer:**
 >
 > In Java, 'Future' and 'CompletableFuture' are constructs used for asynchronous programming. Simply put, the Future class represents a future result of an asynchronous computations. This result will eventually appear in the Future after the processing is complete.
-> 
+>
 > Once a 'Future' is created, it can be used to check the status of the asynchronous operation, retrieve the result ince it's available, or cancel the operation.
-> 
+>
 > #### Example code snippet:
 > ```java
 > public class SquareCalculator {
@@ -1071,23 +1130,66 @@ Because the released changes are small, it is also easy to automate tests to det
 > ```
 >
 > The bit of code that actually performs the calculation is contained within the call() method, and supplied as a lambda expression. As we can see, there’s nothing special about it, except for the sleep() call mentioned earlier.
-> 
+>
 > It gets more interesting when we direct our attention to the use of Callable and ExecutorService.
-> 
+>
 > Callable is an interface representing a task that returns a result, and has a single call() method. Here we’ve created an instance of it using a lambda expression.
-> 
+>
 > Creating an instance of Callable doesn’t take us anywhere; we still have to pass this instance to an executor that will take care of starting the task in a new thread, and give us back the valuable Future object. That’s where ExecutorService comes in.
-> 
+>
 > There are a few ways we can access an ExecutorService instance, and most of them are provided by the utility class Executors‘ static factory methods. In this example, we used the basic newSingleThreadExecutor(), which gives us an ExecutorService capable of handling a single thread at a time.
-> 
+>
 > Once we have an ExecutorService object, we just need to call submit(), passing our Callable as an argument. Then submit() will start the task and return a FutureTask object, which is an implementation of the Future interface.
 
 - What is a CompletableFuture in java?
-> **Answer:** 
-> 
+> **Answer:**
+>
 > CompletableFuture Offers an extensive API consisting of more than 50 methods. Many of these methods are available in two variants: non-async and async. Allows combining several asynchronous operations into a single, fluent sequence. Provides a variety of methods for error handling, combines futures, or applying callbacks upon completion. Can be explicitly completed with a value or exception.
+>
+> `CompletableFuture` supports function-style operations that can be applied to the result of asynchronous computation, such as `thanApply()`, `thenAccept()`, and `thenCombine()`. It also allows you to handle errors with methods like `exceptionally()`.
+
+
+- What is Optional in java?
+> **Answer:**
 > 
-> `CompletableFuture` supports function-style operations that can be applied to the result of asynchronous computation, such as `thanApply()`, `thenAccept()`, and `thenCombine()`. It also allows you to handle errors with methods like `exceptionally()`. 
+> 'Optional' in java is a container object which may or may not contain a non-null value. It was introduced in Java8 and is located in the 'java.util' package. 'Optional' is used to represent a values that is either there os not here, rather than resorting to 'null', which can be less expressive and more error-prone.
+> 
+> Key Aspects of Optional:
+> 
+> **Purpose:**
+> - Null safety: To avoid NullPointerException, which is often a source of bugs in Java applications.
+> - Code readability: To provide a more fluent and clear way to handle the presence or absence of a value.
+> - API design: To make it clear when a method might nor return a value.
+> 
+> **Core Methods:**
+> - Optional.empty(): Return an empty Optional instance.
+> - Optional.of(T value): Return an Optional with the specified present non-null value.
+> - Optional.ofNullable(T value): Return an Optional describing the specified value, if non-null, otherwise return an empty Optional.
+> 
+> **Conditional Methods:**
+> - isPresent(): Return true if there is a value present, otherwise false.
+> - isEmpty(): Return true if empty, otherwise false (introduced in java 11)
+> - ifPresent(Consumer<? super T> consumer): If a value is present, invoke the specified consumer with the value.
+> 
+> **Value Retrieval:**
+> - get(): If a value is present, return the value, otherwise throws NoSuchElementException.
+> - orElse(T other): Return the value if present, otherwise return other.
+> - orElseGet(Supplier<? extendsT> other): Return the value if present, otherwise invoke other and return the result of that invocation.
+> - orElseThrow(): Return the contained value, if present, otherwise throw an exception to be created by the provided supplier.
+> 
+> **Stream Operations:**
+> - stream(): If a value is present, return a sequential Stream containing only that value, otherwise return an empty Stream.
+> 
+> **Transformation:**
+> - map(Function<? super T, ? extends U> mapper): If a value is present, applies the provided mapping function to it, and if the result is non-null, returns and Optional describing the result.
+> - flatMap(Function<? super T, Optional<U>> mapper): Lis map() but the provided mapper is one whose result is alreadz an Optional, and if invoked, flatMap does not wrap it with an additional Optional.
+> 
+> **Filtering:**
+> - filter(Predicate<? super T> predicate): If a value is present and the value matches the given predicate, return an Optional describing the value, otherwise returns an empty Optional.
+> 
+> **Java 10 and later enhancements:**
+> - Local variable type inference: With 'var' in Java10, you can use Optional without specifying the generic type explicitly.
+> - orElseThrow without arguments: In Java10 orElseThrow can be used without any arguments, which will throw a NoSuchElementExeption if no value is present.
 
 ## Senior-Springboot-Question
 - Explain the Spring Boot Actuator. Why is it useful?
