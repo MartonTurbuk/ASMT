@@ -108,8 +108,9 @@
 101. [How HashMap works](#how-hashmap-works)
 102. [Null Insertions and duplicates in HashMaps](#null-insertions)
 103. [Same HashCode for different objects and Performance Considerations](#same-hashcode-for-different-objects)
-104. [Senior-Interview-questions](#senior-interview-questions)
-105. [Senior-Springboot-Question](#senior-springboot-question)
+104. [Implementations of the Map interface](#implementations-of-the-Map-interface)
+105. [Senior-Interview-questions](#senior-interview-questions)
+106. [Senior-Springboot-Question](#senior-springboot-question)
 
 <a name='inversion-of-control'></a>
 ## Inversion of Control
@@ -177,27 +178,78 @@ For dependency injection in Spring we can use:
       - The singleton pattern restricts the instantiation of a class and ensure that only one instance of the class exists in the JVM. The singleton class must provide a global access point to get the instance of the class. It is used for logging, caching, and thread pool. This pattern is also used in other design patterns like Abstract Factory, Builder, Prototype, Facade. It has to have a private constructor, private static variable of the same class that is the only instance of the class, public static method that return the instance of the class.
    4. Prototype pattern:
       - The prototype pattern is generally used when we have an instance of the class (prototype) and we'd like to create new objects by just copying the prototype. It is particularly useful in scenarios where the cost of creating an object is heavier than copying na existing instance. The intent is to avoid the overhead of creating objects in the standard way (using the 'new' keyword) when it is more expensive for a given application.
-   5. Builder pattern
+   5. Builder pattern:
+      - What it does: The Builder pattern is a creational design pattern that provides a way to construct a complex object step by step. It's especially useful when an object needs to be created with many possible configuration options, some of which may be optional. The pattern helps to create an object in a flexible and clear manner, without having to create numerous constructors.
+      - Usefulness: It's particularly useful when an object needs to be created with many possible configuration options.
+      - Example: 'StringBuilder' is a classic example of the builder pattern.
 
 2. Structural design pattern
-   1. Adapter pattern
-   2. Bridge pattern
-   3. Composite pattern
-   4. Decorator pattern
-   5. Flyweight pattern
-   6. Proxy pattern
+   1. Adapter pattern:
+      - What it does: Allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces.
+      - Usefulness: Useful hen you want to use an existing class, and its interface does not match the one you need.
+      - Example: An example would be Java's 'Arrays.asList()' method, which adapts an array to a 'List' interface.
+   2. Bridge pattern:
+      - What it does: The Bridge pattern is a structural design pattern that separates the abstraction from the implementation so that the two can vary independently. It involves an interface which acts as a bridge between the abstraction and implementation, allowing them to be developed separately.
+      - Usefulness: It's useful when both the class and what it does vary often.
+      - Example: A GUI framework can use a bridge pattern to separate the window abstraction from the IS-specific window implementation.
+   3. Composite pattern:
+      - What it does: The Composite pattern is a structural design pattern that lets you compose objects into tree-like structures to represent part-whole hierarchies. By implementing the pattern, clients can treat individual objects and compositions of objects uniformly.
+      - Usefulness: Useful for representing hierarchical structures such as graphic drawings or file systems.
+      - Example: 'java.awt.Container' is a good example, with 'Component' being the base class for components like 'Button', 'Checkbox', etc.
+   4. Decorator pattern:
+      - What it does: Allows behavior to be added to an individual object, either statically or dynamically, without affecting the behavior of other objects from the same class.
+      - Usefulness: It is particular useful for adhering to the Single Responsibility Principle, as it allows functionality to be divided between classes with unique areas of concern.
+      - Example: Java I/O classes, like 'BufferedReader' and 'BufferedWriter', are decorators for 'Reader' and 'Writer' classes.
+   5. Flyweight pattern:
+      - What it does: The Flyweight pattern is a structural design pattern that focuses on sharing object instances to reduce memory usage and improve performance in contexts with many similar objects. When applying the Flyweight pattern, instead of creating multiple identical objects, the system reuses a single shared instance, thus acting as a "flyweight" with minimal memory usage.
+      - Usefulness: It's userful when you need to create a large number of similar objects.
+      - Example: 'String' Pool in Java is an example of the Flyweight pattern.
+   6. Proxy pattern:
+      - What it does: The Proxy Pattern is a structural design pattern that is used in software engineering to provide a representative or stand-in for another object. This pattern falls under the category of design patterns that deal with object composition, and is primarily concerned with how objects are made up and how they interact with one another.
+      - Usefulness: Useful when you want to add a layer of protection to the underlying object or to add additional behavior.
+      - Example: 'java.rmi.*' package classes provide a good example of the Proxy pattern.
 
 3. Behavioral design pattern
-   1. Chain of responsibility pattern
-   2. Command pattern
-   3. Iterator pattern
-   4. Mediator pattern
-   5. Memento pattern
-   6. Observer pattern
-   7. State pattern
-   8. Strategy pattern
-   9. Template pattern
-   10. Visitor pattern
+   1. Chain of responsibility pattern:
+      - What it does: Passes a request along a chain of handlers. Upon receiving a request, each handler decided either to process the request or to pass it to the next handler in the chain.
+      - Usefulness: It's useful for creating a chain of processing units/processes
+      - Example: Java's 'Filter', and 'FilterChain' in servlets use this pattern.
+   2. Command pattern:
+      - What it does: Encapsulates a request as an object, thereby allowing for parameterization of clients with queues, requests, and operations.
+      - Usefulness: It's useful to decouple the sender and receiver.
+      - Example: 'java.lang.Runnable' is a good example of the command pattern.
+   3. Iterator pattern:
+      - What it does: The Iterator Pattern is a commonly used design pattern in object-oriented programming. Its main purpose is to provide a standard way to traverse through a collection of elements without exposing the underlying structure of the collection. The Iterator Pattern allows for a uniform traversal method, regardless of the internal structure of the collection. This means that the same iteration process can be applied whether the collection is an array, a tree, a graph, or any other data structure.
+      - Usefulness: It's useful when your collection has a complex data structure under the hood, but you want to hide that complexity from the client.
+      - Example: 'java.util.Iterator' is an example of the Iterator pattern.
+   4. Mediator pattern:
+      - What it does: Defines an object that encapsulates how a sat of objects interact. It promotes loose coupling by keeping objects from referring to each other explicitly. The Mediator Pattern is a behavioral design pattern that aims to reduce complex communication channels between objects in a system. By encapsulating the way in which objects interact within a single mediator object, the pattern helps to achieve loose coupling and simplifies the maintenance and interaction between objects.
+      - Usefulness: Useful in the development of complex user interfaces.
+      - Example: 'java.util.Timer' class schedules instances of 'java.util.TimerTask' objects, acting as a mediator.
+   5. Memento pattern:
+      - What it does: The memento pattern provides the ability to restore an object to its previous state (undo via rollback). the pattern is implemented using three actor classes: The originator, a caretaker and a memento.
+      - Usefulness: It's particularly useful when you need to provide an undo feature in you application, allowing you to save and restore an object's state without exposing its implementation.
+      - Example: An 'Editor' object (originator) saves its state in a 'Snapshot' object (memento). A 'Command' object (caretaker) requests a save from the 'Editor' before executing an operation, and it can roll back to the saved state if needed.
+   6. Observer pattern:
+      - What it does: This pattern defines a on-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.
+      - Usefulness: It's widely used in implementing distributed event handling systems, in a model-view-controller architectural pattern. It's essential for reactive streams and in scenarios where a change in one object requires a change in others.
+      - Example: In a GUI library, a 'Button' (subject) holds a list of 'ActionListeners' (observers) and notifies them when an action occurs. (e.g., button clicked).
+   7. State pattern:
+      - What it does: The State pattern allows an object to alter its behavior when its internal state changes. the object will appear to change its class.
+      - Usefulness: This is useful when an object's behavior depends on its state, and it must be able to change its behavior at runtime depending on that state.
+      - Example: A 'Document' can have state like 'Draft', 'Moderation', or 'Published'. The 'Document's behavior changes depending on its state.
+   8. Strategy pattern:
+      - What is does: The Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. Strategy lets the algorithm vary independently of the clients that use it.
+      - Usefulness: Use the Strategy pattern when you have multiple classes that differ only in their behavior, allowing you to configure a class with one of many behaviors.
+      - Example: A 'Sorter' interface with multiple implementations like 'QuickSort', 'MergeSort', and 'BubbleSort'. A 'Context' object can be configured with any 'Sorter' implementation to perform sorting.
+   9. Template pattern:
+      - What it does: The Template pattern defines the skeleton of an algorithm in an operation, deferring some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm's structure.
+      - Usefulness: It's useful when there's a multi-step algorithm, and clients should be able to extend or alter these steps without changing the core algorithm's structure.
+      - Example: An 'AbstractClass' with a method 'templateMethod()' defines the structure of an algorithm, and subclasses 'ConcreteClass' override the steps as needed.
+   10. Visitor pattern:
+       - What it does: The Visitor pattern lets you define a new operation without changing the classes of the elements on which it operates. It uses a visitor class that changes the executing algorithm of an element class.
+       - Usefulness: This pattern is useful when you need to perform operations across a group of similar kings of Objects. With Visitor, you can define new operations without changing the classes of the elements you are operating over.
+       - Example: A Document object structure might have elements like Paragraph, Image, and Table. A DocumentRenderer visitor can be created to render documents in HTML or Markdown by visiting each element and performing the rendering operation specific to the element type.
 
 ## Brooks law
 
@@ -1382,6 +1434,19 @@ When two keys have the same hash code, a collision occurs. 'HashMap' deals with 
 - When inserting a new entry, if the hash code matches the hash code of an existing key, the 'HashMap' will check the keys for equality usint the 'equals()' method.
 - If the 'equals()' check says that the keys are the same, the old value is replaced.
 - If the 'equals()' check says that the keys are different, the new entry is added to the list of tree of entries in the same bucket.
+
+Since Java8, if a bucket reaches a certain threshold (TREEIFY_THRESHOLD, which is 8 by default), the linked list is transformed into a balanced tree, which improves the worst-case performance from O(n) to O(log n).
+
+## Implementations of the Map interface
+<a name='implementations-of-the-Map-interface'></a>
+
+1. Hashtable: Similar to 'hashMap', but synchronized. It doesn't allow null keys or values. It's considered legacy code; 'ConcurrentHashMap' is usually a better concurrent alternative.
+2. LinkedHashMap: Maintains insertion order (or optionally, access order) of the keys. It is slightly slower than 'HashMap' for inserting and deleting, but is fast for iteration.
+3. TreeMap: Implements the 'NavigableMap' interface and keeps keys in a sorted order. It is implemented as a red-black tree. The elements are ordered using their natural ordering, or by a 'Comparator' provided at map creation time.
+4. ConcurrentHashMap: A concurrent implementation of the 'Map' interface. It allows concurrent modifications from multiple threads without the need to block them. It does not lock the Map while reading and allows a certain number of concurrent writes. It also does not allow null keys or values.
+5. WeakHashMap: Store keys using 'weak references', which means it does not prevent its keys from being made finalizable, garbage-collected, and then removed from the map. It's useful for caches and listeners or other mappings that should not prevent their keys from being reclaimed.
+6. EnumMap: A specialized 'Map' implementation for use with enum type keys. All the keys in an 'EnumMap' must come from a single enum type that is specified when the map is created. 'EnumMap's are compact and efficient.
+7. IdentityHashMap: Uses reference equality in place of object equality when comparing keys (and values). In other words, in an 'IdentityHashMap', two keys 'k1', and 'k2' are considered equal if and only if '(k1==k2'). This class is not a general-purpose 'Map' implementation. 
 
 ## Senior-Interview-questions
 
