@@ -44,7 +44,6 @@
 37. [REST](#rest)
 38. [The 6 guiding principles of REST](#the-6-guiding-principles-of-rest)
 39. [Java Memory Model](#java-memory-model)
-40. [Introduction:](#introduction)
 41. [Stack memory in Java](#stack-memory-in-java)
 42. [Key features of stack memory](#key-features-of-stack-memory)
 43. [Heap space in java](#heap-space-in-java)
@@ -738,7 +737,6 @@ REST is an acronym for **RE**presentational **S**tate **T**ransfer and an archit
 
 ### Introduction:
 
-<a name='introduction'></a>
 To run an application in an optimal way, JVM divides memory into stack and heap memory. Whenever we declare new variables and objects, call a new method, declare a String, or perform similar operations, JVM designates memory to these operations from either Stack Memory or Heap Space.
 
 ### Stack memory in Java
