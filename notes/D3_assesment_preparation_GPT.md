@@ -109,8 +109,10 @@
 102. [Null Insertions and duplicates in HashMaps](#null-insertions)
 103. [Same HashCode for different objects and Performance Considerations](#same-hashcode-for-different-objects)
 104. [Implementations of the Map interface](#implementations-of-the-Map-interface)
-105. [Senior-Interview-questions](#senior-interview-questions)
-106. [Senior-Springboot-Question](#senior-springboot-question)
+105. [Concurrency locking](#concurrency-locking)
+106. [SSL](#ssl)
+107. [Senior-Interview-questions](#senior-interview-questions)
+108. [Senior-Springboot-Question](#senior-springboot-question)
 
 <a name='inversion-of-control'></a>
 ## Inversion of Control
@@ -1447,6 +1449,109 @@ Since Java8, if a bucket reaches a certain threshold (TREEIFY_THRESHOLD, which i
 5. WeakHashMap: Store keys using 'weak references', which means it does not prevent its keys from being made finalizable, garbage-collected, and then removed from the map. It's useful for caches and listeners or other mappings that should not prevent their keys from being reclaimed.
 6. EnumMap: A specialized 'Map' implementation for use with enum type keys. All the keys in an 'EnumMap' must come from a single enum type that is specified when the map is created. 'EnumMap's are compact and efficient.
 7. IdentityHashMap: Uses reference equality in place of object equality when comparing keys (and values). In other words, in an 'IdentityHashMap', two keys 'k1', and 'k2' are considered equal if and only if '(k1==k2'). This class is not a general-purpose 'Map' implementation. 
+
+
+## Concurrency Locking
+<a name='concurrency-locking'></a>
+
+Concurrency control in Java is crucial aspect when it comes to multi-threaded applications. The goal of concurrency control is to ensure that multiple threads can safely interact with shared resources without causing data corruption or inconsistent data states.
+
+### Synchronization
+- Synchronized methods: Automatically lock the method's object (or class if static) for mutual exclusion using the 'synchronized' keyword.
+- Synchronized blocks: Allow locking on a specific object reference, providing more granular control over the lock's scope.
+
+### Volatile fields
+- Volatile keyword: Ensures visibility of changes to variables across threads. When a field is declared volatile, the compile and runtime are notified that this variable is shared and operations on it should not be reordered or cached.
+
+### Locks
+- ReentrantLock: A reentrant mutual exclusion 'Lock' with the same basic behavior as the implicit monitor lock accessed using 'synchronized' methods and statements, with additional features like timeout for lock acquisition.
+- ReadWriteLock: A pair of associated locks, one for read-only operations and one for writing operations. The read lock may be help simultaneously by multiple reader threads as long as there are no writes.
+- StampedLock: Provides a capability-based lock with three modes for controlling read/write access that also supports optimistic reads.
+
+### Atomic Variables
+- java.util.concurrent.atomic Package: Contains classes that support lock-free thread-safe programming on single variables, utilizing low-level atomic machine instructions.
+
+### Concurrent collections
+- Concurrent data structures: Classes like 'ConcurrentHashMap', 'ConcurrentLinkedQueue', etc., are designed to provide high concurrency without the need for external synchronization.
+
+### ThreadLocal variables
+- ThreadLocal: Provides thread-local variables that are not shared and are unique to each thread, thus eliminating the need for synchronization for these variables.
+
+### Condition Objects
+- Condition interface: Works with 'Lock' implementations to allow a thread to temporarily release the lock and wait for some condition to be met before regaining the lock.
+
+### Executors framework
+- ThreadPoolExecutor: Manages a pool for worker threads and queue of tasks, efficiently scheduling tasks to run after a given delay, or to execute periodically.
+
+### Fork/Join framework
+- Fork/Join framework: Designed for work that can be broken into smaller pieces recursively. The goal is to use all available CPU cores to improve performance.
+
+### Barriers:
+- CyclicBarrier: It is used in situations where you want to create a group of tasks to work in parallel and wait until they are all at a certain point before any of them continue-hence the term "barrier". It is cyclic because it can be reused after the waiting threads are pleased.
+  - How it works: You initialize the 'CyclicBarrier' with a count of the number of threads that must reach the barrier. Each thread calls 'await()' when it reaches the barrier, which blocks until all threads have reached the barrier. Once the last thread calls 'await()', the barrier is broken, and all waiting threads are released. Optionally, a 'Runnable' action can be executed at this point by the last thread entering the barrier.
+  - Use cases: It is useful in parallel divide-and-conquer algorithms where the computation is split into independent problems that are solved in parallel, and the results are combined at a barrier point.
+- CountDownLatch: A 'CountDownLatch' allows one or more threads to wait until a set of operations being performed in other threads completes. It is a single-use barrier and cannot be reset after it's been passed.
+  - How it works: The 'CountDownLatch' is initialized with a count. Any thread, usually the main thread of the application, calls 'await()' to wait until the count reaches zero. Other threads are responsible for decreasing the count by calling 'countDown()' upon their termination. Once the count reaches zero, the waiting thread(s) are released.
+  - Use cases: It is commonly used for starting a set of threads at the same time by having them all wait on a latch, or for waiting for the completion of a set of tasks by having the main thread wait on the latch.
+
+### Semaphore
+A 'Semaphore' is a more general synchronization aid that can be used to control access to a shared resource through the use of a counter. The counter represents the number of permits available for the resource.
+
+- How it works: A semaphore is initialized with a set number of "permits". Threads can acquire permits by calling 'acquire()' and release permits by calling 'release()'. If a thread attempts to acquire a permit when none are available, it blocks until a permit is released by another thread.
+- Use cases: Semaphores are often used to restrict the number of threads that can access some (physical or logical) resource. For example, you might restrict access to a file by using a semaphore initialized to 1.
+
+### Pessimistic locking
+Pessimistic concurrency control is a locking strategy that assumes conflicts will occur frequently and therefore prevents them by locking data before it is read of modified. It's "pessimistic" because it assumes the worst case where multiple transactions conflict with each other.
+
+- How it works: When a transaction wants to read or update a piece of data, it obtains a lock on that data. This lock prevent other transactions from modifying the data until the lock is released.
+- Use cases: This approach is commonly used in environments where collisions are frequent, and the cost of handling a lock is less than the cost of handling collision.
+- Advantages: It ensures that once a transaction if processing data, it can complete without interference. There's no need to check for conflicts after the fact.
+- Disadvantages: It can lead to lock contention, where multiple transactions are waiting for each other to release locks, potentially causing deadlocks. It also reduces the system's throughput due to the strict access control.
+
+### Optimistic concurrency locking:
+Optimistic concurrency control is a strategy that assumes conflicts are rare and only checks for them before committing the transaction. It's "optimistic" because it assumes the beer case where transaction usually do not conflict.
+
+- How it works: Each read operation records a version number or timestamp. When a transaction attempts to commit an update, it checks if the data has been changes by another transaction since it was first read (bi comparing version numbers or timestamps).
+- Use case: Optimistic locking is typically used in environments with low contention for data.
+- Advantages: It allows more concurrent transactions because if does not lock data upfront. This can lead to higher throughput  and efficiency in a system with low collision rates.
+- Disadvantages: If a conflict is detected, the transaction must be rolled back and possibly retried, which can be costly in systems where conflicts are common.
+
+## SSL
+<a name='ssl'></a>
+SSL (Secure socket layer) is a standard security technology for establishing an encrypted link between a server and a client-typically a web server (website) and a browser, or a mail server and a mail client (e.g., Outlook).
+
+
+SSL allows sensitive information such as credit card numbers, social security numbers, and login credentials to be transmitted securely. Normally, data sent between browsers and web servers is sent in plain text-leaving you vulnerable to eavesdropping. If an attacker is able to intercept all data being sent between browser and a web server, they can see and use that information.
+
+
+### How SSL works
+1. Establishing an SSL connection: The process begins with what's known as an "SSL handshake" (not visible to the user). The browser/server requests that the server identify itself.
+2. Server sends certificate: The server sends the browser/server a copy of its SSL certificate. 
+3. Verification: The browser/server checks to see whether it trusts the SSL certificate. If so, it sends a message to the server.
+4. Server responds: The server sends back a digitally signs acknowledgment to start an SSL encrypted session.
+5. Encrypted data transfer: Encrypted data is shared between the browser/server and the server.
+
+
+The SSL handshake involves the generation of shared secrets to establish a uniquely secure connection between the client and the server. during this handshake, the server and client establish the following:
+
+
+- Protocol version: Both parties agree on which SSL/TLS version to use.
+- Session ID: An identifier to be able to resume the session without renegotiation on the future.
+- Cipher suite: Both parties agree on the encryption standard, key exchange method, and message authentication code (MAC) to be used.
+- Certificate: The server's SSL certificate, including public key, is sent to the client.
+- Key exchange: The parties generate session keys, and the client may send a pre-master secret key using the server's public key.
+
+
+After the initial handshake, a secure connection is established adn data transfer begins. This is all done seamlessly from the user's perspective.
+
+### Evolution to TLS
+While SSL is widely referred to, the SSL protocol itself is outdated and has been replaced by TLS (Transport layer security). TLS is the successor to SSL and offers stronger security measures, various improvements, and is actively updated. However, the term "SSL" continues to be used interchangeably with "TLS" in the industry.
+
+### Importance of SSL/TLS:
+- Encryption: To keep data encrypted during transmission.
+- Data integrity: To help prevent data from being modified of corrupted during transfer.
+- Authentication: To prove that the users are communicationg with the intended website/server.
+
 
 ## Senior-Interview-questions
 
