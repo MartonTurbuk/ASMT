@@ -44,43 +44,44 @@
 37. [REST](#rest)
 38. [The 6 guiding principles of REST](#the-6-guiding-principles-of-rest)
 39. [Java Memory Model](#java-memory-model)
-41. [Stack memory in Java](#stack-memory-in-java)
-42. [Key features of stack memory](#key-features-of-stack-memory)
-43. [Heap space in java](#heap-space-in-java)
-44. [Key features of java heap memory](#key-features-of-java-heap-memory)
-45. [Difference between Java Heap Space and Stack memory](#difference-between-java-heap-space-and-stack-memory)
-46. [Memory Management in Java - Young Generation](#memory-management-in-java---young-generation)
-47. [Memory management in Java - Old Generation](#memory-management-in-java---old-generation)
-48. [Stop the World Event](#stop-the-world-event)
-49. [Permanent Generation](#permanent-generation)
-50. [Method Area](#method-area)
-51. [Memory Pool](#memory-pool)
-52. [Runtime Constant Pool](#runtime-constant-pool)
-53. [Java Heap Memory Switches](#java-heap-memory-switches)
-54. [Java Garbage collection type](#java-garbage-collection-type)
-55. [Garbage collection in Java](#garbage-collection-in-java)
-56. [How automatic garbage collection works](#how-automatic-garbage-collection-works)
-57. [Generational garbage collection](#generational-garbage-collection)
-58. [The CMS collector](#the-cms-collector)
-59. [G1 collector](#g1-collector)
-60. [Java 8 PermGen and Metaspace](#java-8-permgen-and-metaspace)
-61. [Polymorphism](#polymorphism)
-62. [Compile time polymorphism](#compile-time-polymorphism)
-63. [Runtime polymorphism (Dynamic Polymorphism)](#runtime-polymorphism-dynamic-polymorphism)
-64. [V-table (Virtual method table)](#v-table-virtual-method-table)
-65. [How does it work?](#how-does-it-work)
-66. [Java and V-tables](#java-and-v-tables)
-67. [What is java reflection?](#what-is-java-reflection)
-68. [The four fundamental principles of Object-Oriented Programming](#the-four-fundamental-principles-of-object-oriented-programming)
-69. [SDLC](#sdlc)
-70. [Different phases in SDLC](#different-phases-in-sdlc)
-71. [Importance of following a structured SDLC approach](#importance-of-following-a-structured-sdlc-approach)
-72. [What is Software Testing Life Cycle?](#what-is-software-testing-life-cycle)
-73. [Different phases in STLC](#different-phases-in-stlc)
-74. [Relationship between SDLC and STLC](#relationship-between-sdlc-and-stlc)
-75. [CI-CD](#ci-cd)
-76. [Continuous software delivery](#continuous-software-delivery)
-77. [Continuous software deployment](#continuous-software-deployment)
+40. [Stack memory in Java](#stack-memory-in-java)
+41. [Key features of stack memory](#key-features-of-stack-memory)
+42. [Heap space in java](#heap-space-in-java)
+43. [Key features of java heap memory](#key-features-of-java-heap-memory)
+44. [Difference between Java Heap Space and Stack memory](#difference-between-java-heap-space-and-stack-memory)
+45. [Memory Management in Java - Young Generation](#memory-management-in-java---young-generation)
+46. [Memory management in Java - Old Generation](#memory-management-in-java---old-generation)
+47. [Stop the World Event](#stop-the-world-event)
+48. [Permanent Generation](#permanent-generation)
+49. [Method Area](#method-area)
+50. [Memory Pool](#memory-pool)
+51. [Runtime Constant Pool](#runtime-constant-pool)
+52. [Java Heap Memory Switches](#java-heap-memory-switches)
+53. [Java Garbage collection type](#java-garbage-collection-type)
+54. [Garbage collection in Java](#garbage-collection-in-java)
+55. [How automatic garbage collection works](#how-automatic-garbage-collection-works)
+56. [Generational garbage collection](#generational-garbage-collection)
+57. [The CMS collector](#the-cms-collector)
+58. [G1 collector](#g1-collector)
+59. [Java 8 PermGen and Metaspace](#java-8-permgen-and-metaspace)
+60. [Polymorphism](#polymorphism)
+61. [Compile time polymorphism](#compile-time-polymorphism)
+62. [Runtime polymorphism (Dynamic Polymorphism)](#runtime-polymorphism-dynamic-polymorphism)
+63. [V-table (Virtual method table)](#v-table-virtual-method-table)
+64. [How does it work?](#how-does-it-work)
+65. [Java and V-tables](#java-and-v-tables)
+66. [What is java reflection?](#what-is-java-reflection)
+67. [The four fundamental principles of Object-Oriented Programming](#the-four-fundamental-principles-of-object-oriented-programming)
+68. [SDLC](#sdlc)
+69. [Different phases in SDLC](#different-phases-in-sdlc)
+70. [Importance of following a structured SDLC approach](#importance-of-following-a-structured-sdlc-approach)
+71. [What is Software Testing Life Cycle?](#what-is-software-testing-life-cycle)
+72. [Different phases in STLC](#different-phases-in-stlc)
+73. [Relationship between SDLC and STLC](#relationship-between-sdlc-and-stlc)
+74. [CI-CD](#ci-cd)
+75. [Continuous software delivery](#continuous-software-delivery)
+76. [Continuous software deployment](#continuous-software-deployment)
+77. [Threads](#threads)
 78. [Collections](#collections)
 79. [ArrayList](#arraylist)
 80. [LinkedList](#linkedlist)
@@ -1100,6 +1101,215 @@ With the rise of cloud applications that often work together with mobile applica
 
 Because the released changes are small, it is also easy to automate tests to determine whether the new release works correctly. This is done in the last stage, labeled "Post-prod tests", of the "Continuous Delivery/Deployment" section of the pipeline
 
+## Threads
+
+<a name='threads'></a>
+
+Threads in java are a crucial aspect of concurrent programming, allowing for simultaneous execution of multiple parts of a program.
+
+**Basics of Java Threads:**
+   - **Definition:** A thread in Java is the smallest unit of execution within a process. It's a lightweight process within a process.We can have multiple threads running concurrently, each performing different tasks. These threads can execute independently but share the same process resources, such as memory and file handles.
+   - **Why use threads?:** The primary purpose of using threads is to achieve multitasking and parallelism within a program.
+   - **Creating a thread in java:** 
+     - ```java
+         class MyThread extends Thread {
+            public void run() {
+            // Code that the thread will execute
+            MyThread t = new MyThread();
+            t.start();
+            }
+         }
+
+**Implementing the Runnable interface:**
+   - ```java
+      class MyRunnable implements Runnable {
+         public void run() {
+         // Code that the thread will execute
+         }
+       }
+
+      Thread t = new Thread(new MyRunnable());
+      t.start();
+
+**Life cycle of a thread in java**
+
+The java.lang.Thread class contains a static State enum - which defines its potential states. During any given point of time, the thread can only be in one of these state:
+   1. **NEW** - a newly created thread that has not yet started the execution
+   2. **RUNNABLE** - either running or ready for execution but it's waiting for resource allocation
+   3. **BLOCKED** - waiting to acquire a monitor lock to enter or re-enter a synchronized block/method
+   4. **WAITING** - waiting for some other thread to perform a particular action without any time limit
+   5. **TIMED_WAITING** - waiting for some other thread to perform a specific action for a specified period
+   6. **TERMINATED** - has completed its execution
+![Threads](../images/threads.jpg "Threads")
+
+**Basic thread methods:**
+   - **start()**: Starts the thread, casing the JVM to call the thread's run() method.
+   - **run()**: The entry point for the thread; contains the code to be executed by the thread.
+   - **sleep(long millis)**: Causes the current thread to sleep for the specified number of milliseconds.
+   - **join()**: Waits for the thread to die (complete its execution).
+   - **interrupt()**: Interrupts the thread, which may be in a waiting or sleeping state.
+
+**Threads and resource sharing**
+
+Threads withing the same process share the same memory space, which means they can access the same variables and objects. This can lead to problems like data inconsistency and thread interference, hence the need for synchronization to ensure that only one thread at a time can access a shared resource.
+
+**Executor, Executor service, ScheduledExecutorService, **
+
+**Executor**: 
+
+It is an interface that represents an object that executes provided tasks.
+It depends on the particular implementation (from where the invocation is initiated) if the task should be run on a new or current thread. Hence, using this interface, we can decouple the task execution flow from the actual task execution mechanism.
+One point to note here is that Executor does not strictly require the task execution to be asynchronous. In the simplest case, an executor can invoke the submitted task instantly in the invoking thread.
+   ```java
+   public class Invoker implements Executor {
+       @Override
+       public void execute(Runnable r) {
+           r.run();
+       }
+      public void execute() {
+         Executor executor = new Invoker();
+         executor.execute( () -> {
+            // task to be performed
+         });
+      }
+   }
+   ```
+**Executor Service**:
+
+Executor Service is a complete solution for asynchronous processing. It manages an in-memory queue and schedules submitted tasks based on thread availability.
+To use ExecutorService, we need to create one Runnable class.
+```java
+   public class Task implements Runnable {
+       @Override
+       public void run() {
+           // task details
+       }
+      ExecutorService executor = Executors.newFixedThreadPool(10);
+      public void execute() {
+         executor.submit(new Task());
+      }
+      executor.submit(() -> {
+         new Task();
+      });
+      try {
+         executor.awaitTermination( 20l, TimeUnit.NANOSECONDS );
+      } catch (InterruptedException e) {
+         e.printStackTrace();
+      }
+   }
+```
+It also comes with two out-of-the-box execution termination methods. The first one is shutdown(), it waits until all the submitted tasks finish executing. The other method is shutdownNow() which attempts to terminate actively executing tasks and halts the processing of waiting tasks.
+There is also another method awaitTermination(long timeout, TimeUnit unit) which forcefully blocks until all tasks have completed execution after a shutdown event triggered or execution-timeout occurred, or the execution thread itself is interrupted.
+
+**ScheduledExecutorService**:
+
+ScheduledExecutorService is a similar interface to ExecutorService, but it can perform tasks periodically.
+
+Executor and ExecutorService's methods are scheduled on the spot without introducing any artificial delay. Zero or any negative value signifies that the request needs to be executed instantly.
+
+We can use both Runnable and Callable interface to define the task.
+   ```java
+      public void execute() {
+          ScheduledExecutorService executorService
+            = Executors.newSingleThreadScheduledExecutor();
+
+          Future<String> future = executorService.schedule(() -> {
+              // ...
+              return "Hello world";
+          }, 1, TimeUnit.SECONDS);
+
+          ScheduledFuture<?> scheduledFuture = executorService.schedule(() -> {
+              // ...
+          }, 1, TimeUnit.SECONDS);
+
+          executorService.shutdown();
+      }
+   ```
+ScheduledExecutorService can also schedule the task after some given fixed delay:
+
+   ```java
+      executorService.scheduleAtFixedRate(() -> {
+          // ...
+      }, 1, 10, TimeUnit.SECONDS);
+
+      executorService.scheduleWithFixedDelay(() -> {
+          // ...
+      }, 1, 10, TimeUnit.SECONDS);
+   ```
+
+Here, the scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) method created and executes a periodic action that is invoked firstly after the provided initial delay, and subsequently with the given period until the service instance shutdowns.
+
+The scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) method created and executes a periodic action that invoked firstly after the provided initial delay, and repeatedly with the given delay between the termination of the executing one and the invocation of the next one.
+
+
+**Futures and completable futures**
+
+In Java, 'Future' and 'CompletableFuture' are constructs used for asynchronous programming. Simply put, the Future class represents a future result of an asynchronous computations. This result will eventually appear in the Future after the processing is complete.
+
+Once a 'Future' is created, it can be used to check the status of the asynchronous operation, retrieve the result once it's available, or cancel the operation.
+
+#### Example code snippet:
+```java
+public class SquareCalculator {
+
+    private ExecutorService executor 
+      = Executors.newSingleThreadExecutor();
+    
+    public Future<Integer> calculate(Integer input) {        
+        return executor.submit(() -> {
+            Thread.sleep(1000);
+            return input * input;
+        });
+    }
+}
+```
+
+The bit of code that actually performs the calculation is contained within the call() method, and supplied as a lambda expression. As we can see, there’s nothing special about it, except for the sleep() call mentioned earlier.
+
+It gets more interesting when we direct our attention to the use of Callable and ExecutorService.
+
+Callable is an interface representing a task that returns a result, and has a single call() method. Here we’ve created an instance of it using a lambda expression.
+
+Creating an instance of Callable doesn’t take us anywhere; we still have to pass this instance to an executor that will take care of starting the task in a new thread, and give us back the valuable Future object. That’s where ExecutorService comes in.
+
+There are a few ways we can access an ExecutorService instance, and most of them are provided by the utility class Executors‘ static factory methods. In this example, we used the basic newSingleThreadExecutor(), which gives us an ExecutorService capable of handling a single thread at a time.
+
+Once we have an ExecutorService object, we just need to call submit(), passing our Callable as an argument. Then submit() will start the task and return a FutureTask object, which is an implementation of the Future interface.
+
+**Completable futures**
+
+CompletableFuture Offers an extensive API consisting of more than 50 methods. Many of these methods are available in two variants: non-async and async. Allows combining several asynchronous operations into a single, fluent sequence. Provides a variety of methods for error handling, combines futures, or applying callbacks upon completion. Can be explicitly completed with a value or exception.
+
+`CompletableFuture` supports function-style operations that can be applied to the result of asynchronous computation, such as `thanApply()`, `thenAccept()`, and `thenCombine()`. It also allows you to handle errors with methods like `exceptionally()`.
+
+**Different types of lock when working with threads:**
+1. Deadlock (Hard Lock)
+   - **Definition:** Deadlock is a situation where two or more threads are blocked forever, each waiting for the other to release a lock.
+   - **Cause:** Typically occurs when multiple threads need the same locks but obtain them in different orders.
+   - **Example:** Thread A hold a Lock1 and waits for Lock2, while Thread B holds Lock2 and waits for Lock1.
+   - **Resolution:** Deadlocks can be very complex to resolve. Strategies include avoiding nested locks, ordering lock consistently, and using timeout policies.
+2. Livelock (Soft Lock)
+   - **Definition:** A livelock is a situation where threads are not blocked, but they are still unable to make progress because they keep responding to each other's actions.
+   - **Cause:** Often occurs in algorithms that attempt to resolve deadlock proactively but end up in a loop of actions reacting to each other.
+   - **Example:** Two threads trying to avoid collision, but each moves in the direction repeatedly.
+   - **Resolution:** Resolving livelock inbolves correction the logic that causes the threads to respond to each other endlessly.
+3. Starvation (Soft Lock)
+   - **Definition:** Starvation happens when a thread is unable to gain regular access to shared resources and is unable to make progress. This occurs when shared resources are constantly captured by other threads.
+   - **Cause:** Often due to thread priority, where lower priority threads are blocked indefinitely by higher priority ones.
+   - **Example:** High-priority threads continuously taking the CPU time, leaving a low-priority thread unable to execute.
+   - **Resolution:** Implement fair locking mechanisms, adjust thread priorities, or use concurrency constructs that avoid priority-based decisions.
+4. Priority Inversion (Soft Lock)
+   - **Definition:** Priority inversion occurs when a higher-priority thread is waiting for a lock held by a lower-priority thread.
+   - **Cause:** This situation is problematic when a lower-priority thread is preempted by a medium-priority thread, causing the higher-priority thread to wait longer.
+   - **Example:** A low-priority thread holding a lock needed by a high-priority thread, but the low-priority thread is preempted by other medium-priority threads.
+   - **Resolution:** Solutions include priority inheritance, where the lower-priority thread temporarily inherits the higher priority.
+5. Race Condition:
+   - **Definition:** A race condition is not a lock per se, but it's a situation where the system's behavior depends on the relative timing of events (like threads accessing shared data);
+   - **Cause:** Occurs when multiple threads access shared data and try to change it simultaneously.
+   - **Example:** Two threads incrementing a shared counter at the same time, leading to incorrect results.
+   - **Resolution:** Use synchronization mechanisms to ensure that only one thread can access the shared resource at a time.
+
+
 ## Collections
 
 <a name='collections'></a>
@@ -1676,49 +1886,7 @@ While SSL is widely referred to, the SSL protocol itself is outdated and has bee
 >
 > This will then mean that the new copy is an exact copy of the original, but in no way connected so that no changes to one weill be reflected in the other.
 >
-- What is a Future in java?
-> **Answer:**
 >
-> In Java, 'Future' and 'CompletableFuture' are constructs used for asynchronous programming. Simply put, the Future class represents a future result of an asynchronous computations. This result will eventually appear in the Future after the processing is complete.
->
-> Once a 'Future' is created, it can be used to check the status of the asynchronous operation, retrieve the result ince it's available, or cancel the operation.
->
-> #### Example code snippet:
-> ```java
-> public class SquareCalculator {
-> 
->     private ExecutorService executor 
->       = Executors.newSingleThreadExecutor();
->     
->     public Future<Integer> calculate(Integer input) {        
->         return executor.submit(() -> {
->             Thread.sleep(1000);
->             return input * input;
->         });
->     }
-> }
-> ```
->
-> The bit of code that actually performs the calculation is contained within the call() method, and supplied as a lambda expression. As we can see, there’s nothing special about it, except for the sleep() call mentioned earlier.
->
-> It gets more interesting when we direct our attention to the use of Callable and ExecutorService.
->
-> Callable is an interface representing a task that returns a result, and has a single call() method. Here we’ve created an instance of it using a lambda expression.
->
-> Creating an instance of Callable doesn’t take us anywhere; we still have to pass this instance to an executor that will take care of starting the task in a new thread, and give us back the valuable Future object. That’s where ExecutorService comes in.
->
-> There are a few ways we can access an ExecutorService instance, and most of them are provided by the utility class Executors‘ static factory methods. In this example, we used the basic newSingleThreadExecutor(), which gives us an ExecutorService capable of handling a single thread at a time.
->
-> Once we have an ExecutorService object, we just need to call submit(), passing our Callable as an argument. Then submit() will start the task and return a FutureTask object, which is an implementation of the Future interface.
-
-- What is a CompletableFuture in java?
-> **Answer:**
->
-> CompletableFuture Offers an extensive API consisting of more than 50 methods. Many of these methods are available in two variants: non-async and async. Allows combining several asynchronous operations into a single, fluent sequence. Provides a variety of methods for error handling, combines futures, or applying callbacks upon completion. Can be explicitly completed with a value or exception.
->
-> `CompletableFuture` supports function-style operations that can be applied to the result of asynchronous computation, such as `thanApply()`, `thenAccept()`, and `thenCombine()`. It also allows you to handle errors with methods like `exceptionally()`.
-
-
 - What is Optional in java?
 > **Answer:**
 > 
