@@ -1614,7 +1614,7 @@ Method references are often used with Java Streams as they can serve as a target
 ### Java maps
 
 <a name='java-maps'></a>
-In Java, a Map is an object that maps keys to values. A map cannot contain duplicate keys; each kay can map to at most one value. The 'Map' interface is **not** a subtype of the 'Collection' interface. Therefore, it behaves a bit differently from the rest of the collection types.
+In Java, a Map is an object that maps keys to values. A map cannot contain duplicate keys; each key can map to at most one value. The 'Map' interface is **not** a subtype of the 'Collection' interface. Therefore, it behaves a bit differently from the rest of the collection types.
 
 ### HashMap
 'HashMap' is one of the most commonly used implementations of the 'Map' interface. It stores the data in key-value pairs, and you can access them by an index of another type (e.g., an Integer). One object is used as a key (index) to another object (value). It can store different types: for example, String key and Integer values, or the same type, like String keys and String values.
